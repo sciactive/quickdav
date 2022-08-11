@@ -1,9 +1,15 @@
+import type { ElectronAPI } from './preload.js';
+
 window.addEventListener('DOMContentLoaded', () => {
-  window.electronAPI.focusWindow();
+  const { electronAPI } = window as unknown as Window & {
+    electronAPI: ElectronAPI;
+  };
+
+  electronAPI.focusWindow();
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'F12') {
-      window.electronAPI.openDevTools();
+      electronAPI.openDevTools();
     }
   });
 });

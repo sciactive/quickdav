@@ -1,5 +1,5 @@
-const path = require('path');
-const {
+import path from 'path';
+import {
   app,
   session,
   dialog,
@@ -9,13 +9,17 @@ const {
   BrowserWindow,
   Menu,
   Tray,
-} = require('electron');
+} from 'electron';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
 ipcMain.on('focusWindow', (event) => {
   const webContents = event.sender;
   const win = BrowserWindow.fromWebContents(webContents);
+
+  if (win == null) {
+    return;
+  }
 
   win.focus();
   win.webContents.focus();
@@ -25,14 +29,16 @@ ipcMain.on('openDevTools', (event) => {
   const webContents = event.sender;
   const win = BrowserWindow.fromWebContents(webContents);
 
+  if (win == null) {
+    return;
+  }
+
   win.webContents.openDevTools();
 });
 
 const createWindow = async () => {
   const point = screen.getCursorScreenPoint();
-  console.log(point);
   const cursorDisplay = screen.getDisplayNearestPoint(point);
-  console.log(cursorDisplay);
   const {
     x: displayX,
     y: displayY,
@@ -42,13 +48,13 @@ const createWindow = async () => {
 
   const win = new BrowserWindow({
     webPreferences: {
-      preload: path.join(__dirname, 'assets', 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
     maximizable: true,
     resizable: true,
     alwaysOnTop: true,
     title: 'Quick DAV',
-    icon: path.join(__dirname, 'assets', 'logo.png'),
+    icon: path.join(__dirname, '..', 'assets', 'logo.png'),
     width: EXPLICIT_DEV ? displayWidth / 2 : displayWidth,
     height: EXPLICIT_DEV ? displayHeight / 2 : displayHeight,
     x: displayX + (EXPLICIT_DEV ? displayWidth / 4 : 0),
@@ -67,6 +73,8 @@ const createWindow = async () => {
   win.on('closed', () => {
     app.quit();
   });
+
+  win.webContents.openDevTools();
 };
 
 app.whenReady().then(() => {

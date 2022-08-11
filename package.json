@@ -1,0 +1,26 @@
+{
+  "name": "quickdav",
+  "version": "1.0.0",
+  "description": "Instantly transfer files to your device over your local network.",
+  "main": "main.js",
+  "scripts": {
+    "lint": "prettier --check --ignore-unknown .",
+    "format": "prettier --write --ignore-unknown .",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sciactive/quickdav.git"
+  },
+  "author": "Hunter Perrin <hperrin@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/sciactive/quickdav/issues"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^20.0.2",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {}
+}

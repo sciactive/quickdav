@@ -3,16 +3,13 @@
 
   "compilerOptions": {
     "target": "es2020",
-    "module": "CommonJS",
+    "module": "ES2020",
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "removeComments": true,
     "sourceMap": true,
-    "outDir": "dist",
-    "resolveJsonModule": true,
-    "rootDir": "src/",
-    "declaration": true
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["client/**/*", "client/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

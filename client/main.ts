@@ -1,4 +1,4 @@
-import type { ElectronAPI } from './preload.js';
+import type { ElectronAPI } from '../server/preload.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   const { electronAPI } = window as unknown as Window & {

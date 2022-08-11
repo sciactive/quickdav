@@ -2,15 +2,18 @@
   "name": "quickdav",
   "version": "1.0.0",
   "description": "Instantly transfer files to your device over your local network.",
-  "main": "dist/main.js",
+  "type": "module",
   "scripts": {
-    "clean": "test -d dist && rm -r dist || true",
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "clean": "npm run clean:client && npm run clean:server",
+    "clean:client": "test -d app/client && rm -r app/client || true",
+    "clean:server": "test -d app/server && rm -r app/server || true",
+    "build": "rollup -c",
+    "watch": "rollup -cw",
     "prepare": "npm run clean && npm run build",
+    "postinstall": "cd app && npm install",
     "lint": "prettier --check --ignore-unknown .",
     "format": "prettier --write --ignore-unknown .",
-    "start": "electron .",
+    "start": "electron app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,9 +26,12 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.4",
     "@tsconfig/recommended": "^1.0.1",
     "electron": "^20.0.2",
     "prettier": "^2.7.1",
+    "rollup": "^2.77.3",
+    "tslib": "^2.4.0",
     "typescript": "^4.7.4"
   }
 }

@@ -1,3 +1,4 @@
 node_modules
-dist
 package-lock.json
+/app/client
+/app/server

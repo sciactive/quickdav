@@ -64,7 +64,7 @@ const createWindow = async () => {
     backgroundColor: '#000',
   });
 
-  win.loadFile('assets/mainscreen.html');
+  win.loadFile('assets/main.html');
 
   win.setFullScreen(!EXPLICIT_DEV);
   win.setAlwaysOnTop(!EXPLICIT_DEV, 'normal');

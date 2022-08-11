@@ -1,0 +1,11 @@
+{
+  "name": "quickdav-app",
+  "version": "0.0.0",
+  "description": "Instantly transfer files to your device over your local network.",
+  "main": "server/main.js",
+  "author": "Hunter Perrin <hperrin@gmail.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "electron": "^20.0.2"
+  }
+}

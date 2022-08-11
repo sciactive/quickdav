@@ -11,6 +11,8 @@ const {
   Tray,
 } = require('electron');
 
+const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
+
 ipcMain.on('focusWindow', (event) => {
   const webContents = event.sender;
   const win = BrowserWindow.fromWebContents(webContents);
@@ -27,34 +29,39 @@ ipcMain.on('openDevTools', (event) => {
 });
 
 const createWindow = async () => {
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width: displayWidth, height: displayHeight } =
-    primaryDisplay.workAreaSize;
+  const point = screen.getCursorScreenPoint();
+  console.log(point);
+  const cursorDisplay = screen.getDisplayNearestPoint(point);
+  console.log(cursorDisplay);
+  const {
+    x: displayX,
+    y: displayY,
+    width: displayWidth,
+    height: displayHeight,
+  } = cursorDisplay.workArea;
 
   const win = new BrowserWindow({
     webPreferences: {
       preload: path.join(__dirname, 'assets', 'preload.js'),
     },
-    maximizable: false,
-    resizable: false,
+    maximizable: true,
+    resizable: true,
     alwaysOnTop: true,
     title: 'Quick DAV',
     icon: path.join(__dirname, 'assets', 'logo.png'),
-    width: displayWidth,
-    height: displayHeight,
-    x: 0,
-    y: 0,
-    frame: false,
+    width: EXPLICIT_DEV ? displayWidth / 2 : displayWidth,
+    height: EXPLICIT_DEV ? displayHeight / 2 : displayHeight,
+    x: displayX + (EXPLICIT_DEV ? displayWidth / 4 : 0),
+    y: displayY + (EXPLICIT_DEV ? displayHeight / 4 : 0),
     movable: true,
     skipTaskbar: true,
-    fullscreen: true,
     backgroundColor: '#000',
   });
 
   win.loadFile('assets/mainscreen.html');
 
-  win.setFullScreen(true);
-  win.setAlwaysOnTop(true, 'normal');
+  win.setFullScreen(!EXPLICIT_DEV);
+  win.setAlwaysOnTop(!EXPLICIT_DEV, 'normal');
   win.removeMenu();
 
   win.on('closed', () => {

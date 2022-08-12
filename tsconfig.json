@@ -2,14 +2,14 @@
   "extends": "@tsconfig/recommended/tsconfig.json",
 
   "compilerOptions": {
-    "target": "es2020",
-    "module": "ES2020",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "removeComments": true,
     "sourceMap": true,
     "resolveJsonModule": true
   },
-  "include": ["client/**/*", "client/**/*"],
+  "include": ["server/**/*", "client/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

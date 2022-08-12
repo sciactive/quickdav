@@ -1,4 +1,9 @@
 import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
 export default [
   {
@@ -6,23 +11,28 @@ export default [
     output: {
       file: 'app/client/bundle.js',
       format: 'iife',
+      sourcemap: EXPLICIT_DEV,
     },
-    plugins: [typescript()],
+    plugins: [typescript(), json(), nodeResolve(), commonjs()],
   },
   {
     input: 'server/main.ts',
     output: {
       file: 'app/server/main.js',
       format: 'cjs',
+      sourcemap: EXPLICIT_DEV,
     },
-    plugins: [typescript()],
+    external: ['electron', 'userid', 'sse4_crc32'],
+    plugins: [typescript(), json(), nodeResolve(), commonjs()],
   },
   {
     input: 'server/preload.ts',
     output: {
       file: 'app/server/preload.js',
       format: 'cjs',
+      sourcemap: EXPLICIT_DEV,
     },
-    plugins: [typescript()],
+    external: ['electron', 'userid', 'sse4_crc32'],
+    plugins: [typescript(), json(), nodeResolve(), commonjs()],
   },
 ];

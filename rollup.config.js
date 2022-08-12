@@ -2,8 +2,17 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import { terser } from 'rollup-plugin-terser';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
+
+const plugins = [
+  typescript(),
+  json(),
+  nodeResolve(),
+  commonjs(),
+  ...(EXPLICIT_DEV ? [] : [terser()]),
+];
 
 export default [
   {
@@ -13,7 +22,7 @@ export default [
       format: 'iife',
       sourcemap: EXPLICIT_DEV,
     },
-    plugins: [typescript(), json(), nodeResolve(), commonjs()],
+    plugins,
   },
   {
     input: 'server/main.ts',
@@ -23,7 +32,7 @@ export default [
       sourcemap: EXPLICIT_DEV,
     },
     external: ['electron', 'userid', 'sse4_crc32'],
-    plugins: [typescript(), json(), nodeResolve(), commonjs()],
+    plugins,
   },
   {
     input: 'server/preload.ts',
@@ -33,6 +42,6 @@ export default [
       sourcemap: EXPLICIT_DEV,
     },
     external: ['electron', 'userid', 'sse4_crc32'],
-    plugins: [typescript(), json(), nodeResolve(), commonjs()],
+    plugins,
   },
 ];

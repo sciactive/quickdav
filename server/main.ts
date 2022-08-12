@@ -24,7 +24,8 @@ const server = express();
 const instanceDate = new Date();
 
 const ifaces = networkInterfaces();
-let hosts: { name: string; family: string; address: string }[] = [];
+let hosts: { name: string; family: string; address: string; port: number }[] =
+  [];
 for (let name in ifaces) {
   const netDict = ifaces[name];
   if (netDict == null) {
@@ -34,7 +35,7 @@ for (let name in ifaces) {
     const family =
       typeof net.family === 'string' ? net.family : `IPv${net.family}`;
     if (!net.internal) {
-      hosts.push({ name, family, address: net.address });
+      hosts.push({ name, family, address: net.address, port: PORT });
     }
   }
 }
@@ -99,18 +100,17 @@ ipcMain.on('focusWindow', (event) => {
   }
 
   win.focus();
-  win.webContents.focus();
+  event.sender.focus();
 });
 
 ipcMain.on('openDevTools', (event) => {
-  const webContents = event.sender;
-  const win = BrowserWindow.fromWebContents(webContents);
-
-  if (win == null) {
-    return;
+  if (EXPLICIT_DEV) {
+    event.sender.openDevTools();
   }
+});
 
-  win.webContents.openDevTools();
+ipcMain.on('getHosts', (event) => {
+  event.sender.send('hosts', hosts);
 });
 
 const createWindow = async () => {

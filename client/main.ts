@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    app.innerText = `dav://${hosts[0].address}:${hosts[0].port}/ on ${hosts[0].name}`;
+    app.innerText = `davs://${hosts[0].address}:${hosts[0].port}/ on ${hosts[0].name}`;
   });
   electronAPI.getHosts();
 });

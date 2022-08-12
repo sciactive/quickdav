@@ -1,4 +1,5 @@
 import type { ElectronAPI } from '../server/preload.js';
+import App from './App.svelte';
 
 window.addEventListener('DOMContentLoaded', () => {
   const { electronAPI } = window as unknown as Window & {
@@ -13,20 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'F12') {
-      electronAPI.openDevTools();
-    }
+  new App({
+    target: document.body,
+    props: {
+      electronAPI,
+    },
   });
-
-  electronAPI.onHosts((hosts) => {
-    const app = document.getElementById('app');
-
-    if (!app) {
-      return;
-    }
-
-    app.innerText = `davs://${hosts[0].address}:${hosts[0].port}/ on ${hosts[0].name}`;
-  });
-  electronAPI.getHosts();
 });

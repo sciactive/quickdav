@@ -8,13 +8,3 @@ body {
   margin: 0;
   overflow: hidden;
 }
-
-#app {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  font-weight: bold;
-  font-size: 3em;
-  justify-content: center;
-  align-items: center;
-}

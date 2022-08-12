@@ -1,6 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-type Hosts = { name: string; family: string; address: string; port: number }[];
+export type Hosts = {
+  name: string;
+  family: string;
+  address: string;
+  port: number;
+}[];
 
 export type ElectronAPI = {
   focusWindow: () => void;

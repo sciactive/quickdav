@@ -2,12 +2,14 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
+import preprocess from 'svelte-preprocess';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
 const plugins = [
-  typescript(),
+  typescript({ sourceMap: EXPLICIT_DEV }),
   json(),
   nodeResolve(),
   commonjs(),
@@ -22,7 +24,7 @@ export default [
       format: 'iife',
       sourcemap: EXPLICIT_DEV,
     },
-    plugins,
+    plugins: [svelte({ preprocess: preprocess() }), ...plugins],
   },
   {
     input: 'server/main.ts',

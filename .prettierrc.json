@@ -1,3 +1,4 @@
 {
-  "singleQuote": true
+  "singleQuote": true,
+  "svelteSortOrder": "options-markup-scripts-styles"
 }

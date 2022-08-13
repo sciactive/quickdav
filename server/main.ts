@@ -71,22 +71,18 @@ try {
         },
         maximizable: true,
         resizable: true,
-        alwaysOnTop: true,
+        fullscreen: !EXPLICIT_DEV,
         title: 'Quick DAV',
         icon: path.join(__dirname, '..', 'assets', 'logo.png'),
-        width: EXPLICIT_DEV ? displayWidth / 2 : displayWidth,
-        height: EXPLICIT_DEV ? displayHeight / 2 : displayHeight,
-        x: displayX + (EXPLICIT_DEV ? displayWidth / 4 : 0),
-        y: displayY + (EXPLICIT_DEV ? displayHeight / 4 : 0),
+        width: EXPLICIT_DEV ? 1280 : displayWidth,
+        height: EXPLICIT_DEV ? 800 : displayHeight,
+        x: displayX + (EXPLICIT_DEV ? (displayWidth - 1280) / 2 : 0),
+        y: displayY + (EXPLICIT_DEV ? (displayHeight - 800) / 2 : 0),
         movable: true,
-        skipTaskbar: true,
         backgroundColor: '#000',
       });
 
       win.loadFile('assets/main.html');
-
-      win.setFullScreen(!EXPLICIT_DEV);
-      win.setAlwaysOnTop(!EXPLICIT_DEV, 'normal');
       win.removeMenu();
 
       win.on('closed', quit);

@@ -1,6 +1,6 @@
 {
-  "name": "quickdav",
-  "version": "1.0.0",
+  "name": "quickdav-repo",
+  "version": "0.0.0",
   "description": "Instantly transfer files to your device over your local network.",
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "clean:server": "test -d app/server && rm -r app/server || true",
     "build": "rollup -c",
     "watch": "rollup -cw",
+    "package": "electron-builder build --x64 --linux",
     "smui-theme": "smui-theme compile app/client/smui.css -i client/theme",
     "prepare": "npm run clean && npm run build && npm run smui-theme",
     "postinstall": "cd app && npm install",
@@ -48,6 +49,7 @@
     "@types/nanoid-dictionary": "^4.2.0",
     "@types/selfsigned": "^2.0.1",
     "electron": "^20.0.2",
+    "electron-builder": "^23.3.3",
     "express": "^4.18.1",
     "ip-address": "^8.1.0",
     "nanoid": "^4.0.0",
@@ -64,5 +66,19 @@
     "svelte-preprocess": "^4.10.7",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4"
+  },
+  "build": {
+    "appId": "com.sciactive.QuickDAV",
+    "productName": "Quick DAV",
+    "copyright": "Copyright © 2022 SciActive Inc",
+    "linux": {
+      "target": [
+        "zip"
+      ],
+      "icon": "app/assets/logo.png",
+      "maintainer": "com.sciactive.QuickDAV",
+      "category": "Utility",
+      "vendor": "SciActive Inc"
+    }
   }
 }

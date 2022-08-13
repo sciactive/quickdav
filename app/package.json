@@ -1,12 +1,14 @@
 {
-  "name": "quickdav-app",
-  "version": "0.0.0",
+  "name": "quickdav",
+  "version": "1.0.0-dev",
   "description": "Instantly transfer files to your device over your local network.",
   "main": "server/main.js",
   "author": "Hunter Perrin <hperrin@gmail.com>",
   "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^20.0.2"
+  },
   "dependencies": {
-    "electron": "^20.0.2",
     "sse4_crc32": "^7.0.0",
     "userid": "^1.2.5"
   }

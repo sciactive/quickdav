@@ -1,26 +1,48 @@
-<h1>Quick DAV</h1>
-
-{#each hosts as host (host.address)}
+<div style="display: flex; flex-direction: column; height: 100%;">
   <div>
-    davs://{host.address}:{host.port}/
-    {#if hosts.length > 1}
-      on {host.name}
-    {/if}
+    <TabBar {tabs} let:tab bind:active>
+      <Tab {tab}>
+        <Icon component={Svg} viewBox="0 0 24 24">
+          <path fill="currentColor" d={tab.icon} />
+        </Icon>
+        <Label>{tab.label}</Label>
+      </Tab>
+    </TabBar>
   </div>
-{/each}
+
+  <div style="padding: 1.2rem; flex-grow: 1;">
+    <svelte:component this={active.component} {electronAPI} />
+  </div>
+</div>
 
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import type { ElectronAPI, Hosts } from '../server/preload.js';
+  import { mdiTabletDashboard, mdiCog, mdiDesktopClassic } from '@mdi/js';
+  import Tab, { Icon, Label } from '@smui/tab';
+  import TabBar from '@smui/tab-bar';
+  import { Svg } from '@smui/common/elements';
+  import type { ElectronAPI } from '../server/preload.js';
+  import Dash from './Dash.svelte';
+  import Config from './Config.svelte';
+  import Guide from './Guide.svelte';
 
   export let electronAPI: ElectronAPI;
 
-  let hosts: Hosts = [];
-
-  onMount(() => {
-    electronAPI.onHosts((value) => {
-      hosts = value;
-    });
-    electronAPI.getHosts();
-  });
+  let tabs = [
+    {
+      icon: mdiTabletDashboard,
+      label: 'Dash',
+      component: Dash,
+    },
+    {
+      icon: mdiCog,
+      label: 'Config',
+      component: Config,
+    },
+    {
+      icon: mdiDesktopClassic,
+      label: 'Guide',
+      component: Guide,
+    },
+  ];
+  let active = tabs[0];
 </script>

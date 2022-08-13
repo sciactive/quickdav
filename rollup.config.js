@@ -8,10 +8,15 @@ import preprocess from 'svelte-preprocess';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
+const resolvePlugins = [
+  nodeResolve({
+    mainFields: ['exports', 'svelte', 'module', 'main'],
+  }),
+];
+
 const plugins = [
   typescript({ sourceMap: EXPLICIT_DEV }),
   json(),
-  nodeResolve(),
   commonjs(),
   ...(EXPLICIT_DEV ? [] : [terser()]),
 ];
@@ -24,7 +29,17 @@ export default [
       format: 'iife',
       sourcemap: EXPLICIT_DEV,
     },
-    plugins: [svelte({ preprocess: preprocess() }), ...plugins],
+    plugins: [
+      ...resolvePlugins,
+      svelte({
+        preprocess: preprocess({
+          typescript: {
+            tsconfigFile: 'tsconfig-svelte.json',
+          },
+        }),
+      }),
+      ...plugins,
+    ],
   },
   {
     input: 'server/main.ts',
@@ -34,7 +49,7 @@ export default [
       sourcemap: EXPLICIT_DEV,
     },
     external: ['electron', 'userid', 'sse4_crc32'],
-    plugins,
+    plugins: [...resolvePlugins, ...plugins],
   },
   {
     input: 'server/preload.ts',
@@ -44,6 +59,6 @@ export default [
       sourcemap: EXPLICIT_DEV,
     },
     external: ['electron', 'userid', 'sse4_crc32'],
-    plugins,
+    plugins: [...resolvePlugins, ...plugins],
   },
 ];

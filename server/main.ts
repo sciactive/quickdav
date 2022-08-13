@@ -1,15 +1,5 @@
 import path from 'node:path';
-import {
-  app,
-  session,
-  dialog,
-  ipcMain,
-  screen,
-  shell,
-  BrowserWindow,
-  Menu,
-  Tray,
-} from 'electron';
+import { app, dialog, ipcMain, screen, BrowserWindow } from 'electron';
 
 import { davServer } from './davServer.js';
 
@@ -53,6 +43,7 @@ try {
     const win = new BrowserWindow({
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
+        zoomFactor: 2,
       },
       maximizable: true,
       resizable: true,

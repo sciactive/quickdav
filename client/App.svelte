@@ -10,7 +10,7 @@
     </TabBar>
   </div>
 
-  <div style="padding: 1.2rem; flex-grow: 1;">
+  <div style="padding: 1.2rem; flex-grow: 1; overflow: auto;">
     <svelte:component this={active.component} {electronAPI} />
   </div>
 </div>

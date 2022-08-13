@@ -2,18 +2,44 @@
   style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
 >
   <div>
-    {#each hosts as host (host.address)}
-      <div>
-        davs://{host.address}:{host.port}/
-        {#if hosts.length > 1}
-          on {host.name}
+    <Paper variant="outlined">
+      <Content>
+        {#if info.hosts.length}
+          {#each info.hosts as host (host.address)}
+            <div>
+              WebDAV Address{#if info.hosts.length > 1} ({host.name}){/if}:
+              <code>{host.address}:{info.port}</code>
+            </div>
+          {/each}
+          <div>
+            Username: <code>{info.username}</code>
+          </div>
+          <div>
+            Password: <code>{info.password}</code>
+          </div>
+        {:else}
+          <div>WebDAV server is not running.</div>
         {/if}
-      </div>
-    {/each}
+      </Content>
+    </Paper>
   </div>
 
   <div style="display: flex; flex-direction: row; justify-content: end;">
-    <Button variant="raised" on:click={() => window.close()}>
+    {#if info.hosts.length}
+      <Button variant="raised" on:click={() => electronAPI.stopServer()}>
+        <Label>Stop Server</Label>
+      </Button>
+    {:else if info.port !== 0}
+      <Button variant="raised" on:click={() => electronAPI.startServer(info)}>
+        <Label>Start Server</Label>
+      </Button>
+    {/if}
+    <Button
+      style="margin-left: 1em;"
+      variant="raised"
+      color="secondary"
+      on:click={() => window.close()}
+    >
       <Label>Exit</Label>
     </Button>
   </div>
@@ -21,17 +47,24 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Paper, { Content } from '@smui/paper';
   import Button, { Label } from '@smui/button';
-  import type { ElectronAPI, Hosts } from '../server/preload.js';
+  import type { ElectronAPI, Info } from '../server/preload.js';
 
   export let electronAPI: ElectronAPI;
 
-  let hosts: Hosts = [];
+  let info: Info = {
+    hosts: [],
+    port: 0,
+    username: 'loading',
+    password: 'loading',
+    secure: true,
+  };
 
   onMount(() => {
-    electronAPI.onHosts((value) => {
-      hosts = value;
+    electronAPI.onInfo((value) => {
+      info = value;
     });
-    electronAPI.getHosts();
+    electronAPI.getInfo();
   });
 </script>

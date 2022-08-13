@@ -85,6 +85,8 @@ try {
       win.loadFile('assets/main.html');
       win.removeMenu();
 
+      // win.webContents.openDevTools();
+
       win.on('closed', quit);
     };
 

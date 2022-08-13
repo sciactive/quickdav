@@ -36,6 +36,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.4",
+    "@smart-powers/js-spatial-navigation": "^0.4.0",
     "@smui/button": "^6.0.0",
     "@smui/form-field": "^6.0.0",
     "@smui/paper": "^6.0.0",

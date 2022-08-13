@@ -1,6 +1,8 @@
-<div style="display: flex; flex-direction: column; height: 100%;">
+<div
+  bind:this={approot}
+  style="display: flex; flex-direction: column; height: 100%;"
+>
   <div
-    bind:this={tabBarContainer}
     style="display: flex; flex-direction: row; align-items: center; width: 100%;"
   >
     <div style="padding: 0 .75em;">
@@ -34,6 +36,7 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
+  import SpatialNavigation from '@smart-powers/js-spatial-navigation';
   import { mdiTabletDashboard, mdiCog, mdiDesktopClassic } from '@mdi/js';
   import Tab, { Icon, Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
@@ -46,7 +49,7 @@
 
   export let electronAPI: ElectronAPI;
 
-  let tabBarContainer: HTMLElement;
+  let approot: HTMLElement;
   let tabs = [
     {
       icon: mdiTabletDashboard,
@@ -67,8 +70,6 @@
   let active = tabs[0];
 
   onMount(() => {
-    tabBarContainer.querySelector<HTMLButtonElement>('.mdc-tab')?.focus();
-
     const unlistenLB = gamepad.onButton('LB', ({ pressed }) => {
       if (pressed) {
         active = tabs[Math.max(tabs.indexOf(active) - 1, 0)];
@@ -83,6 +84,80 @@
     return () => {
       unlistenLB();
       unlistenRB();
+    };
+  });
+
+  onMount(() => {
+    SpatialNavigation.init();
+    SpatialNavigation.add('app', {
+      selector: 'a, button, input, select',
+    });
+    SpatialNavigation.setDefaultSection('app');
+    SpatialNavigation.focus();
+
+    // Pause on keyboard events so that SpatialNavigation will only move focus
+    // when we tell it to.
+    const pause = () => SpatialNavigation.pause();
+    const resume = () => SpatialNavigation.resume();
+    approot.addEventListener('keydown', pause);
+    approot.addEventListener('keyup', pause);
+    window.addEventListener('keydown', resume);
+    window.addEventListener('keyup', resume);
+
+    const go = (direction: string) => {
+      console.log(document.activeElement);
+      if (!document.activeElement || document.activeElement === document.body) {
+        SpatialNavigation.focus();
+      } else {
+        SpatialNavigation.move(direction);
+      }
+    };
+
+    const unlistenUp = gamepad.onButton('Up', ({ pressed }) => {
+      if (pressed) {
+        go('up');
+      }
+    });
+    const unlistenDown = gamepad.onButton('Down', ({ pressed }) => {
+      if (pressed) {
+        go('down');
+      }
+    });
+    const unlistenLeft = gamepad.onButton('Left', ({ pressed }) => {
+      if (pressed) {
+        go('left');
+      }
+    });
+    const unlistenRight = gamepad.onButton('Right', ({ pressed }) => {
+      if (pressed) {
+        go('right');
+      }
+    });
+
+    return () => {
+      SpatialNavigation.uninit();
+      approot.removeEventListener('keydown', pause);
+      approot.removeEventListener('keyup', pause);
+      window.removeEventListener('keydown', resume);
+      window.removeEventListener('keyup', resume);
+      unlistenUp();
+      unlistenDown();
+      unlistenLeft();
+      unlistenRight();
+    };
+  });
+
+  onMount(() => {
+    const unlistenA = gamepad.onButton('A', ({ pressed }) => {
+      if (pressed) {
+        if (document.activeElement && 'click' in document.activeElement) {
+          (document.activeElement as HTMLButtonElement).click();
+        }
+      }
+    });
+
+    return () => {
+      unlistenA();
     };
   });
 </script>

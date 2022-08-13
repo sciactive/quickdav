@@ -158,6 +158,19 @@ class GamePad {
       // Check axes.
       for (let j = 0; j < state.axes.length; j++) {
         if (state.axes[j] !== previousState.axes[j]) {
+          if (amap[j] === 'DHor') {
+            if (state.axes[j] === -1 || previousState.axes[j] === -1) {
+              this.fireButtonEvent('Left', state.axes[j] === -1);
+            } else {
+              this.fireButtonEvent('Right', state.axes[j] === 1);
+            }
+          } else if (amap[j] === 'DVer') {
+            if (state.axes[j] === -1 || previousState.axes[j] === -1) {
+              this.fireButtonEvent('Up', state.axes[j] === -1);
+            } else {
+              this.fireButtonEvent('Down', state.axes[j] === 1);
+            }
+          }
           console.log(`Axis ${amap[j]} moved. Value = ${state.axes[j]}.`);
         }
       }

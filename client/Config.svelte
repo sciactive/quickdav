@@ -8,10 +8,10 @@
       style="display: flex; flex-direction: column; justify-content: space-between;"
     >
       <div>
-        <Textfield bind:value={info.username} label="Username" />
+        <Textfield bind:value={editInfo.username} label="Username" required />
       </div>
       <div>
-        <Textfield bind:value={info.password} label="Password" />
+        <Textfield bind:value={editInfo.password} label="Password" required />
       </div>
     </div>
 
@@ -20,10 +20,11 @@
     >
       <div>
         <Textfield
-          bind:value={info.port}
+          bind:value={editInfo.port}
           type="number"
           input$min={1000}
           input$max={65535}
+          required
           label="Port"
         >
           <HelperText slot="helper">
@@ -33,14 +34,14 @@
       </div>
       <div>
         <FormField>
-          <Switch bind:checked={info.secure} />
+          <Switch bind:checked={editInfo.secure} />
           <span slot="label">TLS Encryption</span>
         </FormField>
       </div>
     </div>
   </div>
 
-  {#if !info.secure}
+  {#if !editInfo.secure}
     <div
       class="mdc-typography--caption"
       style="display: flex; flex-direction: row; align-items: center; font-size: x-small; margin: 1em 0;"
@@ -61,11 +62,8 @@
   <div style="display: flex; flex-direction: row; justify-content: end;">
     <Button
       variant="raised"
-      disabled={info.username.trim() === '' ||
-        info.password.trim() === '' ||
-        info.port < 1000 ||
-        info.port > 65535}
-      on:click={() => electronAPI.startServer(info)}
+      disabled={preventSubmit}
+      on:click={() => electronAPI.startServer(editInfo)}
     >
       <Label>Save and Restart Server</Label>
     </Button>
@@ -92,9 +90,22 @@
     secure: true,
   };
 
+  let editInfo: Info = { ...info };
+
+  $: preventSubmit =
+    editInfo.username.trim() === '' ||
+    editInfo.password.trim() === '' ||
+    editInfo.port < 1000 ||
+    editInfo.port > 65535 ||
+    (editInfo.port === info.port &&
+      editInfo.username === info.username &&
+      editInfo.password === info.password &&
+      editInfo.secure === info.secure);
+
   onMount(() => {
     electronAPI.onInfo((value) => {
       info = value;
+      editInfo = { ...info };
     });
     electronAPI.getInfo();
   });

@@ -25,13 +25,15 @@
   </div>
 
   <div style="display: flex; flex-direction: row; justify-content: end;">
-    {#if info.hosts.length}
-      <Button variant="raised" on:click={() => electronAPI.stopServer()}>
-        <Label>Stop Server</Label>
-      </Button>
-    {:else if info.port !== 0}
-      <Button variant="raised" on:click={() => electronAPI.startServer(info)}>
-        <Label>Start Server</Label>
+    {#if info.hosts.length || info.port !== 0}
+      <Button
+        variant="raised"
+        on:click={() =>
+          info.hosts.length
+            ? electronAPI.stopServer()
+            : electronAPI.startServer(info)}
+      >
+        <Label>{info.hosts.length ? 'Stop' : 'Start'} Server</Label>
       </Button>
     {/if}
     <Button

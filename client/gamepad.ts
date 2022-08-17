@@ -59,11 +59,28 @@ const ButtonMap: { [k: string]: { [k: number]: string } } = {
   },
 };
 
+type AxisCallback = (event: { value: number; changedRegion: boolean }) => void;
 type ButtonCallback = (event: { pressed: boolean }) => void;
 
 class GamePad {
   gamepads: Gamepad[];
   states: GamePadState[];
+
+  axisEvents: {
+    LHor: AxisCallback[];
+    LVer: AxisCallback[];
+    RHor: AxisCallback[];
+    RVer: AxisCallback[];
+    RT: AxisCallback[];
+    LT: AxisCallback[];
+  } = {
+    LHor: [],
+    LVer: [],
+    RHor: [],
+    RVer: [],
+    RT: [],
+    LT: [],
+  };
 
   buttonEvents: {
     A: ButtonCallback[];
@@ -170,6 +187,14 @@ class GamePad {
             } else {
               this.fireButtonEvent('Down', state.axes[j] === 1);
             }
+          } else {
+            this.fireAxisEvent(
+              amap[j],
+              state.axes[j],
+              (state.axes[j] < 0 && previousState.axes[j] >= 0) ||
+                (state.axes[j] > 0 && previousState.axes[j] <= 0) ||
+                (state.axes[j] === 0 && previousState.axes[j] !== 0)
+            );
           }
           console.log(`Axis ${amap[j]} moved. Value = ${state.axes[j]}.`);
         }
@@ -202,6 +227,28 @@ class GamePad {
     }
 
     this.scheduleLoop();
+  }
+
+  onAxis(axis: keyof GamePad['axisEvents'], callback: AxisCallback) {
+    this.axisEvents[axis].push(callback);
+
+    return () => {
+      const idx = this.axisEvents[axis].indexOf(callback);
+
+      if (idx > -1) {
+        this.axisEvents[axis].splice(idx, 1);
+      }
+    };
+  }
+
+  fireAxisEvent(axis: string, value: number, changedRegion: boolean) {
+    if (!(axis in this.axisEvents)) {
+      return;
+    }
+
+    for (let callback of this.axisEvents[axis as keyof GamePad['axisEvents']]) {
+      callback({ value, changedRegion });
+    }
   }
 
   onButton(button: keyof GamePad['buttonEvents'], callback: ButtonCallback) {

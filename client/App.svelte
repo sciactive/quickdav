@@ -134,6 +134,21 @@
       }
     });
 
+    const unlistenLVer = gamepad.onAxis('LVer', ({ value, changedRegion }) => {
+      if (changedRegion && value < 0) {
+        go('up');
+      } else if (changedRegion && value > 0) {
+        go('down');
+      }
+    });
+    const unlistenLHor = gamepad.onAxis('LHor', ({ value, changedRegion }) => {
+      if (changedRegion && value < 0) {
+        go('left');
+      } else if (changedRegion && value > 0) {
+        go('right');
+      }
+    });
+
     return () => {
       SpatialNavigation.uninit();
       approot.removeEventListener('keydown', pause);
@@ -144,6 +159,8 @@
       unlistenDown();
       unlistenLeft();
       unlistenRight();
+      unlistenLVer();
+      unlistenLHor();
     };
   });
 

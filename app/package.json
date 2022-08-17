@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "sse4_crc32": "^7.0.0",
+    "steamworks.js": "^0.0.21",
     "userid": "^1.2.5"
   }
 }

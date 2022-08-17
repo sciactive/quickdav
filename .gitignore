@@ -1,4 +1,9 @@
 node_modules
+steam_appid.txt
 /app/client
 /app/server
 /dist
+/test.log
+/steam
+/libsteam_api.so
+/openkeyboard

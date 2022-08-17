@@ -48,7 +48,15 @@ export default [
       format: 'cjs',
       sourcemap: EXPLICIT_DEV,
     },
-    external: ['electron', 'userid', 'sse4_crc32'],
+    external: [
+      'electron',
+      'ldll',
+      'ffi-napi',
+      'ref-napi',
+      'steamworks.js',
+      'userid',
+      'sse4_crc32',
+    ],
     plugins: [...resolvePlugins, ...plugins],
   },
   {
@@ -58,7 +66,15 @@ export default [
       format: 'cjs',
       sourcemap: EXPLICIT_DEV,
     },
-    external: ['electron', 'userid', 'sse4_crc32'],
+    external: [
+      'electron',
+      'ldll',
+      'ffi-napi',
+      'ref-napi',
+      'steamworks.js',
+      'userid',
+      'sse4_crc32',
+    ],
     plugins: [...resolvePlugins, ...plugins],
   },
 ];

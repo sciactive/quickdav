@@ -150,8 +150,14 @@
   onMount(() => {
     const unlistenA = gamepad.onButton('A', ({ pressed }) => {
       if (pressed) {
-        if (document.activeElement && 'click' in document.activeElement) {
-          (document.activeElement as HTMLButtonElement).click();
+        if (document.activeElement) {
+          if (document.activeElement.tagName === 'INPUT') {
+            electronAPI.openKeyboard();
+          }
+
+          if ('click' in document.activeElement) {
+            (document.activeElement as HTMLButtonElement).click();
+          }
         }
       }
     });

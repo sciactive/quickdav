@@ -20,6 +20,7 @@ export type ElectronAPI = {
   onInfo: (callback: (info: Info) => void) => void;
   stopServer: () => void;
   startServer: (info: Info) => void;
+  openKeyboard: () => void;
   openDevTools: () => void;
 };
 
@@ -30,5 +31,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('info', (_event, info) => callback(info)),
   stopServer: () => ipcRenderer.send('stopServer'),
   startServer: (info) => ipcRenderer.send('startServer', info),
+  openKeyboard: () => ipcRenderer.send('openKeyboard'),
   openDevTools: () => ipcRenderer.send('openDevTools'),
 } as ElectronAPI);

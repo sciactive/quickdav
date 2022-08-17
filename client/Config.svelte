@@ -61,7 +61,7 @@
 
   <div style="display: flex; flex-direction: row; justify-content: end;">
     <Button
-      variant="raised"
+      variant="outlined"
       disabled={preventSubmit}
       on:click={() => electronAPI.startServer(editInfo)}
     >

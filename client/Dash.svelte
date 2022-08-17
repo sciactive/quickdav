@@ -27,7 +27,7 @@
   <div style="display: flex; flex-direction: row; justify-content: end;">
     {#if info.hosts.length || info.port !== 0}
       <Button
-        variant="raised"
+        variant="outlined"
         on:click={() =>
           info.hosts.length
             ? electronAPI.stopServer()
@@ -38,7 +38,7 @@
     {/if}
     <Button
       style="margin-left: 1em;"
-      variant="raised"
+      variant="outlined"
       color="secondary"
       on:click={() => window.close()}
     >

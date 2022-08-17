@@ -8,10 +8,22 @@
       style="display: flex; flex-direction: column; justify-content: space-between;"
     >
       <div>
-        <Textfield bind:value={editInfo.username} label="Username" required />
+        <Textfield
+          bind:value={editInfo.username}
+          label="Username"
+          required
+          on:focus={() => (textInputFocused = true)}
+          on:blur={() => (textInputFocused = false)}
+        />
       </div>
       <div>
-        <Textfield bind:value={editInfo.password} label="Password" required />
+        <Textfield
+          bind:value={editInfo.password}
+          label="Password"
+          required
+          on:focus={() => (textInputFocused = true)}
+          on:blur={() => (textInputFocused = false)}
+        />
       </div>
     </div>
 
@@ -26,6 +38,8 @@
           input$max={65535}
           required
           label="Port"
+          on:focus={() => (textInputFocused = true)}
+          on:blur={() => (textInputFocused = false)}
         >
           <HelperText slot="helper">
             You usually won't need to change this.
@@ -59,7 +73,20 @@
     </div>
   {/if}
 
-  <div style="display: flex; flex-direction: row; justify-content: end;">
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-between;"
+  >
+    <div style="display: flex; flex-direction: row; align-items: center;">
+      {#if textInputFocused}
+        <img alt="A button" src="controller-icons/A.svg" height="30px" />
+        <svg
+          viewBox="0 0 24 24"
+          style="width: 30px; height: 30px; padding-left: 12px;"
+        >
+          <path fill="currentColor" d={mdiKeyboard} />
+        </svg>
+      {/if}
+    </div>
     <Button
       variant="outlined"
       disabled={preventSubmit}
@@ -71,7 +98,7 @@
 </div>
 
 <script lang="ts">
-  import { mdiExclamationThick } from '@mdi/js';
+  import { mdiExclamationThick, mdiKeyboard } from '@mdi/js';
   import { onMount } from 'svelte';
   import Button, { Label } from '@smui/button';
   import Textfield from '@smui/textfield';
@@ -82,6 +109,7 @@
 
   export let electronAPI: ElectronAPI;
 
+  let textInputFocused = false;
   let info: Info = {
     hosts: [],
     port: 0,
@@ -89,7 +117,6 @@
     password: 'loading',
     secure: true,
   };
-
   let editInfo: Info = { ...info };
 
   $: preventSubmit =

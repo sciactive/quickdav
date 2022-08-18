@@ -146,12 +146,29 @@ export async function davServer({
         }
       },
       authenticator: new CustomAuthenticator({
-        auth: async (name, pass) => {
-          if (name === username && pass.toLowerCase() === password) {
+        getUser: async (name) => {
+          if (name === username) {
             return new User({ username });
           }
           return null;
         },
+        ...(secure
+          ? {
+              authBasic: async (user, pass) => {
+                if (user.username === username && pass === password) {
+                  return true;
+                }
+                return false;
+              },
+            }
+          : {
+              authDigest: async (user) => {
+                if (user.username === username) {
+                  return { password };
+                }
+                return null;
+              },
+            }),
         realm: 'Quick DAV Server',
       }),
     })

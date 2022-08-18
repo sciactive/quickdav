@@ -6,7 +6,7 @@
   "author": "Hunter Perrin <hperrin@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "electron": "^20.0.2"
+    "electron": "^20.0.3"
   },
   "dependencies": {
     "sse4_crc32": "^7.0.0",

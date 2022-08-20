@@ -9,6 +9,14 @@ body {
   overflow: hidden;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

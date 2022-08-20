@@ -65,6 +65,7 @@ type ButtonCallback = (event: { pressed: boolean }) => void;
 class GamePad {
   gamepads: Gamepad[];
   states: GamePadState[];
+  connected = false;
 
   axisEvents: {
     LHor: AxisCallback[];
@@ -127,20 +128,19 @@ class GamePad {
     this.states = this.gamepads.map(this.convertPadToState);
 
     window.addEventListener('gamepadconnected', (event) => {
-      console.log('Gamepad connected.');
-      console.log(event.gamepad);
       this.gamepads.splice(event.gamepad.index, 0, event.gamepad);
       this.states.splice(
         event.gamepad.index,
         0,
         this.convertPadToState(event.gamepad)
       );
+      this.connected = true;
     });
 
     window.addEventListener('gamepaddisconnected', (event) => {
-      console.log('Gamepad removed.');
       delete this.gamepads[event.gamepad.index];
       delete this.states[event.gamepad.index];
+      this.connected = this.gamepads.length > 0;
     });
 
     this.scheduleLoop();

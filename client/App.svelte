@@ -29,9 +29,16 @@
     </div>
   </div>
 
-  <div style="padding: 1.2rem; flex-grow: 1; overflow: auto;">
-    <svelte:component this={active.component} {electronAPI} {info} />
-  </div>
+  {#each tabs as tab (tab.label)}
+    <div
+      style="padding: 1.2rem; flex-grow: 1; overflow: auto; display: {tab ===
+      active
+        ? 'block'
+        : 'none'};"
+    >
+      <svelte:component this={tab.component} {electronAPI} {info} />
+    </div>
+  {/each}
 </div>
 
 <script lang="ts">
@@ -106,7 +113,7 @@
   onMount(() => {
     SpatialNavigation.init();
     SpatialNavigation.add('app', {
-      selector: 'a, button, input, select',
+      selector: 'a, button, input, select, [tabindex="0"]',
     });
     SpatialNavigation.setDefaultSection('app');
     SpatialNavigation.focus();
@@ -121,7 +128,6 @@
     window.addEventListener('keyup', resume);
 
     const go = (direction: string) => {
-      console.log(document.activeElement);
       if (!document.activeElement || document.activeElement === document.body) {
         SpatialNavigation.focus();
       } else {
@@ -165,6 +171,46 @@
       }
     });
 
+    const scroll = (direction: 'up' | 'down') => {
+      let element = document.activeElement;
+      if (element == null) {
+        return;
+      }
+      element = element.parentElement;
+      while (element) {
+        if (element.scrollHeight > element.clientHeight) {
+          element.scrollBy({
+            top: 100 * (direction === 'up' ? -1 : 1),
+            behavior: 'smooth',
+          });
+        }
+        element = element.parentElement;
+      }
+    };
+    let scrollTimeout: NodeJS.Timeout | null = null;
+
+    const unlistenRVer = gamepad.onAxis('RVer', ({ value, changedRegion }) => {
+      if (value === 0) {
+        if (scrollTimeout != null) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = null;
+        }
+        return;
+      }
+      if (changedRegion) {
+        if (scrollTimeout != null) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = null;
+        }
+        const doScroll = () => {
+          scrollTimeout = setTimeout(doScroll, 250);
+          scroll(value < 0 ? 'up' : 'down');
+        };
+        scrollTimeout = setTimeout(doScroll, 600);
+        scroll(value < 0 ? 'up' : 'down');
+      }
+    });
+
     return () => {
       SpatialNavigation.uninit();
       approot.removeEventListener('keydown', pause);
@@ -177,6 +223,7 @@
       unlistenRight();
       unlistenLVer();
       unlistenLHor();
+      unlistenRVer();
     };
   });
 

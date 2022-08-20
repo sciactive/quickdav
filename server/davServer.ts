@@ -28,14 +28,14 @@ const passGen = customAlphabet(
 );
 
 const HOSTNAME = hostname();
-const PORT = parseInt(process.env.QDAV_PORT || '8888');
-const USERNAME = process.env.QDAV_USERNAME || 'quickdav';
-const PASSWORD = process.env.QDAV_PASSWORD || passGen();
+const PORT = parseInt(process.env.DAV_PORT || '8888');
+const USERNAME = process.env.DAV_USERNAME || 'quickdav';
+const PASSWORD = process.env.DAV_PASSWORD || passGen();
 const SECURE = !['false', 'off'].includes(
-  (process.env.QDAV_TLS || '').toLowerCase()
+  (process.env.DAV_TLS || '').toLowerCase()
 );
 const AUTH = !['false', 'off'].includes(
-  (process.env.QDAV_AUTH || '').toLowerCase()
+  (process.env.DAV_AUTH || '').toLowerCase()
 );
 
 const getHosts = () => {

@@ -18,8 +18,6 @@ import InsecureAuthenticator from '@nephele/authenticator-none';
 import type { Hosts } from './preload.js';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
-const HOSTNAME = hostname();
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8443;
 
 const passGen = customAlphabet(
   nolookalikesSafe
@@ -27,6 +25,17 @@ const passGen = customAlphabet(
     .filter((letter) => letter.toLowerCase() === letter)
     .join(''),
   5
+);
+
+const HOSTNAME = hostname();
+const PORT = parseInt(process.env.QDAV_PORT || '8888');
+const USERNAME = process.env.QDAV_USERNAME || 'quickdav';
+const PASSWORD = process.env.QDAV_PASSWORD || passGen();
+const SECURE = !['false', 'off'].includes(
+  (process.env.QDAV_TLS || '').toLowerCase()
+);
+const AUTH = !['false', 'off'].includes(
+  (process.env.QDAV_AUTH || '').toLowerCase()
 );
 
 const getHosts = () => {
@@ -130,10 +139,10 @@ let serverRunning = false;
 
 export async function davServer({
   port = PORT,
-  username = 'quickdav',
-  password = passGen(),
-  secure = true,
-  auth = true,
+  username = USERNAME,
+  password = PASSWORD,
+  secure = SECURE,
+  auth = AUTH,
 }: {
   port?: number;
   username?: string;

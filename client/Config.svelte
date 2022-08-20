@@ -1,11 +1,9 @@
 <div
   style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
 >
-  <div
-    style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;"
-  >
+  <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
     <div
-      style="display: flex; flex-direction: column; justify-content: space-between;"
+      style="display: flex; flex-direction: column; margin-inline-end: 25px;"
     >
       <div>
         <Textfield
@@ -27,9 +25,7 @@
       </div>
     </div>
 
-    <div
-      style="display: flex; flex-direction: column; justify-content: space-between;"
-    >
+    <div style="display: flex; flex-direction: column;">
       <div>
         <Textfield
           bind:value={editInfo.port}
@@ -49,7 +45,13 @@
       <div>
         <FormField>
           <Switch bind:checked={editInfo.secure} />
-          <span slot="label">TLS Encryption</span>
+          <span slot="label">Self Signed TLS Encryption</span>
+        </FormField>
+      </div>
+      <div>
+        <FormField>
+          <Switch bind:checked={editInfo.auth} />
+          <span slot="label">Password Required</span>
         </FormField>
       </div>
     </div>
@@ -58,17 +60,18 @@
   {#if !editInfo.secure}
     <div
       class="mdc-typography--caption"
-      style="display: flex; flex-direction: row; align-items: center; font-size: x-small; margin: 1em 0;"
+      style="display: flex; flex-direction: row; align-items: start; font-size: x-small; margin: 1em 0;"
     >
       <svg
         viewBox="0 0 24 24"
-        style="width: 12px; height: 12px; padding: 12px;"
+        style="width: 24px; height: 24px; padding-right: 12px;"
       >
         <path fill="currentColor" d={mdiExclamationThick} />
       </svg>
       <span>
-        By turning off TLS encryption, all of your network traffic will be
-        visible to anyone who has access to your network.
+        Turning off TLS encryption is less secure, so don't do this on public
+        WiFi networks. This should only be necessary for connecting with Windows
+        Explorer.
       </span>
     </div>
   {/if}
@@ -90,7 +93,10 @@
     <Button
       variant="outlined"
       disabled={preventSubmit}
-      on:click={() => electronAPI.startServer(editInfo)}
+      on:click={() => {
+        loading = true;
+        electronAPI.startServer(editInfo);
+      }}
     >
       <Label>Save and Restart Server</Label>
     </Button>
@@ -108,18 +114,14 @@
   import type { ElectronAPI, Info } from '../server/preload.js';
 
   export let electronAPI: ElectronAPI;
+  export let info: Info;
 
   let textInputFocused = false;
-  let info: Info = {
-    hosts: [],
-    port: 0,
-    username: 'loading',
-    password: 'loading',
-    secure: true,
-  };
   let editInfo: Info = { ...info };
+  let loading = false;
 
   $: preventSubmit =
+    loading ||
     editInfo.username.trim() === '' ||
     editInfo.password.trim() === '' ||
     editInfo.port < 1000 ||
@@ -127,13 +129,13 @@
     (editInfo.port === info.port &&
       editInfo.username === info.username &&
       editInfo.password === info.password &&
-      editInfo.secure === info.secure);
+      editInfo.secure === info.secure &&
+      editInfo.auth === info.auth);
 
   onMount(() => {
-    electronAPI.onInfo((value) => {
-      info = value;
-      editInfo = { ...info };
+    return electronAPI.onInfo((value) => {
+      loading = false;
+      editInfo = { ...value };
     });
-    electronAPI.getInfo();
   });
 </script>

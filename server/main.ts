@@ -46,26 +46,32 @@ try {
     });
 
     function forceCloseServer() {
+      const promise = new Promise((resolve) => server.on('close', resolve));
       server.close();
       info = {
         ...info,
         hosts: [],
       };
+      return promise;
     }
 
-    ipcMain.on('stopServer', (event) => {
+    ipcMain.on('stopServer', async (event) => {
       if (info.hosts.length) {
-        forceCloseServer();
+        await forceCloseServer();
         event.sender.send('info', info);
       }
     });
 
     ipcMain.on('startServer', async (event, requestInfo) => {
       if (info.hosts.length) {
-        forceCloseServer();
+        await forceCloseServer();
       }
-      ({ server, info } = await davServer(requestInfo));
-      event.sender.send('info', info);
+      try {
+        ({ server, info } = await davServer(requestInfo));
+        event.sender.send('info', info);
+      } catch (e: any) {
+        dialog.showErrorBox('Server Not Started', e.message);
+      }
     });
 
     const createWindow = async () => {

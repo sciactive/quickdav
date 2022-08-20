@@ -8,15 +8,21 @@
           {#each info.hosts as host (host.address)}
             <div>
               WebDAV Address{#if info.hosts.length > 1} ({host.name}){/if}:
-              <code>{host.address}:{info.port}</code>
+              <code
+                >http{info.secure
+                  ? 's'
+                  : ''}://{host.address}:{info.port}/</code
+              >
             </div>
           {/each}
-          <div>
-            Username: <code>{info.username}</code>
-          </div>
-          <div>
-            Password: <code>{info.password}</code>
-          </div>
+          {#if info.auth}
+            <div>
+              Username: <code>{info.username}</code>
+            </div>
+            <div>
+              Password: <code>{info.password}</code>
+            </div>
+          {/if}
         {:else}
           <div>WebDAV server is not running.</div>
         {/if}
@@ -48,25 +54,10 @@
 </div>
 
 <script lang="ts">
-  import { onMount } from 'svelte';
   import Paper, { Content } from '@smui/paper';
   import Button, { Label } from '@smui/button';
   import type { ElectronAPI, Info } from '../server/preload.js';
 
   export let electronAPI: ElectronAPI;
-
-  let info: Info = {
-    hosts: [],
-    port: 0,
-    username: 'loading',
-    password: 'loading',
-    secure: true,
-  };
-
-  onMount(() => {
-    electronAPI.onInfo((value) => {
-      info = value;
-    });
-    electronAPI.getInfo();
-  });
+  export let info: Info;
 </script>

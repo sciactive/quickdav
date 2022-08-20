@@ -30,7 +30,7 @@
   </div>
 
   <div style="padding: 1.2rem; flex-grow: 1; overflow: auto;">
-    <svelte:component this={active.component} {electronAPI} />
+    <svelte:component this={active.component} {electronAPI} {info} />
   </div>
 </div>
 
@@ -41,7 +41,7 @@
   import Tab, { Icon, Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
   import { Svg } from '@smui/common/elements';
-  import type { ElectronAPI } from '../server/preload.js';
+  import type { ElectronAPI, Info } from '../server/preload.js';
   import Dash from './Dash.svelte';
   import Config from './Config.svelte';
   import Guide from './Guide.svelte';
@@ -49,6 +49,14 @@
 
   export let electronAPI: ElectronAPI;
 
+  let info: Info = {
+    hosts: [],
+    port: 0,
+    username: '[loading]',
+    password: '[loading]',
+    secure: true,
+    auth: true,
+  };
   let approot: HTMLElement;
   let tabs = [
     {
@@ -68,6 +76,14 @@
     },
   ];
   let active = tabs[0];
+
+  onMount(() => {
+    const unlisten = electronAPI.onInfo((value) => {
+      info = value;
+    });
+    electronAPI.getInfo();
+    return unlisten;
+  });
 
   onMount(() => {
     const unlistenLB = gamepad.onButton('LB', ({ pressed }) => {

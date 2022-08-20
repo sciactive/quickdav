@@ -8,10 +8,12 @@ import selfsigned from 'selfsigned';
 import { Address6 } from 'ip-address';
 import { customAlphabet } from 'nanoid';
 import { nolookalikesSafe } from 'nanoid-dictionary';
+import './crypto-getrandomvalues-polyfill.js';
 import nepheleServer from 'nephele';
 import FileSystemAdapter from '@nephele/adapter-file-system';
 import VirtualAdapter from '@nephele/adapter-virtual';
 import CustomAuthenticator, { User } from '@nephele/authenticator-custom';
+import InsecureAuthenticator from '@nephele/authenticator-none';
 
 import type { Hosts } from './preload.js';
 
@@ -27,20 +29,7 @@ const passGen = customAlphabet(
   5
 );
 
-export async function davServer({
-  port = PORT,
-  username = 'quickdav',
-  password = passGen(),
-  secure = true,
-}: {
-  port?: number;
-  username?: string;
-  password?: string;
-  secure?: boolean;
-} = {}) {
-  const app = express();
-  const instanceDate = new Date();
-
+const getHosts = () => {
   const ifaces = networkInterfaces();
   let hosts: Hosts = [];
   for (let name in ifaces) {
@@ -59,7 +48,109 @@ export async function davServer({
   if (hosts.find((host) => host.family === 'IPv4')) {
     hosts = hosts.filter((host) => host.family === 'IPv4');
   }
+  return hosts;
+};
 
+let hosts = getHosts();
+
+const pems = selfsigned.generate(
+  [
+    { name: 'commonName', value: HOSTNAME },
+    {
+      name: 'countryName',
+      value: 'US',
+    },
+    {
+      shortName: 'ST',
+      value: 'California',
+    },
+    {
+      name: 'localityName',
+      value: 'San Marcos',
+    },
+    {
+      name: 'organizationName',
+      value: 'SciActive Inc',
+    },
+    {
+      shortName: 'OU',
+      value: 'Quick DAV',
+    },
+  ],
+  {
+    days: 30,
+    algorithm: 'sha256',
+    extensions: [
+      {
+        name: 'basicConstraints',
+        cA: true,
+      },
+      {
+        name: 'keyUsage',
+        keyCertSign: true,
+        digitalSignature: true,
+        nonRepudiation: true,
+        keyEncipherment: true,
+        dataEncipherment: true,
+      },
+      {
+        name: 'subjectAltName',
+        altNames: hosts
+          .map((host) => ({
+            type: 7, // IP Address
+            value:
+              host.family === 'IPv4'
+                ? host.address
+                    .split('.')
+                    .map((byte) => String.fromCharCode(parseInt(byte)))
+                    .join('')
+                : new Address6(host.address).parsedAddress
+                    .map((bytes) => {
+                      const value = parseInt(bytes, 16);
+                      const first = value >> 8;
+                      const second = value & 255;
+                      return `${String.fromCharCode(
+                        first
+                      )}${String.fromCharCode(second)}`;
+                    })
+                    .join(''),
+          }))
+          .concat([
+            {
+              type: 2, // DNS Name
+              value: HOSTNAME,
+            },
+          ]),
+      },
+    ],
+  }
+);
+
+let serverRunning = false;
+
+export async function davServer({
+  port = PORT,
+  username = 'quickdav',
+  password = passGen(),
+  secure = true,
+  auth = true,
+}: {
+  port?: number;
+  username?: string;
+  password?: string;
+  secure?: boolean;
+  auth?: boolean;
+} = {}) {
+  const app = express();
+  const instanceDate = new Date();
+
+  if (serverRunning) {
+    throw new Error(
+      'The running server must be closed before a new one can be created.'
+    );
+  }
+
+  hosts = getHosts();
   if (hosts.length === 0) {
     throw new Error('No configured network adapters could be found.');
   }
@@ -145,110 +236,42 @@ export async function davServer({
           throw new Error("Couldn't mount user directory as server root.");
         }
       },
-      authenticator: new CustomAuthenticator({
-        getUser: async (name) => {
-          if (name === username) {
-            return new User({ username });
-          }
-          return null;
-        },
-        ...(secure
-          ? {
-              authBasic: async (user, pass) => {
-                if (user.username === username && pass === password) {
-                  return true;
+      authenticator: auth
+        ? new CustomAuthenticator({
+            getUser: async (name) => {
+              console.log('getUser', { name });
+              if (name === username) {
+                return new User({ username });
+              }
+              return null;
+            },
+            ...(secure
+              ? {
+                  authBasic: async (user, pass) => {
+                    console.log('basic', { user, pass });
+                    if (user.username === username && pass === password) {
+                      return true;
+                    }
+                    return false;
+                  },
                 }
-                return false;
-              },
-            }
-          : {
-              authDigest: async (user) => {
-                if (user.username === username) {
-                  return { password };
-                }
-                return null;
-              },
-            }),
-        realm: 'Quick DAV Server',
-      }),
+              : {
+                  authDigest: async (user) => {
+                    console.log('digest', { user });
+                    if (user.username === username) {
+                      return { password };
+                    }
+                    return null;
+                  },
+                }),
+            realm: 'Quick DAV Server',
+          })
+        : new InsecureAuthenticator(),
     })
   );
 
   let server: Server;
   if (secure) {
-    const pems = selfsigned.generate(
-      [
-        { name: 'commonName', value: HOSTNAME },
-        {
-          name: 'countryName',
-          value: 'US',
-        },
-        {
-          shortName: 'ST',
-          value: 'California',
-        },
-        {
-          name: 'localityName',
-          value: 'San Marcos',
-        },
-        {
-          name: 'organizationName',
-          value: 'SciActive Inc',
-        },
-        {
-          shortName: 'OU',
-          value: 'Quick DAV',
-        },
-      ],
-      {
-        days: 30,
-        algorithm: 'sha256',
-        extensions: [
-          {
-            name: 'basicConstraints',
-            cA: true,
-          },
-          {
-            name: 'keyUsage',
-            keyCertSign: true,
-            digitalSignature: true,
-            nonRepudiation: true,
-            keyEncipherment: true,
-            dataEncipherment: true,
-          },
-          {
-            name: 'subjectAltName',
-            altNames: hosts
-              .map((host) => ({
-                type: 7, // IP Address
-                value:
-                  host.family === 'IPv4'
-                    ? host.address
-                        .split('.')
-                        .map((byte) => String.fromCharCode(parseInt(byte)))
-                        .join('')
-                    : new Address6(host.address).parsedAddress
-                        .map((bytes) => {
-                          const value = parseInt(bytes, 16);
-                          const first = value >> 8;
-                          const second = value & 255;
-                          return `${String.fromCharCode(
-                            first
-                          )}${String.fromCharCode(second)}`;
-                        })
-                        .join(''),
-              }))
-              .concat([
-                {
-                  type: 2, // DNS Name
-                  value: HOSTNAME,
-                },
-              ]),
-          },
-        ],
-      }
-    );
-
     server = https
       .createServer({ cert: pems.cert, key: pems.private }, app)
       .listen(port);
@@ -256,6 +279,7 @@ export async function davServer({
     server = http.createServer({}, app).listen(port);
   }
 
+  serverRunning = true;
   console.log(
     `Quick DAV server listening on ${hosts
       .map(
@@ -266,8 +290,9 @@ export async function davServer({
   );
 
   server.on('close', () => {
+    serverRunning = false;
     console.log('Quick DAV server closed.');
   });
 
-  return { server, info: { hosts, port, username, password, secure } };
+  return { server, info: { hosts, port, username, password, secure, auth } };
 }

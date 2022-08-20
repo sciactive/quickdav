@@ -2,12 +2,6 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { app, dialog, ipcMain, screen, BrowserWindow } from 'electron';
 
-app.commandLine.appendSwitch('--in-process-gpu');
-app.commandLine.appendSwitch('in-process-gpu');
-app.commandLine.appendSwitch('--disable-direct-composition');
-app.commandLine.appendSwitch('disable-direct-composition');
-app.commandLine.appendSwitch('--disable-gpu-sandbox');
-app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');
 

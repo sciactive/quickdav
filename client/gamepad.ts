@@ -158,7 +158,7 @@ class GamePad {
   }
 
   scheduleLoop() {
-    window.requestAnimationFrame(() => this.runLoop());
+    window.setTimeout(() => this.runLoop(), 60);
   }
 
   runLoop() {

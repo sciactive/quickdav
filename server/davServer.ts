@@ -248,7 +248,6 @@ export async function davServer({
       authenticator: auth
         ? new CustomAuthenticator({
             getUser: async (name) => {
-              console.log('getUser', { name });
               if (name === username) {
                 return new User({ username });
               }
@@ -257,7 +256,6 @@ export async function davServer({
             ...(secure
               ? {
                   authBasic: async (user, pass) => {
-                    console.log('basic', { user, pass });
                     if (user.username === username && pass === password) {
                       return true;
                     }
@@ -266,7 +264,6 @@ export async function davServer({
                 }
               : {
                   authDigest: async (user) => {
-                    console.log('digest', { user });
                     if (user.username === username) {
                       return { password };
                     }

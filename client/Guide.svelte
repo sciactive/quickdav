@@ -5,7 +5,7 @@
 </p>
 
 <div class="accordion-container">
-  <Accordion class="guide-panels">
+  <Accordion class="guide-panels" multiple>
     <Panel
       variant="outlined"
       color="primary"
@@ -14,7 +14,7 @@
     >
       <Header>Windows</Header>
       <Content>
-        <Accordion>
+        <Accordion multiple>
           <Panel variant="outlined" color="secondary" extend>
             <Header tabindex={panelOpenWindows ? 0 : -1}
               >Explorer <span slot="description">Built In</span></Header
@@ -71,7 +71,7 @@
               <ol>
                 <li>
                   Download and install WinSCP from <code
-                    >https://winscp.net/</code
+                    >https://winscp.net</code
                   >.
                 </li>
                 <li>
@@ -206,7 +206,7 @@
     <Panel variant="outlined" color="primary" extend bind:open={panelOpenLinux}>
       <Header>Linux</Header>
       <Content>
-        <Accordion>
+        <Accordion multiple>
           <Panel variant="outlined" color="secondary" extend>
             <Header tabindex={panelOpenLinux ? 0 : -1}>Gnome</Header>
             <Content>

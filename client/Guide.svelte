@@ -1,6 +1,6 @@
 <h5 style="margin: 1em 0;">Connecting to Quick DAV</h5>
 <p>
-  Please note that the address entered in the screenshots may be different from
+  Please note that the address entered in the screenshots may be different than
   your address.
 </p>
 
@@ -274,7 +274,80 @@
           </Panel>
           <Panel variant="outlined" color="secondary" extend>
             <Header tabindex={panelOpenLinux ? 0 : -1}>KDE</Header>
-            <Content>linux kde</Content>
+            <Content>
+              <ol>
+                <li>
+                  Open a new Dolphin window and click the address bar near the
+                  top.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/1.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Type
+                  <code>webdavs://{host.address}:{info.port}/</code>. You may
+                  see the dialogs in the following steps come up before you
+                  finish typing, so complete those steps if you do. Then, hit
+                  the Enter key.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/2.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You'll see a warning about the server's certificate. This is
+                  because it is a self signed certificate. (Don't worry, there's
+                  no danger in using a self signed certificate on your own
+                  network.) Click <code>Continue</code>.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/3.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You'll be asked how long to accept the certificate. A new
+                  certificate is generated every time you open Quick DAV, so
+                  click <code>Current Session only</code>.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/4.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Enter the following information:
+                  <ul>
+                    <li>
+                      Username:
+                      <code>{info.username}</code>
+                    </li>
+                    <li>
+                      Password:
+                      <code>{info.password}</code>
+                    </li>
+                  </ul>
+                  Click
+                  <code>OK</code>.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/5.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You should now be connected to your device.
+                  <br />
+                  <img
+                    src="screens/Linux-KDE/6.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+              </ol>
+            </Content>
           </Panel>
         </Accordion>
       </Content>
@@ -341,7 +414,68 @@
     </Panel>
     <Panel variant="outlined" color="primary" extend>
       <Header>Android</Header>
-      <Content>android</Content>
+      <Content>
+        <ol>
+          <li>
+            We recommend the <code>Cx File Explorer</code> app from the
+            <code>Play Store</code>.
+            <br />
+            <img src="screens/Android/1.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Open the app and walk through the intro, giving permission for <code
+              >All files access</code
+            >.
+            <br />
+            <img src="screens/Android/2.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Tap the <code>NETWORK</code> tab, then tap the
+            <code>New location</code> button.
+            <br />
+            <img src="screens/Android/3.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Tap the <code>REMOTE</code> tab, then tap the <code>WebDAV</code>
+            item in the list.
+            <br />
+            <img src="screens/Android/4.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Enter the following information:
+            <ul>
+              <li>
+                Host:
+                <code>{host.address}</code>
+              </li>
+              <li>
+                Port:
+                <code>{info.port}</code>
+              </li>
+              <li>
+                Check <code>https</code>
+              </li>
+              <li>
+                Username:
+                <code>{info.username}</code>
+              </li>
+              <li>
+                Password:
+                <code>{info.password}</code>
+              </li>
+            </ul>
+            Click
+            <code>OK</code>.
+            <br />
+            <img src="screens/Android/5.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            You should now be connected to your device.
+            <br />
+            <img src="screens/Android/6.png" alt="Instruction screenshot." />
+          </li>
+        </ol>
+      </Content>
     </Panel>
   </Accordion>
 </div>

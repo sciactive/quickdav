@@ -281,7 +281,63 @@
     </Panel>
     <Panel variant="outlined" color="primary" extend>
       <Header>iPhone/iPad</Header>
-      <Content>ios</Content>
+      <Content>
+        <ol>
+          <li>
+            We recommend the <code>ES File Explorer</code> app from the
+            <code>App Store</code>.
+            <br />
+            <img src="screens/iOS/1.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Open the app and tap <code>OK</code> to allow the app to communicate
+            over your network.
+            <br />
+            <img src="screens/iOS/2.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Tap the
+            <code>Services</code> tab at the bottom, then tap the
+            <code>WebDAV</code> item from the list.
+            <br />
+            <img src="screens/iOS/3.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Enter the following information:
+            <ul>
+              <li>
+                URL:
+                <code>{host.address}</code>
+              </li>
+              <li>
+                Account:
+                <code>{info.username}</code>
+              </li>
+              <li>
+                Password:
+                <code>{info.password}</code>
+              </li>
+              <li>
+                Port:
+                <code>{info.port}</code>
+              </li>
+              <li>
+                HTTPS:
+                <code>On</code>
+              </li>
+            </ul>
+            Click
+            <code>Connect</code>.
+            <br />
+            <img src="screens/iOS/4.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            You should now be connected to your device.
+            <br />
+            <img src="screens/iOS/5.png" alt="Instruction screenshot." />
+          </li>
+        </ol>
+      </Content>
     </Panel>
     <Panel variant="outlined" color="primary" extend>
       <Header>Android</Header>

@@ -203,7 +203,7 @@
           scrollTimeout = null;
         }
         const doScroll = () => {
-          scrollTimeout = setTimeout(doScroll, 250);
+          scrollTimeout = setTimeout(doScroll, 150);
           scroll(value < 0 ? 'up' : 'down');
         };
         scrollTimeout = setTimeout(doScroll, 600);

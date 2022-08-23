@@ -83,7 +83,7 @@ const pems = selfsigned.generate(
     },
     {
       shortName: 'OU',
-      value: 'Quick DAV',
+      value: 'QuickDAV',
     },
   ],
   {
@@ -270,7 +270,7 @@ export async function davServer({
                     return null;
                   },
                 }),
-            realm: 'Quick DAV Server',
+            realm: 'QuickDAV Server',
           })
         : new InsecureAuthenticator(),
     })
@@ -287,7 +287,7 @@ export async function davServer({
 
   serverRunning = true;
   console.log(
-    `Quick DAV server listening on ${hosts
+    `QuickDAV server listening on ${hosts
       .map(
         ({ name, address }) =>
           `dav${secure ? 's' : ''}://${address}:${port} (${name})`
@@ -297,7 +297,7 @@ export async function davServer({
 
   server.on('close', () => {
     serverRunning = false;
-    console.log('Quick DAV server closed.');
+    console.log('QuickDAV server closed.');
   });
 
   return { server, info: { hosts, port, username, password, secure, auth } };

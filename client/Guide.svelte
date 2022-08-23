@@ -1,4 +1,4 @@
-<h5 style="margin: 1em 0;">Connecting to Quick DAV</h5>
+<h5 style="margin: 1em 0;">Connecting to QuickDAV</h5>
 <p>
   Please note that the address entered in the screenshots may be different than
   your address.
@@ -310,7 +310,7 @@
                 </li>
                 <li>
                   You'll be asked how long to accept the certificate. A new
-                  certificate is generated every time you open Quick DAV, so
+                  certificate is generated every time you open QuickDAV, so
                   click <code>Current Session only</code>.
                   <br />
                   <img
@@ -483,7 +483,7 @@
 <h5 style="margin: 1em 0;">Launch Options</h5>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  Quick DAV supports the following launch options to set the configuration:
+  QuickDAV supports the following launch options to set the configuration:
 
   <ul>
     <li><code>DAV_PORT</code> - The port to listen on.</li>

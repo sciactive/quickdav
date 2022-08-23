@@ -1,4 +1,4 @@
-# Quick DAV
+# QuickDAV
 
 Instantly transfer files to your device over your local network.
 

@@ -73,7 +73,7 @@
   },
   "build": {
     "appId": "com.sciactive.QuickDAV",
-    "productName": "Quick DAV",
+    "productName": "QuickDAV",
     "copyright": "Copyright © 2022 SciActive Inc",
     "linux": {
       "target": [

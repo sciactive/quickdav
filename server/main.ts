@@ -86,7 +86,7 @@ try {
         maximizable: true,
         resizable: true,
         fullscreen: !EXPLICIT_DEV,
-        title: 'Quick DAV',
+        title: 'QuickDAV',
         icon: path.join(__dirname, '..', 'assets', 'logo.png'),
         width: EXPLICIT_DEV ? 1280 : displayWidth,
         height: EXPLICIT_DEV ? 800 : displayHeight,

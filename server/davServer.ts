@@ -278,27 +278,29 @@ export async function davServer({
 
   let server: Server;
   if (secure) {
-    server = https
-      .createServer({ cert: pems.cert, key: pems.private }, app)
-      .listen(port);
+    server = https.createServer({ cert: pems.cert, key: pems.private }, app);
   } else {
-    server = http.createServer({}, app).listen(port);
+    server = http.createServer({}, app);
   }
 
   serverRunning = true;
-  console.log(
-    `QuickDAV server listening on ${hosts
-      .map(
-        ({ name, address }) =>
-          `dav${secure ? 's' : ''}://${address}:${port} (${name})`
-      )
-      .join(', ')}`
-  );
+  server.on('listening', () => {
+    console.log(
+      `QuickDAV server listening on ${hosts
+        .map(
+          ({ name, address }) =>
+            `dav${secure ? 's' : ''}://${address}:${port} (${name})`
+        )
+        .join(', ')}`
+    );
+  });
 
   server.on('close', () => {
     serverRunning = false;
     console.log('QuickDAV server closed.');
   });
+
+  server.listen(port);
 
   return { server, info: { hosts, port, username, password, secure, auth } };
 }

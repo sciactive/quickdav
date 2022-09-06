@@ -506,7 +506,7 @@
 
 <div style="font-size: smaller; margin-top: 1em;">
   Xbox Series Button Icons and Controls - Zacksly Licensed under CC BY 3.0 -
-  https://zacksly.itch.io
+  https://zacksly.itch.io (Modified by SciActive, Inc)
 </div>
 
 <script lang="ts">

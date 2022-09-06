@@ -483,7 +483,8 @@
 <h5 style="margin: 1em 0;">Launch Options</h5>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  QuickDAV supports the following launch options to set the configuration:
+  QuickDAV supports the following environment variables to set the
+  configuration:
 
   <ul>
     <li><code>DAV_PORT</code> - The port to listen on.</li>
@@ -496,6 +497,19 @@
     <li>
       <code>DAV_AUTH</code> - Whether to require a username and password. (Set to
       "off" to disable.)
+    </li>
+  </ul>
+</div>
+
+<div style="font-size: smaller; margin-top: 1em;">
+  QuickDAV also supports the following environment variables to force certain
+  options:
+
+  <ul>
+    <li><code>DARK_MODE</code> - Force dark mode. ("on" or "off")</li>
+    <li>
+      <code>GAMEPADUI</code> - Force gamepad UI. Gamepad UI is automatically enabled
+      if QuickDAV is launched from Steam. ("on" or "off")
     </li>
   </ul>
 </div>

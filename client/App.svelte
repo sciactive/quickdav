@@ -5,9 +5,11 @@
   <div
     style="display: flex; flex-direction: row; align-items: center; width: 100%;"
   >
-    <div style="padding: 0 .75em;">
-      <LeftBumper height="30px" />
-    </div>
+    {#if gamepadUI}
+      <div style="padding: 0 .75em;">
+        <LeftBumper height="30px" />
+      </div>
+    {/if}
     <TabBar {tabs} let:tab bind:active style="flex-grow: 1;">
       <Tab {tab}>
         <Icon component={Svg} viewBox="0 0 24 24">
@@ -16,9 +18,11 @@
         <Label>{tab.label}</Label>
       </Tab>
     </TabBar>
-    <div style="padding: 0 .75em;">
-      <RightBumper height="30px" />
-    </div>
+    {#if gamepadUI}
+      <div style="padding: 0 .75em;">
+        <RightBumper height="30px" />
+      </div>
+    {/if}
   </div>
 
   {#each tabs as tab (tab.label)}
@@ -28,7 +32,7 @@
         ? 'block'
         : 'none'};"
     >
-      <svelte:component this={tab.component} {electronAPI} {info} />
+      <svelte:component this={tab.component} {electronAPI} {info} {gamepadUI} />
     </div>
   {/each}
 </div>
@@ -58,6 +62,7 @@
     secure: true,
     auth: true,
   };
+  let gamepadUI = false;
   let approot: HTMLElement;
   let tabs = [
     {
@@ -83,6 +88,22 @@
       info = value;
     });
     electronAPI.getInfo();
+
+    return unlisten;
+  });
+
+  onMount(() => {
+    const unlisten = electronAPI.onGamepadUI((value) => {
+      gamepadUI = value;
+
+      if (gamepadUI) {
+        document.body.classList.add('gamepadui');
+      } else {
+        document.body.classList.remove('gamepadui');
+      }
+    });
+    electronAPI.getGamepadUI();
+
     return unlisten;
   });
 

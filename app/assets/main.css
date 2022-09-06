@@ -9,11 +9,11 @@ body {
   overflow: hidden;
 }
 
-::-webkit-scrollbar {
+.gamepadui ::-webkit-scrollbar {
   display: none;
 }
 
-::-webkit-scrollbar-button {
+.gamepadui ::-webkit-scrollbar-button {
   display: none;
 }
 

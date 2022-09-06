@@ -19,7 +19,9 @@ export type Info = {
 export type ElectronAPI = {
   focusWindow: () => void;
   getInfo: () => void;
-  onInfo: (callback: (info: Info) => void) => void;
+  onInfo: (callback: (info: Info) => void) => () => void;
+  getGamepadUI: () => void;
+  onGamepadUI: (callback: (gamepadUI: boolean) => void) => () => void;
   stopServer: () => void;
   startServer: (info: Info) => void;
   openKeyboard: () => void;
@@ -34,6 +36,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('info', listener);
     return () => {
       ipcRenderer.off('info', listener);
+    };
+  },
+  getGamepadUI: () => ipcRenderer.send('getGamepadUI'),
+  onGamepadUI: (callback) => {
+    const listener = (_event: IpcRendererEvent, gamepadUI: boolean) =>
+      callback(gamepadUI);
+    ipcRenderer.on('gamepadUI', listener);
+    return () => {
+      ipcRenderer.off('gamepadUI', listener);
     };
   },
   stopServer: () => ipcRenderer.send('stopServer'),

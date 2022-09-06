@@ -35,7 +35,6 @@
     "@nephele/adapter-virtual": "^1.0.0-alpha.18",
     "@nephele/authenticator-custom": "^1.0.0-alpha.18",
     "@nephele/authenticator-none": "^1.0.0-alpha.18",
-    "@prettier/plugin-xml": "^2.2.0",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",

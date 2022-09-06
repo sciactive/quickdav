@@ -1,86 +1,90 @@
 <div
-  style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
+  style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; height: 100%;"
 >
-  <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
-    <div
-      style="display: flex; flex-direction: column; margin-inline-end: 25px;"
-    >
-      <div>
-        <Textfield
-          bind:value={editInfo.username}
-          label="Username"
-          required
-          on:focus={() => (textInputFocused = true)}
-          on:blur={() => (textInputFocused = false)}
-        />
+  <div
+    style="display: flex; flex-direction: column; max-width: 800px; width: 100%;"
+  >
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+      <div
+        style="display: flex; flex-direction: column; margin-inline-end: 25px;"
+      >
+        <div>
+          <Textfield
+            bind:value={editInfo.username}
+            label="Username"
+            required
+            on:focus={() => (textInputFocused = true)}
+            on:blur={() => (textInputFocused = false)}
+          />
+        </div>
+        <div>
+          <Textfield
+            bind:value={editInfo.password}
+            label="Password"
+            required
+            on:focus={() => (textInputFocused = true)}
+            on:blur={() => (textInputFocused = false)}
+          />
+        </div>
       </div>
-      <div>
-        <Textfield
-          bind:value={editInfo.password}
-          label="Password"
-          required
-          on:focus={() => (textInputFocused = true)}
-          on:blur={() => (textInputFocused = false)}
-        />
+
+      <div style="display: flex; flex-direction: column;">
+        <div>
+          <Textfield
+            bind:value={editInfo.port}
+            type="number"
+            input$min={1000}
+            input$max={65535}
+            required
+            label="Port"
+            on:focus={() => (textInputFocused = true)}
+            on:blur={() => (textInputFocused = false)}
+          >
+            <HelperText slot="helper">
+              You usually won't need to change this.
+            </HelperText>
+          </Textfield>
+        </div>
+        <div>
+          <FormField>
+            <Switch bind:checked={editInfo.secure} />
+            <span slot="label">Self Signed TLS Encryption</span>
+          </FormField>
+        </div>
+        <div>
+          <FormField>
+            <Switch bind:checked={editInfo.auth} />
+            <span slot="label">Password Required</span>
+          </FormField>
+        </div>
       </div>
     </div>
 
-    <div style="display: flex; flex-direction: column;">
-      <div>
-        <Textfield
-          bind:value={editInfo.port}
-          type="number"
-          input$min={1000}
-          input$max={65535}
-          required
-          label="Port"
-          on:focus={() => (textInputFocused = true)}
-          on:blur={() => (textInputFocused = false)}
+    {#if !editInfo.secure}
+      <div
+        class="mdc-typography--caption"
+        style="display: flex; flex-direction: row; align-items: center; font-size: x-small; margin: 1em 0;"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          style="width: 1em; height: 1em; padding-right: 1em;"
         >
-          <HelperText slot="helper">
-            You usually won't need to change this.
-          </HelperText>
-        </Textfield>
+          <path fill="currentColor" d={mdiExclamationThick} />
+        </svg>
+        <span>
+          Turning off TLS encryption is less secure, so don't do this on public
+          WiFi networks. This should only be necessary for connecting with
+          Windows Explorer.
+        </span>
       </div>
-      <div>
-        <FormField>
-          <Switch bind:checked={editInfo.secure} />
-          <span slot="label">Self Signed TLS Encryption</span>
-        </FormField>
-      </div>
-      <div>
-        <FormField>
-          <Switch bind:checked={editInfo.auth} />
-          <span slot="label">Password Required</span>
-        </FormField>
-      </div>
-    </div>
+    {/if}
   </div>
 
-  {#if !editInfo.secure}
-    <div
-      class="mdc-typography--caption"
-      style="display: flex; flex-direction: row; align-items: start; font-size: x-small; margin: 1em 0;"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        style="width: 24px; height: 24px; padding-right: 12px;"
-      >
-        <path fill="currentColor" d={mdiExclamationThick} />
-      </svg>
-      <span>
-        Turning off TLS encryption is less secure, so don't do this on public
-        WiFi networks. This should only be necessary for connecting with Windows
-        Explorer.
-      </span>
-    </div>
-  {/if}
-
   <div
-    style="display: flex; flex-direction: row; justify-content: space-between;"
+    style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
   >
     <div style="display: flex; flex-direction: row; align-items: center;">
-      {#if textInputFocused}
+      {#if textInputFocused && gamepadUI}
         <AButton height="30px" />
         <svg
           viewBox="0 0 24 24"
@@ -116,6 +120,7 @@
 
   export let electronAPI: ElectronAPI;
   export let info: Info;
+  export let gamepadUI = false;
 
   let textInputFocused = false;
   let editInfo: Info = { ...info };

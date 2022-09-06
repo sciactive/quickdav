@@ -1,6 +1,13 @@
 import path from 'node:path';
 import { spawn } from 'node:child_process';
-import { app, dialog, ipcMain, screen, BrowserWindow } from 'electron';
+import {
+  app,
+  dialog,
+  ipcMain,
+  screen,
+  nativeTheme,
+  BrowserWindow,
+} from 'electron';
 
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');
@@ -8,6 +15,25 @@ app.commandLine.appendSwitch('no-sandbox');
 import { davServer } from './davServer.js';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
+const DARK_MODE =
+  process.env.DARK_MODE === 'true' ||
+  process.env.DARK_MODE === 'on' ||
+  (process.env.DARK_MODE !== 'false' &&
+    process.env.DARK_MODE !== 'off' &&
+    nativeTheme.shouldUseDarkColors);
+const GAMEPADUI =
+  (!!process.env.GAMEPADUI || process.env.SteamClientLaunch == '1') &&
+  process.env.GAMEPADUI !== 'false' &&
+  process.env.GAMEPADUI !== 'off';
+
+if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
+  nativeTheme.themeSource = 'dark';
+} else if (
+  process.env.DARK_MODE === 'false' ||
+  process.env.DARK_MODE === 'off'
+) {
+  nativeTheme.themeSource = 'light';
+}
 
 try {
   app.whenReady().then(async () => {
@@ -26,13 +52,19 @@ try {
     });
 
     ipcMain.on('openKeyboard', () => {
-      spawn('steam', ['steam://open/keyboard']);
+      if (process.env.SteamClientLaunch == '1') {
+        spawn('steam', ['steam://open/keyboard']);
+      }
     });
 
     ipcMain.on('openDevTools', (event) => {
       if (EXPLICIT_DEV) {
         event.sender.openDevTools();
       }
+    });
+
+    ipcMain.on('getGamepadUI', (event) => {
+      event.sender.send('gamepadUI', GAMEPADUI);
     });
 
     ipcMain.on('getInfo', (event) => {
@@ -81,23 +113,28 @@ try {
       const win = new BrowserWindow({
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
-          zoomFactor: 2,
+          zoomFactor: GAMEPADUI ? 2 : 1,
         },
         maximizable: true,
         resizable: true,
-        fullscreen: !EXPLICIT_DEV,
+        fullscreen: GAMEPADUI,
         title: 'QuickDAV',
         icon: path.join(__dirname, '..', 'assets', 'logo.png'),
-        width: EXPLICIT_DEV ? 1280 : displayWidth,
-        height: EXPLICIT_DEV ? 800 : displayHeight,
-        x: displayX + (EXPLICIT_DEV ? (displayWidth - 1280) / 2 : 0),
-        y: displayY + (EXPLICIT_DEV ? (displayHeight - 800) / 2 : 0),
+        width: GAMEPADUI ? displayWidth : 1280,
+        height: GAMEPADUI ? displayHeight : 800,
+        x: displayX + (GAMEPADUI ? 0 : (displayWidth - 1280) / 2),
+        y: displayY + (GAMEPADUI ? 0 : (displayHeight - 800) / 2),
         movable: true,
-        backgroundColor: '#000',
+        backgroundColor: DARK_MODE ? '#000' : '#fff',
       });
 
       win.loadFile('assets/main.html');
       win.removeMenu();
+
+      win.on('ready-to-show', () => {
+        // Required for changes of zoomFactor. See https://stackoverflow.com/a/44196987
+        win.webContents.setZoomFactor(GAMEPADUI ? 2 : 1);
+      });
 
       // win.webContents.openDevTools();
 

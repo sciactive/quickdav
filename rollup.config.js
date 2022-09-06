@@ -32,6 +32,7 @@ export default [
     plugins: [
       ...resolvePlugins,
       svelte({
+        extensions: ['.svelte', '.html', '.svg'],
         preprocess: preprocess({
           typescript: {
             tsconfigFile: 'tsconfig-svelte.json',

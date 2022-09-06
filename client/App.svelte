@@ -6,11 +6,7 @@
     style="display: flex; flex-direction: row; align-items: center; width: 100%;"
   >
     <div style="padding: 0 .75em;">
-      <img
-        alt="Left bumper button"
-        src="controller-icons/Left%20Bumper.svg"
-        height="30px"
-      />
+      <LeftBumper height="30px" />
     </div>
     <TabBar {tabs} let:tab bind:active style="flex-grow: 1;">
       <Tab {tab}>
@@ -21,11 +17,7 @@
       </Tab>
     </TabBar>
     <div style="padding: 0 .75em;">
-      <img
-        alt="Right bumper button"
-        src="controller-icons/Right%20Bumper.svg"
-        height="30px"
-      />
+      <RightBumper height="30px" />
     </div>
   </div>
 
@@ -49,6 +41,8 @@
   import TabBar from '@smui/tab-bar';
   import { Svg } from '@smui/common/elements';
   import type { ElectronAPI, Info } from '../server/preload.js';
+  import LeftBumper from './controller-icons/Left Bumper.svg';
+  import RightBumper from './controller-icons/Right Bumper.svg';
   import Dash from './Dash.svelte';
   import Config from './Config.svelte';
   import Guide from './Guide.svelte';

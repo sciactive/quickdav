@@ -81,7 +81,7 @@
   >
     <div style="display: flex; flex-direction: row; align-items: center;">
       {#if textInputFocused}
-        <img alt="A button" src="controller-icons/A.svg" height="30px" />
+        <AButton height="30px" />
         <svg
           viewBox="0 0 24 24"
           style="width: 30px; height: 30px; padding-left: 12px;"
@@ -112,6 +112,7 @@
   import Switch from '@smui/switch';
   import FormField from '@smui/form-field';
   import type { ElectronAPI, Info } from '../server/preload.js';
+  import AButton from './controller-icons/A.svg';
 
   export let electronAPI: ElectronAPI;
   export let info: Info;

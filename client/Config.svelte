@@ -112,7 +112,7 @@
   import Switch from '@smui/switch';
   import FormField from '@smui/form-field';
   import type { ElectronAPI, Info } from '../server/preload.js';
-  import AButton from './controller-icons/A.svg';
+  import AButton from './controller-icons/A.svelte';
 
   export let electronAPI: ElectronAPI;
   export let info: Info;

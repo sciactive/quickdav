@@ -41,8 +41,8 @@
   import TabBar from '@smui/tab-bar';
   import { Svg } from '@smui/common/elements';
   import type { ElectronAPI, Info } from '../server/preload.js';
-  import LeftBumper from './controller-icons/Left Bumper.svg';
-  import RightBumper from './controller-icons/Right Bumper.svg';
+  import LeftBumper from './controller-icons/Left Bumper.svelte';
+  import RightBumper from './controller-icons/Right Bumper.svelte';
   import Dash from './Dash.svelte';
   import Config from './Config.svelte';
   import Guide from './Guide.svelte';

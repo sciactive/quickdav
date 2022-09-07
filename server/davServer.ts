@@ -2,6 +2,7 @@ import type { Server } from 'node:http';
 import https from 'node:https';
 import http from 'node:http';
 import { userInfo, networkInterfaces, hostname } from 'node:os';
+import path from 'node:path';
 import fsp from 'node:fs/promises';
 import express from 'express';
 import selfsigned from 'selfsigned';
@@ -135,6 +136,60 @@ const pems = selfsigned.generate(
   }
 );
 
+let folders: { name: string; path: string }[] = [];
+
+export async function setFolders(value?: string[]) {
+  const home = userInfo().homedir;
+
+  if (value != null) {
+    let myFolders = value.map((folder) => ({
+      name: folder === home ? 'Home' : path.basename(folder),
+      path: folder,
+    }));
+
+    for (let i = 0; i < myFolders.length; i++) {
+      try {
+        await fsp.access(myFolders[i].path);
+      } catch (e: any) {
+        throw Error(`Folder "${myFolders[i].path}" is not accessible.`);
+      }
+
+      let currentNumber = 2;
+      if (
+        myFolders.findIndex((folder) => folder.name === myFolders[i].name) !== i
+      ) {
+        myFolders[i].name = `${myFolders[i].name} (${currentNumber})`;
+      }
+
+      while (
+        myFolders.findIndex((folder) => folder.name === myFolders[i].name) !== i
+      ) {
+        myFolders[i].name = myFolders[i].name.replace(
+          / \(\d+\)$/,
+          ` (${++currentNumber})`
+        );
+      }
+    }
+
+    folders = myFolders;
+  } else {
+    let sdCardPath: string | null = null;
+    try {
+      await fsp.access('/run/media/mmcblk0p1');
+      sdCardPath = '/run/media/mmcblk0p1';
+    } catch (e: any) {
+      // Ignore errors.
+    }
+
+    folders = [
+      { name: 'Home', path: home },
+      ...(sdCardPath ? [{ name: 'mmcblk0p1', path: sdCardPath }] : []),
+    ];
+  }
+
+  return folders;
+}
+
 let serverRunning = false;
 
 export async function davServer({
@@ -164,14 +219,6 @@ export async function davServer({
     throw new Error('No configured network adapters could be found.');
   }
 
-  let sdCardPath: string | null = null;
-  try {
-    await fsp.access('/run/media/mmcblk0p1');
-    sdCardPath = '/run/media/mmcblk0p1';
-  } catch (e: any) {
-    // Ignore errors.
-  }
-
   app.use(
     '/',
     nepheleServer({
@@ -191,56 +238,44 @@ export async function davServer({
         }
 
         try {
-          const home = userInfo().homedir;
-          if (sdCardPath == null) {
+          if (folders.length === 1) {
             return new FileSystemAdapter({
-              root: home,
+              root: folders[0].path,
               usernamesMapToSystemUsers: false,
             });
-          } else {
-            return {
-              '/': new VirtualAdapter({
-                files: {
+          }
+
+          return {
+            '/': new VirtualAdapter({
+              files: {
+                properties: {
+                  creationdate: instanceDate,
+                  getlastmodified: instanceDate,
+                  owner: 'root',
+                },
+                locks: {},
+                children: folders.map((folder) => ({
+                  name: folder.name,
                   properties: {
                     creationdate: instanceDate,
                     getlastmodified: instanceDate,
                     owner: 'root',
                   },
                   locks: {},
-                  children: [
-                    {
-                      name: 'Home',
-                      properties: {
-                        creationdate: instanceDate,
-                        getlastmodified: instanceDate,
-                        owner: 'root',
-                      },
-                      locks: {},
-                      children: [],
-                    },
-                    {
-                      name: 'SDCard',
-                      properties: {
-                        creationdate: instanceDate,
-                        getlastmodified: instanceDate,
-                        owner: 'root',
-                      },
-                      locks: {},
-                      children: [],
-                    },
-                  ],
-                },
-              }),
-              '/Home/': new FileSystemAdapter({
-                root: home,
-                usernamesMapToSystemUsers: false,
-              }),
-              '/SDCard/': new FileSystemAdapter({
-                root: sdCardPath,
-                usernamesMapToSystemUsers: false,
-              }),
-            };
-          }
+                  children: [],
+                })),
+              },
+            }),
+            ...Object.fromEntries(
+              folders.map((folder) => [
+                `/${encodeURIComponent(folder.name)}/`,
+                new FileSystemAdapter({
+                  root: folder.path,
+                  usernamesMapToSystemUsers: false,
+                }),
+              ])
+            ),
+          };
         } catch (e) {
           throw new Error("Couldn't mount user directory as server root.");
         }

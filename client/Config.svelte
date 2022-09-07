@@ -122,8 +122,8 @@
   export let info: Info;
   export let gamepadUI = false;
 
-  let textInputFocused = false;
   let editInfo: Info = { ...info };
+  let textInputFocused = false;
   let loading = false;
 
   $: preventSubmit =

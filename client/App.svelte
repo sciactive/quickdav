@@ -40,7 +40,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import SpatialNavigation from '@smart-powers/js-spatial-navigation';
-  import { mdiTabletDashboard, mdiCog, mdiDesktopClassic } from '@mdi/js';
+  import {
+    mdiTabletDashboard,
+    mdiFolderMultiple,
+    mdiCog,
+    mdiDesktopClassic,
+  } from '@mdi/js';
   import Tab, { Icon, Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
   import { Svg } from '@smui/common/elements';
@@ -48,6 +53,7 @@
   import LeftBumper from './controller-icons/Left Bumper.svelte';
   import RightBumper from './controller-icons/Right Bumper.svelte';
   import Dash from './Dash.svelte';
+  import Folders from './Folders.svelte';
   import Config from './Config.svelte';
   import Guide from './Guide.svelte';
   import gamepad from './gamepad.js';
@@ -69,6 +75,11 @@
       icon: mdiTabletDashboard,
       label: 'Dash',
       component: Dash,
+    },
+    {
+      icon: mdiFolderMultiple,
+      label: 'Folders',
+      component: Folders,
     },
     {
       icon: mdiCog,

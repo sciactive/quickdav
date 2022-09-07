@@ -12,7 +12,7 @@ import {
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');
 
-import { davServer } from './davServer.js';
+import { setFolders, davServer } from './davServer.js';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 const DARK_MODE =
@@ -37,6 +37,7 @@ if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
 
 try {
   app.whenReady().then(async () => {
+    let folders = await setFolders();
     let { server, info } = await davServer();
 
     ipcMain.on('focusWindow', (event) => {
@@ -71,6 +72,13 @@ try {
       event.sender.send('info', info);
     });
 
+    ipcMain.on('getFolders', (event) => {
+      event.sender.send(
+        'folders',
+        folders.map((folder) => folder.path)
+      );
+    });
+
     function forceCloseServer() {
       const promise = new Promise((resolve) => server.on('close', resolve));
       server.close();
@@ -100,6 +108,18 @@ try {
       }
     });
 
+    ipcMain.on('setFolders', async (event, requestFolders) => {
+      try {
+        folders = await setFolders(requestFolders);
+        event.sender.send(
+          'folders',
+          folders.map((folder) => folder.path)
+        );
+      } catch (e: any) {
+        dialog.showErrorBox('Folders Not Saved', e.message);
+      }
+    });
+
     const createWindow = async () => {
       const point = screen.getCursorScreenPoint();
       const cursorDisplay = screen.getDisplayNearestPoint(point);
@@ -122,8 +142,10 @@ try {
         icon: path.join(__dirname, '..', 'assets', 'logo.png'),
         width: GAMEPADUI ? displayWidth : 1280,
         height: GAMEPADUI ? displayHeight : 800,
-        x: displayX + (GAMEPADUI ? 0 : (displayWidth - 1280) / 2),
-        y: displayY + (GAMEPADUI ? 0 : (displayHeight - 800) / 2),
+        x:
+          displayX + (GAMEPADUI ? 0 : Math.min((displayWidth - 1280) / 2, 400)),
+        y:
+          displayY + (GAMEPADUI ? 0 : Math.min((displayHeight - 800) / 2, 400)),
         movable: true,
         backgroundColor: DARK_MODE ? '#000' : '#fff',
       });

@@ -20,10 +20,13 @@ export type ElectronAPI = {
   focusWindow: () => void;
   getInfo: () => void;
   onInfo: (callback: (info: Info) => void) => () => void;
+  getFolders: () => void;
+  onFolders: (callback: (folders: string[]) => void) => () => void;
   getGamepadUI: () => void;
   onGamepadUI: (callback: (gamepadUI: boolean) => void) => () => void;
   stopServer: () => void;
   startServer: (info: Info) => void;
+  setFolders: (folders: string[]) => void;
   openKeyboard: () => void;
   openDevTools: () => void;
 };
@@ -38,6 +41,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ipcRenderer.off('info', listener);
     };
   },
+  getFolders: () => ipcRenderer.send('getFolders'),
+  onFolders: (callback) => {
+    const listener = (_event: IpcRendererEvent, folders: string[]) =>
+      callback(folders);
+    ipcRenderer.on('folders', listener);
+    return () => {
+      ipcRenderer.off('folders', listener);
+    };
+  },
   getGamepadUI: () => ipcRenderer.send('getGamepadUI'),
   onGamepadUI: (callback) => {
     const listener = (_event: IpcRendererEvent, gamepadUI: boolean) =>
@@ -49,6 +61,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   stopServer: () => ipcRenderer.send('stopServer'),
   startServer: (info) => ipcRenderer.send('startServer', info),
+  setFolders: (folders) => ipcRenderer.send('setFolders', folders),
   openKeyboard: () => ipcRenderer.send('openKeyboard'),
   openDevTools: () => ipcRenderer.send('openDevTools'),
 } as ElectronAPI);

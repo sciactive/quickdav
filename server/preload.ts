@@ -27,6 +27,8 @@ export type ElectronAPI = {
   stopServer: () => void;
   startServer: (info: Info) => void;
   setFolders: (folders: string[]) => void;
+  openFoldersDialog: (title?: string) => void;
+  onOpenedFolders: (callback: (folders: string[]) => void) => () => void;
   openKeyboard: () => void;
   openDevTools: () => void;
 };
@@ -62,6 +64,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
   stopServer: () => ipcRenderer.send('stopServer'),
   startServer: (info) => ipcRenderer.send('startServer', info),
   setFolders: (folders) => ipcRenderer.send('setFolders', folders),
+  openFoldersDialog: (title) => ipcRenderer.send('openFoldersDialog', title),
+  onOpenedFolders: (callback) => {
+    const listener = (_event: IpcRendererEvent, folders: string[]) =>
+      callback(folders);
+    ipcRenderer.on('openedFolders', listener);
+    return () => {
+      ipcRenderer.off('openedFolders', listener);
+    };
+  },
   openKeyboard: () => ipcRenderer.send('openKeyboard'),
   openDevTools: () => ipcRenderer.send('openDevTools'),
 } as ElectronAPI);

@@ -8,6 +8,7 @@ import {
   nativeTheme,
   BrowserWindow,
 } from 'electron';
+import { userInfo } from 'node:os';
 
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');
@@ -77,6 +78,27 @@ try {
         'folders',
         folders.map((folder) => folder.path)
       );
+    });
+
+    ipcMain.on('openFoldersDialog', async (event, title?: string) => {
+      const webContents = event.sender;
+      const win = BrowserWindow.fromWebContents(webContents);
+
+      if (win == null) {
+        return;
+      }
+
+      const result = await dialog.showOpenDialog(win, {
+        title,
+        defaultPath: userInfo().homedir,
+        properties: ['openDirectory', 'multiSelections'],
+      });
+
+      if (result.canceled) {
+        return;
+      }
+
+      event.sender.send('openedFolders', result.filePaths);
     });
 
     function forceCloseServer() {

@@ -4,34 +4,40 @@
   <div
     style="display: flex; flex-direction: column; max-width: 800px; width: 100%;"
   >
-    {#each editFolders as folder}
-      <div>
-        <Textfield
-          bind:value={folder}
-          label="Path"
-          required
-          style="width: 400px;"
-          on:focus={() => (textInputFocused = true)}
-          on:blur={() => (textInputFocused = false)}
-        />
-      </div>
-    {/each}
+    <List nonInteractive>
+      {#each editFolders as folder, i}
+        <Item>
+          <Text>
+            {folder}
+          </Text>
+          {#if editFolders.length > 1}
+            <Meta>
+              <IconButton
+                on:click={() => removeFolder(i)}
+                title="Remove folder"
+              >
+                <Icon component={Svg} viewBox="0 0 24 24">
+                  <path fill="currentColor" d={mdiMinus} />
+                </Icon>
+              </IconButton>
+            </Meta>
+          {/if}
+        </Item>
+        <Separator />
+      {/each}
+    </List>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+      <IconButton on:click={() => addFolder()} title="Add folder">
+        <Icon component={Svg} viewBox="0 0 24 24">
+          <path fill="currentColor" d={mdiPlus} />
+        </Icon>
+      </IconButton>
+    </div>
   </div>
 
   <div
-    style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+    style="display: flex; flex-direction: row; justify-content: flex-end; width: 100%;"
   >
-    <div style="display: flex; flex-direction: row; align-items: center;">
-      {#if textInputFocused && gamepadUI}
-        <AButton height="30px" />
-        <svg
-          viewBox="0 0 24 24"
-          style="width: 30px; height: 30px; padding-left: 12px;"
-        >
-          <path fill="currentColor" d={mdiKeyboard} />
-        </svg>
-      {/if}
-    </div>
     <Button
       variant="outlined"
       disabled={preventSubmit}
@@ -46,19 +52,18 @@
 </div>
 
 <script lang="ts">
-  import { mdiKeyboard } from '@mdi/js';
+  import { mdiMinus, mdiPlus } from '@mdi/js';
   import { onMount } from 'svelte';
+  import List, { Item, Meta, Text, Separator } from '@smui/list';
   import Button, { Label } from '@smui/button';
-  import Textfield from '@smui/textfield';
+  import IconButton, { Icon } from '@smui/icon-button';
+  import { Svg } from '@smui/common/elements';
   import type { ElectronAPI } from '../server/preload.js';
-  import AButton from './controller-icons/A.svelte';
 
   export let electronAPI: ElectronAPI;
-  export let gamepadUI = false;
 
   let folders: string[] = [];
   let editFolders = [...folders];
-  let textInputFocused = false;
   let loading = false;
 
   $: preventSubmit =
@@ -74,4 +79,21 @@
 
     return unlisten;
   });
+
+  onMount(() => {
+    const unlisten = electronAPI.onOpenedFolders((value) => {
+      editFolders = Array.from(new Set([...editFolders, ...value]));
+    });
+
+    return unlisten;
+  });
+
+  function removeFolder(i: number) {
+    editFolders.splice(i, 1);
+    editFolders = editFolders;
+  }
+
+  function addFolder() {
+    electronAPI.openFoldersDialog('Add Folder(s) to Server');
+  }
 </script>

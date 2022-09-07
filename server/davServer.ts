@@ -268,7 +268,7 @@ export async function davServer({
             }),
             ...Object.fromEntries(
               folders.map((folder) => [
-                `/${encodeURIComponent(folder.name)}/`,
+                `/${folder.name}/`,
                 new FileSystemAdapter({
                   root: folder.path,
                   usernamesMapToSystemUsers: false,

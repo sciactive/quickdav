@@ -4,6 +4,7 @@ import http from 'node:http';
 import { userInfo, networkInterfaces, hostname } from 'node:os';
 import path from 'node:path';
 import fsp from 'node:fs/promises';
+import { powerSaveBlocker } from 'electron';
 import express from 'express';
 import selfsigned from 'selfsigned';
 import { Address6 } from 'ip-address';
@@ -319,6 +320,7 @@ export async function davServer({
   }
 
   serverRunning = true;
+  let preventSuspension: number = 0;
   server.on('listening', () => {
     console.log(
       `QuickDAV server listening on ${hosts
@@ -328,11 +330,13 @@ export async function davServer({
         )
         .join(', ')}`
     );
+    preventSuspension = powerSaveBlocker.start('prevent-app-suspension');
   });
 
   server.on('close', () => {
     serverRunning = false;
     console.log('QuickDAV server closed.');
+    powerSaveBlocker.stop(preventSuspension);
   });
 
   server.listen(port);

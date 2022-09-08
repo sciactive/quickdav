@@ -2,3 +2,4 @@ node_modules
 /app/client
 /app/server
 /dist
+.DS_Store

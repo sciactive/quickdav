@@ -163,7 +163,7 @@ try {
         resizable: true,
         fullscreen: GAMEPADUI,
         title: 'QuickDAV',
-        icon: path.join(__dirname, '..', 'assets', 'logo.png'),
+        icon: path.join(__dirname, '..', 'assets', 'icons', 'png', '64x64.png'),
         width: GAMEPADUI ? displayWidth : WIDTH,
         height: GAMEPADUI ? displayHeight : HEIGHT,
         x:

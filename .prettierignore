@@ -3,3 +3,4 @@ package-lock.json
 /app/client
 /app/server
 /dist
+.DS_Store

@@ -9,7 +9,9 @@
     "clean:server": "test -d app/server && rm -r app/server || true",
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "package": "electron-builder build --x64 --linux",
+    "package:linux": "electron-builder build --x64 --linux",
+    "package:mac:x86": "electron-builder build --x64 --mac",
+    "package:mac:arm": "electron-builder build --arm64 --mac",
     "smui-theme": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile app/client/smui-light.css -i client/theme",
     "smui-theme-dark": "smui-theme compile app/client/smui-dark.css -i client/theme/dark",
@@ -83,10 +85,18 @@
       "target": [
         "zip"
       ],
-      "icon": "app/assets/logo.png",
-      "maintainer": "com.sciactive.QuickDAV",
+      "icon": "app/assets/icons/linux/icon.png",
       "category": "Utility",
+      "maintainer": "com.sciactive.QuickDAV",
       "vendor": "SciActive Inc"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "app/assets/icons/mac/icon.icns",
+      "category": "public.app-category.utilities",
+      "darkModeSupport": true
     }
   }
 }

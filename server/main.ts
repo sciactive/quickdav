@@ -26,6 +26,8 @@ const GAMEPADUI =
   (!!process.env.GAMEPADUI || process.env.SteamClientLaunch == '1') &&
   process.env.GAMEPADUI !== 'false' &&
   process.env.GAMEPADUI !== 'off';
+const WIDTH = parseInt(process.env.WIDTH || '800');
+const HEIGHT = parseInt(process.env.HEIGHT || '600');
 
 if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
   nativeTheme.themeSource = 'dark';
@@ -162,12 +164,14 @@ try {
         fullscreen: GAMEPADUI,
         title: 'QuickDAV',
         icon: path.join(__dirname, '..', 'assets', 'logo.png'),
-        width: GAMEPADUI ? displayWidth : 1280,
-        height: GAMEPADUI ? displayHeight : 800,
+        width: GAMEPADUI ? displayWidth : WIDTH,
+        height: GAMEPADUI ? displayHeight : HEIGHT,
         x:
-          displayX + (GAMEPADUI ? 0 : Math.min((displayWidth - 1280) / 2, 400)),
+          displayX +
+          (GAMEPADUI ? 0 : Math.min((displayWidth - WIDTH) / 2, 300)),
         y:
-          displayY + (GAMEPADUI ? 0 : Math.min((displayHeight - 800) / 2, 400)),
+          displayY +
+          (GAMEPADUI ? 0 : Math.min((displayHeight - HEIGHT) / 2, 300)),
         movable: true,
         backgroundColor: DARK_MODE ? '#000' : '#fff',
       });

@@ -511,6 +511,8 @@
       <code>GAMEPADUI</code> - Force gamepad UI. Gamepad UI is automatically enabled
       if QuickDAV is launched from Steam. ("on" or "off")
     </li>
+    <li><code>WIDTH</code> - Set the window width.</li>
+    <li><code>HEIGHT</code> - Set the window height.</li>
   </ul>
 </div>
 

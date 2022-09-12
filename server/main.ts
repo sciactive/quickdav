@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import type { MenuItemConstructorOptions } from 'electron';
 import {
   app,
   dialog,
@@ -7,6 +8,7 @@ import {
   screen,
   nativeTheme,
   BrowserWindow,
+  Menu,
 } from 'electron';
 import { userInfo } from 'node:os';
 
@@ -27,7 +29,8 @@ const GAMEPADUI =
   process.env.GAMEPADUI !== 'false' &&
   process.env.GAMEPADUI !== 'off';
 const WIDTH = parseInt(process.env.WIDTH || '800');
-const HEIGHT = parseInt(process.env.HEIGHT || '600');
+const HEIGHT = parseInt(process.env.HEIGHT || '500');
+const MAC = process.platform === 'darwin';
 
 if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
   nativeTheme.themeSource = 'dark';
@@ -39,6 +42,61 @@ if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
 }
 
 try {
+  app.setAboutPanelOptions({
+    applicationName: 'QuickDAV',
+    copyright: 'Copyright © 2022 SciActive Inc',
+    website: 'https://sciactive.com/',
+  });
+
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      ...(MAC
+        ? [
+            {
+              label: app.name,
+              submenu: [
+                { role: 'about' } as MenuItemConstructorOptions,
+                { type: 'separator' } as MenuItemConstructorOptions,
+                { role: 'services' } as MenuItemConstructorOptions,
+                { type: 'separator' } as MenuItemConstructorOptions,
+                { role: 'hide' } as MenuItemConstructorOptions,
+                { role: 'hideOthers' } as MenuItemConstructorOptions,
+                { role: 'unhide' } as MenuItemConstructorOptions,
+                { type: 'separator' } as MenuItemConstructorOptions,
+                { role: 'quit' } as MenuItemConstructorOptions,
+              ],
+            },
+          ]
+        : []),
+      {
+        label: 'File',
+        submenu: [MAC ? { role: 'close' } : { role: 'quit' }],
+      },
+      { role: 'editMenu' },
+      {
+        label: 'View',
+        submenu: [
+          { role: 'resetZoom' },
+          { role: 'zoomIn' },
+          { role: 'zoomOut' },
+        ],
+      },
+      { role: 'windowMenu' },
+      {
+        role: 'help',
+        submenu: [
+          {
+            label: 'Learn More',
+            click: async () => {
+              const { shell } = require('electron');
+              await shell.openExternal('https://sciactive.com/');
+            },
+          },
+        ],
+      },
+    ])
+  );
+
   app.whenReady().then(async () => {
     let folders = await setFolders();
     let { server, info } = await davServer();
@@ -63,7 +121,7 @@ try {
 
     ipcMain.on('openDevTools', (event) => {
       if (EXPLICIT_DEV) {
-        event.sender.openDevTools();
+        event.sender.openDevTools({ mode: 'detach' });
       }
     });
 
@@ -158,6 +216,7 @@ try {
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
           zoomFactor: GAMEPADUI ? 2 : 1,
+          devTools: EXPLICIT_DEV,
         },
         maximizable: true,
         resizable: true,
@@ -166,12 +225,8 @@ try {
         icon: path.join(__dirname, '..', 'assets', 'icons', 'png', '64x64.png'),
         width: GAMEPADUI ? displayWidth : WIDTH,
         height: GAMEPADUI ? displayHeight : HEIGHT,
-        x:
-          displayX +
-          (GAMEPADUI ? 0 : Math.min((displayWidth - WIDTH) / 2, 300)),
-        y:
-          displayY +
-          (GAMEPADUI ? 0 : Math.min((displayHeight - HEIGHT) / 2, 300)),
+        x: displayX + (GAMEPADUI ? 0 : (displayWidth - WIDTH) / 2),
+        y: displayY + (GAMEPADUI ? 0 : (displayHeight - HEIGHT) / 2),
         movable: true,
         backgroundColor: DARK_MODE ? '#000' : '#fff',
       });

@@ -50,24 +50,7 @@ try {
 
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
-      ...(MAC
-        ? [
-            {
-              label: app.name,
-              submenu: [
-                { role: 'about' } as MenuItemConstructorOptions,
-                { type: 'separator' } as MenuItemConstructorOptions,
-                { role: 'services' } as MenuItemConstructorOptions,
-                { type: 'separator' } as MenuItemConstructorOptions,
-                { role: 'hide' } as MenuItemConstructorOptions,
-                { role: 'hideOthers' } as MenuItemConstructorOptions,
-                { role: 'unhide' } as MenuItemConstructorOptions,
-                { type: 'separator' } as MenuItemConstructorOptions,
-                { role: 'quit' } as MenuItemConstructorOptions,
-              ],
-            },
-          ]
-        : []),
+      ...(MAC ? [{ role: 'appMenu' } as MenuItemConstructorOptions] : []),
       {
         label: 'File',
         submenu: [MAC ? { role: 'close' } : { role: 'quit' }],

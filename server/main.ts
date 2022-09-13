@@ -7,6 +7,7 @@ import {
   ipcMain,
   screen,
   nativeTheme,
+  shell,
   BrowserWindow,
   Menu,
 } from 'electron';
@@ -45,7 +46,8 @@ try {
   app.setAboutPanelOptions({
     applicationName: 'QuickDAV',
     copyright: 'Copyright © 2022 SciActive Inc',
-    website: 'https://sciactive.com/',
+    website: 'https://sciactive.com/quickdav/',
+    iconPath: path.join(__dirname, '..', 'logo.png'),
   });
 
   Menu.setApplicationMenu(
@@ -69,10 +71,15 @@ try {
         role: 'help',
         submenu: [
           {
+            label: 'Get Support',
+            click: async () => {
+              await shell.openExternal('mailto:support@sciactive.com');
+            },
+          },
+          {
             label: 'Learn More',
             click: async () => {
-              const { shell } = require('electron');
-              await shell.openExternal('https://sciactive.com/');
+              await shell.openExternal('https://sciactive.com/quickdav/');
             },
           },
         ],

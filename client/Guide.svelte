@@ -1,3 +1,7 @@
+<div style="text-align: center;">
+  <img src="logo.png" alt="QuickDAV Logo" />
+</div>
+
 <h5 style="margin: 1em 0;">Connecting to QuickDAV</h5>
 <p>
   Please note that the address entered in the screenshots may be different than

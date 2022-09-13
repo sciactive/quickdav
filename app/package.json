@@ -7,9 +7,5 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "electron": "^20.1.3"
-  },
-  "dependencies": {
-    "sse4_crc32": "^7.0.0",
-    "userid": "^1.2.5"
   }
 }

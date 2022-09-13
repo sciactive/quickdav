@@ -49,7 +49,7 @@ export default [
       format: 'cjs',
       sourcemap: EXPLICIT_DEV,
     },
-    external: ['electron', 'userid', 'sse4_crc32'],
+    external: ['electron'],
     plugins: [...resolvePlugins, ...plugins],
   },
   {
@@ -59,7 +59,7 @@ export default [
       format: 'cjs',
       sourcemap: EXPLICIT_DEV,
     },
-    external: ['electron', 'userid', 'sse4_crc32'],
+    external: ['electron'],
     plugins: [...resolvePlugins, ...plugins],
   },
 ];

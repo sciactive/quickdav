@@ -242,7 +242,6 @@ export async function davServer({
           if (folders.length === 1) {
             return new FileSystemAdapter({
               root: folders[0].path,
-              usernamesMapToSystemUsers: false,
             });
           }
 
@@ -272,7 +271,6 @@ export async function davServer({
                 `/${folder.name}/`,
                 new FileSystemAdapter({
                   root: folder.path,
-                  usernamesMapToSystemUsers: false,
                 }),
               ])
             ),

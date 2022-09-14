@@ -25,8 +25,9 @@ const DARK_MODE =
   (process.env.DARK_MODE !== 'false' &&
     process.env.DARK_MODE !== 'off' &&
     nativeTheme.shouldUseDarkColors);
+const STEAMLAUNCH = process.env.SteamClientLaunch == '1';
 const GAMEPADUI =
-  (!!process.env.GAMEPADUI || process.env.SteamClientLaunch == '1') &&
+  (!!process.env.GAMEPADUI || STEAMLAUNCH) &&
   process.env.GAMEPADUI !== 'false' &&
   process.env.GAMEPADUI !== 'off';
 const WIDTH = parseInt(process.env.WIDTH || '800');
@@ -40,6 +41,15 @@ if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
   process.env.DARK_MODE === 'off'
 ) {
   nativeTheme.themeSource = 'light';
+}
+
+if (STEAMLAUNCH) {
+  // app.commandLine.appendSwitch('--in-process-gpu');
+  // app.commandLine.appendSwitch('in-process-gpu');
+  // app.commandLine.appendSwitch('--disable-direct-composition');
+  // app.commandLine.appendSwitch('disable-direct-composition');
+  app.commandLine.appendSwitch('--disable-gpu-sandbox');
+  app.commandLine.appendSwitch('disable-gpu-sandbox');
 }
 
 try {
@@ -226,7 +236,7 @@ try {
 
       win.on('ready-to-show', () => {
         // Required for changes of zoomFactor. See https://stackoverflow.com/a/44196987
-        win.webContents.setZoomFactor(GAMEPADUI ? 2 : 1);
+        win.webContents.setZoomFactor(GAMEPADUI ? 1.8 : 1);
       });
 
       // win.webContents.openDevTools();

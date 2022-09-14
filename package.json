@@ -91,7 +91,10 @@
       "category": "Utility",
       "maintainer": "com.sciactive.quickdav",
       "vendor": "SciActive Inc",
-      "synopsis": "Instant network file management"
+      "synopsis": "Instant network file management",
+      "executableArgs": [
+        "--no-sandbox"
+      ]
     },
     "mac": {
       "target": [

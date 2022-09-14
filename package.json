@@ -85,12 +85,13 @@
     "copyright": "Copyright © 2022 SciActive Inc",
     "linux": {
       "target": [
-        "zip"
+        "AppImage"
       ],
       "icon": "app/assets/icons/linux/icon.png",
       "category": "Utility",
       "maintainer": "com.sciactive.quickdav",
-      "vendor": "SciActive Inc"
+      "vendor": "SciActive Inc",
+      "synopsis": "Instant network file management"
     },
     "mac": {
       "target": [

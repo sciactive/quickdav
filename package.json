@@ -99,7 +99,9 @@
       "icon": "app/assets/icons/mac/icon.icns",
       "category": "public.app-category.utilities",
       "darkModeSupport": true,
-      "provisioningProfile": "QuickDAV.provisionprofile"
+      "provisioningProfile": "QuickDAV.provisionprofile",
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist"
     }
   }
 }

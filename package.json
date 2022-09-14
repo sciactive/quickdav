@@ -98,7 +98,8 @@
       ],
       "icon": "app/assets/icons/mac/icon.icns",
       "category": "public.app-category.utilities",
-      "darkModeSupport": true
+      "darkModeSupport": true,
+      "provisioningProfile": "QuickDAV.provisionprofile"
     }
   }
 }

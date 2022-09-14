@@ -3,3 +3,4 @@ node_modules
 /app/server
 /dist
 .DS_Store
+/QuickDAV.provisionprofile

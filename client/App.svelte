@@ -27,10 +27,10 @@
 
   {#each tabs as tab (tab.label)}
     <div
-      style="padding: 1.2rem; flex-grow: 1; overflow: auto; display: {tab ===
+      style="padding: 1.2rem; flex-grow: 1; overflow: auto; position: {tab ===
       active
-        ? 'block'
-        : 'none'};"
+        ? 'relative'
+        : 'absolute'}; left: {tab === active ? '0' : '-9999px'};"
     >
       <svelte:component this={tab.component} {electronAPI} {info} {gamepadUI} />
     </div>

@@ -6,6 +6,6 @@
   "author": "Hunter Perrin <hperrin@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "electron": "^20.1.3"
+    "electron": "^20.1.4"
   }
 }

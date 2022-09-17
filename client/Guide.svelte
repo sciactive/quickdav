@@ -539,6 +539,10 @@
     </li>
     <li><code>WIDTH</code> - Set the window width.</li>
     <li><code>HEIGHT</code> - Set the window height.</li>
+    <li>
+      <code>AUTOUPDATE</code> - Check for updates and automatically install them
+      (when running on Linux). Default is "on". ("on" or "off")
+    </li>
   </ul>
 </div>
 

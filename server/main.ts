@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { userInfo } from 'node:os';
 import { spawn } from 'node:child_process';
 import type { MenuItemConstructorOptions } from 'electron';
 import {
@@ -11,7 +12,7 @@ import {
   BrowserWindow,
   Menu,
 } from 'electron';
-import { userInfo } from 'node:os';
+import { autoUpdater } from 'electron-updater';
 
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');
@@ -33,6 +34,10 @@ const GAMEPADUI =
 const WIDTH = parseInt(process.env.WIDTH || '800');
 const HEIGHT = parseInt(process.env.HEIGHT || '500');
 const MAC = process.platform === 'darwin';
+const AUTOUPDATE =
+  process.platform === 'linux' &&
+  process.env.AUTOUPDATE !== 'off' &&
+  process.env.AUTOUPDATE !== 'false';
 
 if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
   nativeTheme.themeSource = 'dark';
@@ -98,6 +103,11 @@ try {
   );
 
   app.whenReady().then(async () => {
+    // Auto-update
+    if (AUTOUPDATE) {
+      autoUpdater.checkForUpdatesAndNotify();
+    }
+
     let folders = await setFolders();
     let { server, info } = await davServer();
 

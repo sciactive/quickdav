@@ -42,8 +42,9 @@
                   />
                 </li>
                 <li>
-                  On your Windows computer, open a File Explorer window, click
-                  on the address bar, and type <code
+                  Make sure your Windows PC is on the same network as this
+                  computer. On your Windows PC, open a File Explorer window,
+                  click on the address bar, and type <code
                     >http://{host.address}:{info.port}/</code
                   >. Hit the enter key.
                   <br />
@@ -53,7 +54,9 @@
                   />
                 </li>
                 <li>
-                  You should now be connected to your device.
+                  You should now be connected to your device and see your shared
+                  folders. You can upload files to and download files from this
+                  computer.
                   <br />
                   <img
                     src="screens/Windows-Explorer/3.png"
@@ -74,7 +77,8 @@
 
               <ol>
                 <li>
-                  Download and install WinSCP from <code
+                  Make sure your Windows PC is on the same network as this
+                  computer. Download and install WinSCP from <code
                     >https://winscp.net</code
                   >.
                 </li>
@@ -133,7 +137,9 @@
                   />
                 </li>
                 <li>
-                  You should now be connected to your device.
+                  You should now be connected to your device and see your shared
+                  folders. You can upload files to and download files from this
+                  computer.
                   <br />
                   <img
                     src="screens/Windows-WinSCP/4.png"
@@ -151,7 +157,8 @@
       <Content>
         <ol>
           <li>
-            Open a new Finder window.
+            Make sure your Mac is on the same network as this computer. Open a
+            new Finder window.
             <br />
             <img src="screens/macOS/1.png" alt="Instruction screenshot." />
           </li>
@@ -200,7 +207,9 @@
             <img src="screens/macOS/6.png" alt="Instruction screenshot." />
           </li>
           <li>
-            You should now be connected to your device.
+            You should now be connected to your device and see your shared
+            folders. You can upload files to and download files from this
+            computer.
             <br />
             <img src="screens/macOS/7.png" alt="Instruction screenshot." />
           </li>
@@ -216,7 +225,9 @@
             <Content>
               <ol>
                 <li>
-                  Open a new Files window and click <code>Other Locations</code
+                  Make sure your Linux PC is on the same network as this
+                  computer. Open a new Files window and click <code
+                    >Other Locations</code
                   >.
                   <br />
                   <img
@@ -266,7 +277,9 @@
                   />
                 </li>
                 <li>
-                  You should now be connected to your device.
+                  You should now be connected to your device and see your shared
+                  folders. You can upload files to and download files from this
+                  computer.
                   <br />
                   <img
                     src="screens/Linux-Gnome/5.png"
@@ -281,8 +294,9 @@
             <Content>
               <ol>
                 <li>
-                  Open a new Dolphin window and click the address bar near the
-                  top.
+                  Make sure your Linux PC is on the same network as this
+                  computer. Open a new Dolphin window and click the address bar
+                  near the top.
                   <br />
                   <img
                     src="screens/Linux-KDE/1.png"
@@ -343,7 +357,9 @@
                   />
                 </li>
                 <li>
-                  You should now be connected to your device.
+                  You should now be connected to your device and see your shared
+                  folders. You can upload files to and download files from this
+                  computer.
                   <br />
                   <img
                     src="screens/Linux-KDE/6.png"
@@ -361,7 +377,8 @@
       <Content>
         <ol>
           <li>
-            We recommend the <code>ES File Explorer</code> app from the
+            Make sure your phone/tablet is on the same WiFi as this computer. We
+            recommend the <code>ES File Explorer</code> app from the
             <code>App Store</code>.
             <br />
             <img src="screens/iOS/1.png" alt="Instruction screenshot." />
@@ -409,7 +426,9 @@
             <img src="screens/iOS/4.png" alt="Instruction screenshot." />
           </li>
           <li>
-            You should now be connected to your device.
+            You should now be connected to your device and see your shared
+            folders. You can upload files to and download files from this
+            computer.
             <br />
             <img src="screens/iOS/5.png" alt="Instruction screenshot." />
           </li>
@@ -421,7 +440,8 @@
       <Content>
         <ol>
           <li>
-            We recommend the <code>Cx File Explorer</code> app from the
+            Make sure your phone/tablet is on the same WiFi as this computer. We
+            recommend the <code>Cx File Explorer</code> app from the
             <code>Play Store</code>.
             <br />
             <img src="screens/Android/1.png" alt="Instruction screenshot." />
@@ -474,7 +494,9 @@
             <img src="screens/Android/5.png" alt="Instruction screenshot." />
           </li>
           <li>
-            You should now be connected to your device.
+            You should now be connected to your device and see your shared
+            folders. You can upload files to and download files from this
+            computer.
             <br />
             <img src="screens/Android/6.png" alt="Instruction screenshot." />
           </li>

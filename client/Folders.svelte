@@ -4,6 +4,8 @@
   <div
     style="display: flex; flex-direction: column; max-width: 800px; width: 100%;"
   >
+    These are the folders on this computer you are sharing. You can change which
+    folders you're sharing here, and access them from your connected devices.
     <List nonInteractive>
       {#each editFolders as folder, i}
         <Item>

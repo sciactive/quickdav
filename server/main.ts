@@ -225,7 +225,7 @@ try {
       const win = new BrowserWindow({
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
-          zoomFactor: GAMEPADUI ? 2 : 1,
+          zoomFactor: GAMEPADUI ? (1.8 / 800) * displayHeight : 1,
           devTools: EXPLICIT_DEV,
         },
         maximizable: true,

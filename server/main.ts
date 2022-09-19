@@ -246,7 +246,9 @@ try {
 
       win.on('ready-to-show', () => {
         // Required for changes of zoomFactor. See https://stackoverflow.com/a/44196987
-        win.webContents.setZoomFactor(GAMEPADUI ? 1.8 : 1);
+        win.webContents.setZoomFactor(
+          GAMEPADUI ? (1.8 / 800) * displayHeight : 1
+        );
       });
 
       // win.webContents.openDevTools();

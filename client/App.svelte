@@ -48,7 +48,7 @@
   } from '@mdi/js';
   import Tab, { Icon, Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
-  import { Svg } from '@smui/common/elements';
+  import { Svg } from '@smui/common';
   import type { ElectronAPI, Info } from '../server/preload.js';
   import LeftBumper from './controller-icons/Left Bumper.svelte';
   import RightBumper from './controller-icons/Right Bumper.svelte';

@@ -59,7 +59,7 @@
   import List, { Item, Meta, Text, Separator } from '@smui/list';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
-  import { Svg } from '@smui/common/elements';
+  import { Svg } from '@smui/common';
   import type { ElectronAPI } from '../server/preload.js';
 
   export let electronAPI: ElectronAPI;

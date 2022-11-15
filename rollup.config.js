@@ -10,7 +10,7 @@ const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
 const resolvePlugins = [
   nodeResolve({
-    mainFields: ['exports', 'svelte', 'module', 'main'],
+    mainFields: ['svelte', 'module', 'main'],
   }),
 ];
 

@@ -503,6 +503,258 @@
         </ol>
       </Content>
     </Panel>
+    <Panel
+      variant="outlined"
+      color="primary"
+      extend
+      bind:open={panelOpenBrowser}
+    >
+      <Header>Browser (Chrome, Firefox, Safari, etc)</Header>
+      <Content>
+        <Accordion multiple>
+          <Panel variant="outlined" color="secondary" extend>
+            <Header tabindex={panelOpenBrowser ? 0 : -1}
+              >Chrome and Chromium Browsers (Edge, Brave, Opera, etc)</Header
+            >
+            <Content>
+              <ol>
+                <li>
+                  Make sure your device is on the same network as this computer.
+                  In your device's browser, click on the address bar, and type <code
+                    >https://{host.address}:{info.port}/</code
+                  >. Hit the enter key.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/1.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You will be warned that your connection is not private. This
+                  is because it's using a self signed certificate. Your
+                  connection is private on your own network. (Don't worry,
+                  there's no danger in using a self signed certificate on your
+                  own network.) Click <code>Advanced</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/2.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Click <code>Proceed to {host.address} (unsafe)</code>. Again,
+                  it's safe as long as you're on your own network.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/3.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Enter the following information:
+                  <ul>
+                    <li>
+                      Username:
+                      <code>{info.username}</code>
+                    </li>
+                    <li>
+                      Password:
+                      <code>{info.password}</code>
+                    </li>
+                  </ul>
+                  Click
+                  <code>Sign in</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/4.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You should now be connected to your device and see your shared
+                  folders.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/5.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You can upload files to and download files from this computer.
+                  <br />
+                  <img
+                    src="screens/Browser-Chrome/6.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+              </ol>
+            </Content>
+          </Panel>
+          <Panel variant="outlined" color="secondary" extend>
+            <Header tabindex={panelOpenBrowser ? 0 : -1}>Firefox</Header>
+            <Content>
+              <ol>
+                <li>
+                  Make sure your device is on the same network as this computer.
+                  In your device's browser, click on the address bar, and type <code
+                    >https://{host.address}:{info.port}/</code
+                  >. Hit the enter key.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/1.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You will be warned of a potential security risk. This is
+                  because it's using a self signed certificate. Your connection
+                  is private on your own network. (Don't worry, there's no
+                  danger in using a self signed certificate on your own
+                  network.) Click <code>Advanced</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/2.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Click <code>Accept the Risk and Continue</code>. Again, it's
+                  safe as long as you're on your own network.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/3.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Enter the following information:
+                  <ul>
+                    <li>
+                      Username:
+                      <code>{info.username}</code>
+                    </li>
+                    <li>
+                      Password:
+                      <code>{info.password}</code>
+                    </li>
+                  </ul>
+                  Click
+                  <code>Sign in</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/4.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You should now be connected to your device and see your shared
+                  folders.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/5.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You can upload files to and download files from this computer.
+                  <br />
+                  <img
+                    src="screens/Browser-Firefox/6.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+              </ol>
+            </Content>
+          </Panel>
+          <Panel variant="outlined" color="secondary" extend>
+            <Header tabindex={panelOpenBrowser ? 0 : -1}>Safari</Header>
+            <Content>
+              <ol>
+                <li>
+                  Make sure your device is on the same network as this computer.
+                  In your device's browser, click on the address bar, and type <code
+                    >https://{host.address}:{info.port}/</code
+                  >. Hit the enter key.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/1.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You will be warned that this connection is not private. This
+                  is because it's using a self signed certificate. Your
+                  connection is private on your own network. (Don't worry,
+                  there's no danger in using a self signed certificate on your
+                  own network.) Click <code>Show Details</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/2.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Click <code>visit this website</code>. Again, it's safe as
+                  long as you're on your own network.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/3.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You'll be asked to confirm you want to continue. Click <code
+                    >Visit Website</code
+                  >.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/4.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  Enter the following information:
+                  <ul>
+                    <li>
+                      Username:
+                      <code>{info.username}</code>
+                    </li>
+                    <li>
+                      Password:
+                      <code>{info.password}</code>
+                    </li>
+                  </ul>
+                  Click
+                  <code>Sign in</code>.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/5.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You should now be connected to your device and see your shared
+                  folders.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/6.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+                <li>
+                  You can upload files to and download files from this computer.
+                  <br />
+                  <img
+                    src="screens/Browser-Safari/7.png"
+                    alt="Instruction screenshot."
+                  />
+                </li>
+              </ol>
+            </Content>
+          </Panel>
+        </Accordion>
+      </Content>
+    </Panel>
   </Accordion>
 </div>
 
@@ -565,4 +817,5 @@
 
   let panelOpenWindows = false;
   let panelOpenLinux = false;
+  let panelOpenBrowser = false;
 </script>

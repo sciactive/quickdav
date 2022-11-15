@@ -16,6 +16,7 @@ import FileSystemAdapter from '@nephele/adapter-file-system';
 import VirtualAdapter from '@nephele/adapter-virtual';
 import CustomAuthenticator, { User } from '@nephele/authenticator-custom';
 import InsecureAuthenticator from '@nephele/authenticator-none';
+import IndexPlugin from '@nephele/plugin-index';
 
 import type { Hosts } from './preload.js';
 
@@ -307,6 +308,9 @@ export async function davServer({
             realm: 'QuickDAV Server',
           })
         : new InsecureAuthenticator(),
+      plugins: [
+        new IndexPlugin({ name: 'SciActive QuickDAV', serveIndexes: false }),
+      ],
     })
   );
 

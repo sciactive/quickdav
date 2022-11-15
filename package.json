@@ -39,6 +39,7 @@
     "@nephele/adapter-virtual": "^1.0.0-alpha.23",
     "@nephele/authenticator-custom": "^1.0.0-alpha.23",
     "@nephele/authenticator-none": "^1.0.0-alpha.23",
+    "@nephele/plugin-index": "^1.0.0-alpha.23",
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-json": "^5.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",

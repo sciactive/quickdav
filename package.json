@@ -100,7 +100,7 @@
       "maintainer": "com.sciactive.quickdav",
       "vendor": "SciActive Inc",
       "synopsis": "Instant network file management",
-      "artifactName": "${productName}-1.0.0.AppImage",
+      "artifactName": "${productName}.AppImage",
       "executableArgs": [
         "--no-sandbox"
       ]

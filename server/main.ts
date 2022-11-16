@@ -1,4 +1,5 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import { userInfo } from 'node:os';
 import { spawn } from 'node:child_process';
 import type { MenuItemConstructorOptions } from 'electron';
@@ -13,6 +14,20 @@ import {
   Menu,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
+
+if (process.env.APPIMAGE) {
+  // Handle the artifact name change from v1 to v2.
+  if (path.basename(process.env.APPIMAGE) === 'QuickDAV-1.0.0.AppImage') {
+    console.log('Renaming AppImage to new name scheme.');
+    const oldPath = process.env.APPIMAGE;
+    const newPath = path.join(
+      path.dirname(process.env.APPIMAGE),
+      'QuickDAV.AppImage'
+    );
+    fs.renameSync(oldPath, newPath);
+    fs.symlinkSync(newPath, oldPath);
+  }
+}
 
 app.commandLine.appendSwitch('--no-sandbox');
 app.commandLine.appendSwitch('no-sandbox');

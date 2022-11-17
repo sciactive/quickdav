@@ -124,6 +124,9 @@
       "icon": "app/assets/icons/win/icon.ico"
     },
     "appx": {
+      "identityName": "SciActiveInc.QuickDAV",
+      "publisher": "CN=B83143EB-7BBB-4253-93EB-EBA87B9BD4C3",
+      "publisherDisplayName": "SciActive Inc",
       "backgroundColor": "#f1f1f1",
       "showNameOnTiles": true
     }

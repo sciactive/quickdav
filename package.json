@@ -14,6 +14,7 @@
     "package:mac:x86": "electron-builder build --x64 --mac",
     "package:mac:arm": "electron-builder build --arm64 --mac",
     "package:mac": "electron-builder build --universal --mac",
+    "package:win": "electron-builder build --win",
     "smui-theme": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile app/client/smui-light.css -i client/theme",
     "smui-theme-dark": "smui-theme compile app/client/smui-dark.css -i client/theme/dark",
@@ -85,12 +86,6 @@
     "appId": "com.sciactive.quickdav",
     "productName": "QuickDAV",
     "copyright": "Copyright © 2022 SciActive Inc",
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "https://autoupdate.sciactive.com/quickdav/stable/"
-      }
-    ],
     "linux": {
       "target": [
         "AppImage"
@@ -103,6 +98,12 @@
       "artifactName": "${productName}.AppImage",
       "executableArgs": [
         "--no-sandbox"
+      ],
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://autoupdate.sciactive.com/quickdav/stable/"
+        }
       ]
     },
     "mac": {
@@ -115,6 +116,12 @@
       "provisioningProfile": "QuickDAV.provisionprofile",
       "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "app/assets/icons/win/icon.ico"
     }
   }
 }

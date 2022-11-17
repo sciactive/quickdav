@@ -40,6 +40,7 @@ const SECURE = !['false', 'off'].includes(
 const AUTH = !['false', 'off'].includes(
   (process.env.DAV_AUTH || '').toLowerCase()
 );
+const WIN = process.platform === 'win32';
 
 const getHosts = () => {
   const ifaces = networkInterfaces();
@@ -144,10 +145,28 @@ export async function setFolders(value?: string[]) {
   const home = userInfo().homedir;
 
   if (value != null) {
-    let myFolders = value.map((folder) => ({
-      name: folder === home ? 'Home' : path.basename(folder),
-      path: folder,
-    }));
+    let myFolders = value.map((folder) => {
+      let name = 'Unknown';
+
+      if (folder === home) {
+        name = 'Home';
+      } else {
+        const basename = path.basename(folder);
+
+        if (basename === '') {
+          if (WIN) {
+            name = folder.replace(/\\/g, '');
+          } else {
+            name = 'Root';
+          }
+        }
+      }
+
+      return {
+        name,
+        path: folder,
+      };
+    });
 
     for (let i = 0; i < myFolders.length; i++) {
       try {

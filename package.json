@@ -119,9 +119,13 @@
     },
     "win": {
       "target": [
-        "portable"
+        "appx"
       ],
       "icon": "app/assets/icons/win/icon.ico"
+    },
+    "appx": {
+      "backgroundColor": "#f1f1f1",
+      "showNameOnTiles": true
     }
   }
 }

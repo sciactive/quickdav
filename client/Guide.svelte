@@ -776,6 +776,10 @@
       <code>DAV_AUTH</code> - Whether to require a username and password. (Set to
       "off" to disable.)
     </li>
+    <li>
+      <code>DAV_READONLY</code> - Whether file shares should be read only. (Set to
+      "on" to enable.)
+    </li>
   </ul>
 </div>
 

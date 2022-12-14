@@ -12,12 +12,12 @@ const resolvePlugins = [
   nodeResolve({
     mainFields: ['svelte', 'module', 'main'],
   }),
+  commonjs(),
+  json(),
 ];
 
 const plugins = [
   typescript({ sourceMap: EXPLICIT_DEV }),
-  json(),
-  commonjs(),
   ...(EXPLICIT_DEV ? [] : [terser()]),
 ];
 

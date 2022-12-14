@@ -17,6 +17,7 @@ import VirtualAdapter from '@nephele/adapter-virtual';
 import CustomAuthenticator, { User } from '@nephele/authenticator-custom';
 import InsecureAuthenticator from '@nephele/authenticator-none';
 import IndexPlugin from '@nephele/plugin-index';
+import ReadOnlyPlugin from '@nephele/plugin-read-only';
 
 import type { Hosts } from './preload.js';
 
@@ -40,6 +41,9 @@ const SECURE = !['false', 'off'].includes(
 const AUTH = !['false', 'off'].includes(
   (process.env.DAV_AUTH || '').toLowerCase()
 );
+const READONLY = ['true', 'on'].includes(
+  (process.env.DAV_READONLY || '').toLowerCase()
+);
 const WIN = process.platform === 'win32';
 
 const getHosts = () => {
@@ -51,10 +55,8 @@ const getHosts = () => {
       continue;
     }
     for (let net of netDict) {
-      const family =
-        typeof net.family === 'string' ? net.family : `IPv${net.family}`;
       if (!net.internal && net.address) {
-        hosts.push({ name, family, address: net.address });
+        hosts.push({ name, family: net.family, address: net.address });
       }
     }
   }
@@ -219,12 +221,14 @@ export async function davServer({
   password = PASSWORD,
   secure = SECURE,
   auth = AUTH,
+  readonly = READONLY,
 }: {
   port?: number;
   username?: string;
   password?: string;
   secure?: boolean;
   auth?: boolean;
+  readonly?: boolean;
 } = {}) {
   const app = express();
   const instanceDate = new Date();
@@ -328,7 +332,12 @@ export async function davServer({
           })
         : new InsecureAuthenticator(),
       plugins: [
-        new IndexPlugin({ name: 'SciActive QuickDAV', serveIndexes: false }),
+        new IndexPlugin({
+          name: 'SciActive QuickDAV',
+          serveIndexes: false,
+          showForms: !readonly,
+        }),
+        ...(readonly ? [new ReadOnlyPlugin()] : []),
       ],
     })
   );
@@ -362,5 +371,8 @@ export async function davServer({
 
   server.listen(port);
 
-  return { server, info: { hosts, port, username, password, secure, auth } };
+  return {
+    server,
+    info: { hosts, port, username, password, secure, auth, readonly },
+  };
 }

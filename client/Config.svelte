@@ -57,6 +57,12 @@
             <span slot="label">Password Required</span>
           </FormField>
         </div>
+        <div>
+          <FormField>
+            <Switch bind:checked={editInfo.readonly} />
+            <span slot="label">Read Only</span>
+          </FormField>
+        </div>
       </div>
     </div>
 
@@ -136,7 +142,8 @@
       editInfo.username === info.username &&
       editInfo.password === info.password &&
       editInfo.secure === info.secure &&
-      editInfo.auth === info.auth);
+      editInfo.auth === info.auth &&
+      editInfo.readonly === info.readonly);
 
   onMount(() => {
     return electronAPI.onInfo((value) => {

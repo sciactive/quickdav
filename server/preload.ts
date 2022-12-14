@@ -14,6 +14,7 @@ export type Info = {
   password: string;
   secure: boolean;
   auth: boolean;
+  readonly: boolean;
 };
 
 export type ElectronAPI = {

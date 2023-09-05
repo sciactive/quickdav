@@ -12,7 +12,7 @@
     {/if}
     <TabBar {tabs} let:tab bind:active style="flex-grow: 1;">
       <Tab {tab}>
-        <Icon component={Svg} viewBox="0 0 24 24">
+        <Icon tag="svg" viewBox="0 0 24 24">
           <path fill="currentColor" d={tab.icon} />
         </Icon>
         <Label>{tab.label}</Label>
@@ -48,7 +48,6 @@
   } from '@mdi/js';
   import Tab, { Icon, Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
-  import { Svg } from '@smui/common';
   import type { ElectronAPI, Info } from '../server/preload.js';
   import LeftBumper from './controller-icons/Left Bumper.svelte';
   import RightBumper from './controller-icons/Right Bumper.svelte';
@@ -67,6 +66,7 @@
     password: '[loading]',
     secure: true,
     auth: true,
+    readonly: false,
   };
   let gamepadUI = false;
   let approot: HTMLElement;

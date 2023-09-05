@@ -29,8 +29,12 @@ if (process.env.APPIMAGE) {
   }
 }
 
-app.commandLine.appendSwitch('--no-sandbox');
-app.commandLine.appendSwitch('no-sandbox');
+// app.commandLine.appendSwitch('--no-sandbox');
+// app.commandLine.appendSwitch('no-sandbox');
+// app.commandLine.appendSwitch('--disable-dev-shm-usage');
+// app.commandLine.appendSwitch('disable-dev-shm-usage');
+// app.commandLine.appendSwitch('--disable-seccomp-filter-sandbox');
+// app.commandLine.appendSwitch('disable-seccomp-filter-sandbox');
 
 import { setFolders, davServer } from './davServer.js';
 
@@ -146,7 +150,7 @@ try {
 
     ipcMain.on('openDevTools', (event) => {
       if (EXPLICIT_DEV) {
-        event.sender.openDevTools({ mode: 'detach' });
+        event.sender.openDevTools({ mode: 'detach', activate: true });
       }
     });
 
@@ -266,7 +270,10 @@ try {
         );
       });
 
-      // win.webContents.openDevTools();
+      // win.webContents.openDevTools({
+      //   mode: 'detach',
+      //   activate: true,
+      // });
 
       win.on('closed', quit);
     };

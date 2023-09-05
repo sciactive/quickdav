@@ -18,7 +18,7 @@
                 on:click={() => removeFolder(i)}
                 title="Remove folder"
               >
-                <Icon component={Svg} viewBox="0 0 24 24">
+                <Icon tag="svg" viewBox="0 0 24 24">
                   <path fill="currentColor" d={mdiMinus} />
                 </Icon>
               </IconButton>
@@ -30,7 +30,7 @@
     </List>
     <div style="display: flex; flex-direction: row; justify-content: center;">
       <IconButton on:click={() => addFolder()} title="Add folder">
-        <Icon component={Svg} viewBox="0 0 24 24">
+        <Icon tag="svg" viewBox="0 0 24 24">
           <path fill="currentColor" d={mdiPlus} />
         </Icon>
       </IconButton>
@@ -59,7 +59,6 @@
   import List, { Item, Meta, Text, Separator } from '@smui/list';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
-  import { Svg } from '@smui/common';
   import type { ElectronAPI } from '../server/preload.js';
 
   export let electronAPI: ElectronAPI;

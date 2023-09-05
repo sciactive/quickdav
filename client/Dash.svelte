@@ -30,7 +30,20 @@
     </Paper>
   </div>
 
-  <div style="display: flex; flex-direction: row; justify-content: end;">
+  <div
+    style="display: flex; flex-direction: row; justify-content: end; align-items: center;"
+  >
+    <div
+      style="flex-grow: 1; font-size: 0.7rem; line-height: 1rem; opacity: 0.5;"
+    >
+      {pkg.name}
+      {pkg.version}
+      <br />
+      Check out
+      <a href="https://port87.com" target="_blank"
+        >Port87: A new kind of email.</a
+      >
+    </div>
     {#if info.hosts.length || info.port !== 0}
       <Button
         variant="outlined"
@@ -58,6 +71,7 @@
   import Button, { Label } from '@smui/button';
   import type { ElectronAPI, Info } from '../server/preload.js';
 
+  export let pkg: any;
   export let electronAPI: ElectronAPI;
   export let info: Info;
 </script>

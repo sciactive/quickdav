@@ -63,6 +63,7 @@
     "@types/express": "^4.17.17",
     "@types/nanoid-dictionary": "^4.2.0",
     "@types/selfsigned": "^2.0.1",
+    "commander": "^11.0.0",
     "electron": "^26.1.0",
     "electron-builder": "^24.6.4",
     "electron-updater": "^6.1.4",

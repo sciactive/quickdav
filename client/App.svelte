@@ -32,7 +32,13 @@
         ? 'relative'
         : 'absolute'}; left: {tab === active ? '0' : '-9999px'};"
     >
-      <svelte:component this={tab.component} {electronAPI} {info} {gamepadUI} />
+      <svelte:component
+        this={tab.component}
+        {pkg}
+        {electronAPI}
+        {info}
+        {gamepadUI}
+      />
     </div>
   {/each}
 </div>
@@ -57,6 +63,7 @@
   import Guide from './Guide.svelte';
   import gamepad from './gamepad.js';
 
+  export let pkg: any;
   export let electronAPI: ElectronAPI;
 
   let info: Info = {

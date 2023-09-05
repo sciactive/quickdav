@@ -1,5 +1,6 @@
 import type { ElectronAPI } from '../server/preload.js';
 import App from './App.svelte';
+import pkg from '../app/package.json';
 
 window.addEventListener('DOMContentLoaded', () => {
   const { electronAPI } = window as unknown as Window & {
@@ -44,6 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
     target: document.body,
     props: {
       electronAPI,
+      pkg,
     },
   });
 });

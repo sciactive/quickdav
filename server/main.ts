@@ -15,6 +15,18 @@ import {
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
+import {
+  EXPLICIT_DEV,
+  DARK_MODE,
+  DARK_MODE_EXPLICIT,
+  STEAMLAUNCH,
+  GAMEPADUI,
+  WIDTH,
+  HEIGHT,
+  MAC,
+  AUTOUPDATE,
+} from './variables.js';
+
 if (process.env.APPIMAGE) {
   // Handle the artifact name change from v1 to v2.
   if (path.basename(process.env.APPIMAGE) === 'QuickDAV-1.0.0.AppImage') {
@@ -38,32 +50,9 @@ if (process.env.APPIMAGE) {
 
 import { setFolders, davServer } from './davServer.js';
 
-const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
-const DARK_MODE =
-  process.env.DARK_MODE === 'true' ||
-  process.env.DARK_MODE === 'on' ||
-  (process.env.DARK_MODE !== 'false' &&
-    process.env.DARK_MODE !== 'off' &&
-    nativeTheme.shouldUseDarkColors);
-const STEAMLAUNCH = process.env.SteamClientLaunch == '1';
-const GAMEPADUI =
-  (!!process.env.GAMEPADUI || STEAMLAUNCH) &&
-  process.env.GAMEPADUI !== 'false' &&
-  process.env.GAMEPADUI !== 'off';
-const WIDTH = parseInt(process.env.WIDTH || '800');
-const HEIGHT = parseInt(process.env.HEIGHT || '500');
-const MAC = process.platform === 'darwin';
-const AUTOUPDATE =
-  process.platform === 'linux' &&
-  process.env.AUTOUPDATE !== 'off' &&
-  process.env.AUTOUPDATE !== 'false';
-
-if (process.env.DARK_MODE === 'true' || process.env.DARK_MODE === 'on') {
+if (DARK_MODE_EXPLICIT && DARK_MODE) {
   nativeTheme.themeSource = 'dark';
-} else if (
-  process.env.DARK_MODE === 'false' ||
-  process.env.DARK_MODE === 'off'
-) {
+} else if (DARK_MODE_EXPLICIT && !DARK_MODE) {
   nativeTheme.themeSource = 'light';
 }
 

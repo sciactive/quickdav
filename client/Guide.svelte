@@ -761,43 +761,79 @@
 <h5 style="margin: 1em 0;">Launch Options</h5>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  QuickDAV supports the following environment variables to set the
-  configuration:
+  QuickDAV supports the following environment variables and command line
+  arguments to set the configuration. Command line arguments take precedence
+  over environment variables.
 
   <ul>
-    <li><code>DAV_PORT</code> - The port to listen on.</li>
-    <li><code>DAV_USERNAME</code> - The authentication username.</li>
-    <li><code>DAV_PASSWORD</code> - The authentication password.</li>
     <li>
-      <code>DAV_TLS</code> - Whether to use self signed TLS encryption. (Set to "off"
-      to disable.)
+      <code>DAV_PORT</code> / <code>--port &lt;port&gt;</code>
+      <br />
+      The port to listen on.
     </li>
     <li>
-      <code>DAV_AUTH</code> - Whether to require a username and password. (Set to
-      "off" to disable.)
+      <code>DAV_USERNAME</code> / <code>--username &lt;username&gt;</code>
+      <br />
+      The authentication username.
     </li>
     <li>
-      <code>DAV_READONLY</code> - Whether file shares should be read only. (Set to
-      "on" to enable.)
+      <code>DAV_PASSWORD</code> / <code>--password &lt;password&gt;</code>
+      <br />
+      The authentication password.
+    </li>
+    <li>
+      <code>DAV_TLS</code> / <code>--tsl</code> / <code>--no-tls</code>
+      <br />
+      Whether to use self signed TLS encryption. (DAV_TLS="off" to disable.)
+    </li>
+    <li>
+      <code>DAV_AUTH</code> / <code>--auth</code> / <code>--no-auth</code>
+      <br />
+      Whether to require a username and password. (DAV_AUTH="off" to disable.)
+    </li>
+    <li>
+      <code>DAV_READONLY</code> / <code>--readonly</code> /
+      <code>--no-readonly</code>
+      <br />
+      Whether file shares should be read only. (DAV_READONLY="on" to enable.)
     </li>
   </ul>
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  QuickDAV also supports the following environment variables to force certain
-  options:
+  QuickDAV supports the following environment variables and command line
+  arguments to force certain options.
 
   <ul>
-    <li><code>DARK_MODE</code> - Force dark mode. ("on" or "off")</li>
     <li>
-      <code>GAMEPADUI</code> - Force gamepad UI. Gamepad UI is automatically enabled
-      if QuickDAV is launched from Steam. ("on" or "off")
+      <code>DARK_MODE</code> / <code>--darkmode</code> /
+      <code>--no-darkmode</code>
+      <br />
+      Force dark mode. (DARK_MODE="on" or DARK_MODE="off")
     </li>
-    <li><code>WIDTH</code> - Set the window width.</li>
-    <li><code>HEIGHT</code> - Set the window height.</li>
     <li>
-      <code>AUTOUPDATE</code> - Check for updates and automatically install them
-      (when running on Linux). Default is "on". ("on" or "off")
+      <code>GAMEPADUI</code> / <code>--gamepadui</code> /
+      <code>--no-gamepadui</code>
+      <br />
+      Force gamepad UI. Gamepad UI is automatically enabled if QuickDAV is launched
+      from Steam. (GAMEPADUI="on" or GAMEPADUI="off")
+    </li>
+    <li>
+      <code>WIDTH</code> / <code>--width &lt;width&gt;</code>
+      <br />
+      Set the window width.
+    </li>
+    <li>
+      <code>HEIGHT</code> / <code>--height &lt;height&gt;</code>
+      <br />
+      Set the window height.
+    </li>
+    <li>
+      <code>AUTOUPDATE</code> / <code>--autoupdate</code> /
+      <code>--no-autoupdate</code>
+      <br />
+      Check for updates and automatically install them (when running on Linux). Default
+      is "on". (AUTOUPDATE="on" or AUTOUPDATE="off")
     </li>
   </ul>
 </div>

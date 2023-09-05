@@ -1,15 +1,13 @@
 import type { Server } from 'node:http';
 import https from 'node:https';
 import http from 'node:http';
-import { userInfo, networkInterfaces, hostname } from 'node:os';
+import { userInfo, networkInterfaces } from 'node:os';
 import path from 'node:path';
 import fsp from 'node:fs/promises';
 import { powerSaveBlocker } from 'electron';
 import express from 'express';
 import selfsigned from 'selfsigned';
 import { Address6 } from 'ip-address';
-import { customAlphabet } from 'nanoid';
-import { nolookalikesSafe } from 'nanoid-dictionary';
 import './crypto-getrandomvalues-polyfill.js';
 import nepheleServer from 'nephele';
 import FileSystemAdapter from '@nephele/adapter-file-system';
@@ -20,31 +18,16 @@ import IndexPlugin from '@nephele/plugin-index';
 import ReadOnlyPlugin from '@nephele/plugin-read-only';
 
 import type { Hosts } from './preload.js';
-
-const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
-
-const passGen = customAlphabet(
-  nolookalikesSafe
-    .split('')
-    .filter((letter) => letter.toLowerCase() === letter)
-    .join(''),
-  5
-);
-
-const HOSTNAME = hostname();
-const PORT = parseInt(process.env.DAV_PORT || '8888');
-const USERNAME = process.env.DAV_USERNAME || 'quickdav';
-const PASSWORD = process.env.DAV_PASSWORD || passGen();
-const SECURE = !['false', 'off'].includes(
-  (process.env.DAV_TLS || '').toLowerCase()
-);
-const AUTH = !['false', 'off'].includes(
-  (process.env.DAV_AUTH || '').toLowerCase()
-);
-const READONLY = ['true', 'on'].includes(
-  (process.env.DAV_READONLY || '').toLowerCase()
-);
-const WIN = process.platform === 'win32';
+import {
+  HOSTNAME,
+  PORT,
+  USERNAME,
+  PASSWORD,
+  SECURE,
+  AUTH,
+  READONLY,
+  WIN,
+} from './variables.js';
 
 const getHosts = () => {
   const ifaces = networkInterfaces();

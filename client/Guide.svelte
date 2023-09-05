@@ -803,12 +803,23 @@
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  Copyright &copy; 2022 SciActive Inc. All Rights Reserved.
+  <a href="https://sciactive.com/quickdav/" target="_blank">QuickDAV</a> is
+  <a href="https://github.com/sciactive/quickdav" target="_blank"
+    >free software</a
+  >
+  released by
+  <a href="https://sciactive.com" target="_blank">SciActive Inc</a> under the Apache
+  2.0 open source license.
+</div>
+
+<div style="font-size: smaller; margin-top: 1em;">
+  Copyright &copy; 2022-2023 SciActive Inc. All Rights Reserved.
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
   Xbox Series Button Icons and Controls - Zacksly Licensed under CC BY 3.0 -
-  https://zacksly.itch.io (Modified by SciActive, Inc)
+  <a href="https://zacksly.itch.io" target="_blank">https://zacksly.itch.io</a> (Modified
+  by SciActive, Inc)
 </div>
 
 <script lang="ts">

@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/sciactive/quickdav/issues"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@mdi/js": "^7.2.96",
     "@nephele/adapter-file-system": "^1.0.0-alpha.28",
@@ -86,7 +86,7 @@
   "build": {
     "appId": "com.sciactive.quickdav",
     "productName": "QuickDAV",
-    "copyright": "Copyright © 2022 SciActive Inc",
+    "copyright": "Copyright © 2022-2023 SciActive Inc",
     "linux": {
       "target": [
         "AppImage"

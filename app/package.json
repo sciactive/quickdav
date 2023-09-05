@@ -4,7 +4,7 @@
   "description": "Instantly transfer files to your device over your local network.",
   "main": "server/main.js",
   "author": "Hunter Perrin <hperrin@gmail.com>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "devDependencies": {
     "electron": "^26.1.0"
   }

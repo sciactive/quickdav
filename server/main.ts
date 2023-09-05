@@ -142,6 +142,10 @@ try {
       event.sender.focus();
     });
 
+    ipcMain.on('openLink', (_event, url: string) => {
+      shell.openExternal(url);
+    });
+
     ipcMain.on('openKeyboard', () => {
       if (process.env.SteamClientLaunch == '1') {
         spawn('steam', ['steam://open/keyboard']);

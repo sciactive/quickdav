@@ -19,6 +19,7 @@ export type Info = {
 
 export type ElectronAPI = {
   focusWindow: () => void;
+  openLink: (url: string) => void;
   getInfo: () => void;
   onInfo: (callback: (info: Info) => void) => () => void;
   getFolders: () => void;
@@ -36,6 +37,7 @@ export type ElectronAPI = {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   focusWindow: () => ipcRenderer.send('focusWindow'),
+  openLink: (url) => ipcRenderer.send('openLink', url),
   getInfo: () => ipcRenderer.send('getInfo'),
   onInfo: (callback) => {
     const listener = (_event: IpcRendererEvent, info: Info) => callback(info);

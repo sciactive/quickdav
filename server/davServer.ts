@@ -144,6 +144,8 @@ export async function setFolders(value?: string[]) {
           } else {
             name = 'Root';
           }
+        } else {
+          name = basename;
         }
       }
 

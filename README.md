@@ -2,13 +2,33 @@
 
 Instantly transfer files to your device over your local network.
 
-# Start in Dev Mode
+![QuickDAV Screenshot](https://sciactive.com/wp-content/uploads/2022/09/quickdav-screen-dash-1024x681.png)
+
+QuickDAV is an open source network file transfer utility. It makes it easy to share files between your devices by creating a simple WebDAV server.
+
+# Download
+
+Check out the [releases page](https://github.com/sciactive/quickdav/releases).
+
+# QuickDAV is Open Source!
+
+QuickDAV used to be closed source, but now it's open source! Yay!
+
+# Development
+
+## Build files in dev mode, and watch them.
 
 ```sh
-env NODE_ENV="development" npm run start
+env NODE_ENV="development" npm run watch
 ```
 
-# macOS Code Signing
+## Start in Dev Mode
+
+```sh
+env NODE_ENV="development" npm start
+```
+
+## macOS Code Signing
 
 In order to sign the app for macOS App Store, you need to:
 

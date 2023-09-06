@@ -7,6 +7,13 @@
   Please note that the address entered in the screenshots may be different than
   your address.
 </p>
+<p>
+  For the best and safest experience, we recommend using QuickDAV only within
+  your own home network or WiFi. Our security certificate is designed for
+  in-home use, so connecting from a different location may not be secure. Please
+  avoid setting up 'port forwarding' on your router to access QuickDAV from
+  outside your home. Thank you!
+</p>
 
 <div class="accordion-container">
   <Accordion class="guide-panels" multiple>
@@ -127,9 +134,11 @@
                 </li>
                 <li>
                   You'll see a warning about the server's certificate. This is
-                  because it is a self signed certificate. (Don't worry, there's
-                  no danger in using a self signed certificate on your own
-                  network.) Click <code>Yes</code>.
+                  because it is a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. (Don't worry, there's no danger in using a self signed
+                  certificate on your own network.) Click <code>Yes</code>.
                   <br />
                   <img
                     src="screens/Windows-WinSCP/3.png"
@@ -177,10 +186,11 @@
           </li>
           <li>
             You'll see a warning about the server's certificate. This is because
-            it is a self signed certificate. (Don't worry, there's no danger in
-            using a self signed certificate on your own network.) Click <code
-              >Continue</code
-            >.
+            it is a <a
+              href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+              target="_blank">self signed certificate</a
+            >. (Don't worry, there's no danger in using a self signed
+            certificate on your own network.) Click <code>Continue</code>.
             <br />
             <img src="screens/macOS/4.png" alt="Instruction screenshot." />
           </li>
@@ -247,9 +257,11 @@
                 </li>
                 <li>
                   You'll see a warning about the server's certificate. This is
-                  because it is a self signed certificate. (Don't worry, there's
-                  no danger in using a self signed certificate on your own
-                  network.) Click <code>Yes</code>.
+                  because it is a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. (Don't worry, there's no danger in using a self signed
+                  certificate on your own network.) Click <code>Yes</code>.
                   <br />
                   <img
                     src="screens/Linux-Gnome/3.png"
@@ -317,9 +329,11 @@
                 </li>
                 <li>
                   You'll see a warning about the server's certificate. This is
-                  because it is a self signed certificate. (Don't worry, there's
-                  no danger in using a self signed certificate on your own
-                  network.) Click <code>Continue</code>.
+                  because it is a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. (Don't worry, there's no danger in using a self signed
+                  certificate on your own network.) Click <code>Continue</code>.
                   <br />
                   <img
                     src="screens/Linux-KDE/3.png"
@@ -378,59 +392,79 @@
         <ol>
           <li>
             Make sure your phone/tablet is on the same WiFi as this computer. We
-            recommend the <code>ES File Explorer</code> app from the
+            recommend the <code>Owlfiles</code> app from the
             <code>App Store</code>.
             <br />
             <img src="screens/iOS/1.png" alt="Instruction screenshot." />
           </li>
           <li>
-            Open the app and tap <code>OK</code> to allow the app to communicate
-            over your network.
+            Open the app and tap <code>Allow</code> to allow the app to
+            communicate over your network.
             <br />
             <img src="screens/iOS/2.png" alt="Instruction screenshot." />
           </li>
           <li>
             Tap the
-            <code>Services</code> tab at the bottom, then tap the
-            <code>WebDAV</code> item from the list.
+            <code>Connections</code> tab at the bottom, then tap the lightning
+            icon in the upper right corner.
             <br />
             <img src="screens/iOS/3.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Tap the
+            <code>New Connection</code> option from the dropdown.
+            <br />
+            <img src="screens/iOS/4.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Tap the
+            <code>WebDAV</code> option from the list.
+            <br />
+            <img src="screens/iOS/5.png" alt="Instruction screenshot." />
           </li>
           <li>
             Enter the following information:
             <ul>
               <li>
-                URL:
-                <code>{host.address}</code>
+                Host URL:
+                <code>https://{host.address}:{info.port}</code>
               </li>
               <li>
-                Account:
+                User Name:
                 <code>{info.username}</code>
               </li>
               <li>
                 Password:
                 <code>{info.password}</code>
               </li>
-              <li>
-                Port:
-                <code>{info.port}</code>
-              </li>
-              <li>
-                HTTPS:
-                <code>On</code>
-              </li>
             </ul>
             Click
-            <code>Connect</code>.
+            <code>Save</code>.
             <br />
-            <img src="screens/iOS/4.png" alt="Instruction screenshot." />
+            <img src="screens/iOS/6.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            Click the new entry in the Connections list.
+            <br />
+            <img src="screens/iOS/7.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            You'll see a warning about the server's certificate. This is because
+            it is a <a
+              href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+              target="_blank">self signed certificate</a
+            >. (Don't worry, there's no danger in using a self signed
+            certificate on your own network.) Click
+            <code>Trust this server</code>.
+            <br />
+            <img src="screens/iOS/8.png" alt="Instruction screenshot." />
           </li>
           <li>
             You should now be connected to your device and see your shared
             folders. You can upload files to and download files from this
             computer.
             <br />
-            <img src="screens/iOS/5.png" alt="Instruction screenshot." />
+            <img src="screens/iOS/9.png" alt="Instruction screenshot." />
           </li>
         </ol>
       </Content>
@@ -441,27 +475,27 @@
         <ol>
           <li>
             Make sure your phone/tablet is on the same WiFi as this computer. We
-            recommend the <code>Cx File Explorer</code> app from the
+            recommend the <code>Owlfiles</code> app from the
             <code>Play Store</code>.
             <br />
             <img src="screens/Android/1.png" alt="Instruction screenshot." />
           </li>
           <li>
-            Open the app and walk through the intro, giving permission for <code
-              >All files access</code
-            >.
+            Open the app and tap the
+            <code>Connections</code> tab at the bottom, then tap the lightning
+            icon in the upper right corner.
             <br />
             <img src="screens/Android/2.png" alt="Instruction screenshot." />
           </li>
           <li>
-            Tap the <code>NETWORK</code> tab, then tap the
-            <code>New location</code> button.
+            Tap the
+            <code>New Connection</code> option from the dropdown.
             <br />
             <img src="screens/Android/3.png" alt="Instruction screenshot." />
           </li>
           <li>
-            Tap the <code>REMOTE</code> tab, then tap the <code>WebDAV</code>
-            item in the list.
+            Tap the
+            <code>WebDAV</code> option from the list.
             <br />
             <img src="screens/Android/4.png" alt="Instruction screenshot." />
           </li>
@@ -469,18 +503,11 @@
             Enter the following information:
             <ul>
               <li>
-                Host:
-                <code>{host.address}</code>
+                Host URL:
+                <code>https://{host.address}:{info.port}</code>
               </li>
               <li>
-                Port:
-                <code>{info.port}</code>
-              </li>
-              <li>
-                Check <code>https</code>
-              </li>
-              <li>
-                Username:
+                User Name:
                 <code>{info.username}</code>
               </li>
               <li>
@@ -488,17 +515,26 @@
                 <code>{info.password}</code>
               </li>
             </ul>
-            Click
-            <code>OK</code>.
+            Click the save icon in the upper right corner.
             <br />
             <img src="screens/Android/5.png" alt="Instruction screenshot." />
+          </li>
+          <li>
+            You'll see a warning about the server's certificate. This is because
+            it is a <a
+              href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+              target="_blank">self signed certificate</a
+            >. (Don't worry, there's no danger in using a self signed
+            certificate on your own network.) Click <code>TRUST</code>.
+            <br />
+            <img src="screens/Android/6.png" alt="Instruction screenshot." />
           </li>
           <li>
             You should now be connected to your device and see your shared
             folders. You can upload files to and download files from this
             computer.
             <br />
-            <img src="screens/Android/6.png" alt="Instruction screenshot." />
+            <img src="screens/Android/7.png" alt="Instruction screenshot." />
           </li>
         </ol>
       </Content>
@@ -531,10 +567,12 @@
                 </li>
                 <li>
                   You will be warned that your connection is not private. This
-                  is because it's using a self signed certificate. Your
-                  connection is private on your own network. (Don't worry,
-                  there's no danger in using a self signed certificate on your
-                  own network.) Click <code>Advanced</code>.
+                  is because it's using a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. Your connection is private on your own network. (Don't
+                  worry, there's no danger in using a self signed certificate on
+                  your own network.) Click <code>Advanced</code>.
                   <br />
                   <img
                     src="screens/Browser-Chrome/2.png"
@@ -607,10 +645,12 @@
                 </li>
                 <li>
                   You will be warned of a potential security risk. This is
-                  because it's using a self signed certificate. Your connection
-                  is private on your own network. (Don't worry, there's no
-                  danger in using a self signed certificate on your own
-                  network.) Click <code>Advanced</code>.
+                  because it's using a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. Your connection is private on your own network. (Don't
+                  worry, there's no danger in using a self signed certificate on
+                  your own network.) Click <code>Advanced</code>.
                   <br />
                   <img
                     src="screens/Browser-Firefox/2.png"
@@ -683,10 +723,12 @@
                 </li>
                 <li>
                   You will be warned that this connection is not private. This
-                  is because it's using a self signed certificate. Your
-                  connection is private on your own network. (Don't worry,
-                  there's no danger in using a self signed certificate on your
-                  own network.) Click <code>Show Details</code>.
+                  is because it's using a <a
+                    href="https://en.wikipedia.org/wiki/Self-signed_certificate"
+                    target="_blank">self signed certificate</a
+                  >. Your connection is private on your own network. (Don't
+                  worry, there's no danger in using a self signed certificate on
+                  your own network.) Click <code>Show Details</code>.
                   <br />
                   <img
                     src="screens/Browser-Safari/2.png"
@@ -849,7 +891,9 @@
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  You can <a href="https://www.patreon.com/sciactive" target="_blank">support SciActive on Patreon</a>.
+  You can <a href="https://www.patreon.com/sciactive" target="_blank"
+    >support SciActive on Patreon</a
+  >.
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">

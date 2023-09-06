@@ -849,6 +849,10 @@
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
+  You can <a href="https://www.patreon.com/sciactive" target="_blank">support SciActive on Patreon</a>.
+</div>
+
+<div style="font-size: smaller; margin-top: 1em;">
   Copyright &copy; 2022-2023 SciActive Inc. All Rights Reserved.
 </div>
 

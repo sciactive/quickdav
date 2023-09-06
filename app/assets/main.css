@@ -9,6 +9,14 @@ body {
   overflow: hidden;
 }
 
+:focus-visible {
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 1px dotted #ccc;
+}
+
 .gamepadui ::-webkit-scrollbar {
   display: none;
 }

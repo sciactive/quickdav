@@ -74,7 +74,6 @@ program
 program.parse();
 
 const options = program.opts();
-console.log(options);
 
 if ('port' in options) {
   PORT = parseInt(options.port);

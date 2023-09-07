@@ -874,8 +874,8 @@
       <code>AUTOUPDATE</code> / <code>--autoupdate</code> /
       <code>--no-autoupdate</code>
       <br />
-      Check for updates and automatically install them (when running on Linux). Default
-      is "on". (AUTOUPDATE="on" or AUTOUPDATE="off")
+      Check for updates and automatically install them. Default is "on". (AUTOUPDATE="on"
+      or AUTOUPDATE="off")
     </li>
   </ul>
 </div>

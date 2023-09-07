@@ -25,9 +25,7 @@ export let WIDTH = parseInt(process.env.WIDTH || '800');
 export let HEIGHT = parseInt(process.env.HEIGHT || '500');
 export const MAC = process.platform === 'darwin';
 export let AUTOUPDATE =
-  process.platform === 'linux' &&
-  process.env.AUTOUPDATE !== 'off' &&
-  process.env.AUTOUPDATE !== 'false';
+  process.env.AUTOUPDATE !== 'off' && process.env.AUTOUPDATE !== 'false';
 
 const passGen = customAlphabet(
   nolookalikesSafe
@@ -117,5 +115,5 @@ if ('height' in options) {
 }
 
 if ('autoupdate' in options) {
-  AUTOUPDATE = process.platform === 'linux' && options.autoupdate;
+  AUTOUPDATE = options.autoupdate;
 }

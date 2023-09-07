@@ -121,9 +121,20 @@
     },
     "win": {
       "target": [
-        "appx"
+        "nsis",
+        "appx",
+        "portable"
       ],
-      "icon": "app/assets/icons/win/icon.ico"
+      "icon": "app/assets/icons/win/icon.ico",
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://autoupdate.sciactive.com/quickdav/stable/"
+        }
+      ]
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
     },
     "appx": {
       "identityName": "SciActiveInc.QuickDAV",

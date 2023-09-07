@@ -23,7 +23,6 @@ export let GAMEPADUI =
   process.env.GAMEPADUI !== 'off';
 export let WIDTH = parseInt(process.env.WIDTH || '800');
 export let HEIGHT = parseInt(process.env.HEIGHT || '500');
-export const MAC = process.platform === 'darwin';
 export let AUTOUPDATE =
   process.env.AUTOUPDATE !== 'off' && process.env.AUTOUPDATE !== 'false';
 
@@ -48,7 +47,9 @@ export let AUTH = !['false', 'off'].includes(
 export let READONLY = ['true', 'on'].includes(
   (process.env.DAV_READONLY || '').toLowerCase()
 );
+
 export const WIN = process.platform === 'win32';
+export const MAC = process.platform === 'darwin';
 
 program
   .option('--port <port>')

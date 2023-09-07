@@ -33,8 +33,9 @@ env NODE_ENV="development" npm start
 In order to sign the app for macOS App Store, you need to:
 
 - import the developer CSAs (Worldwide Developer Relations, Developer ID) from https://www.apple.com/certificateauthority/
-- import "SciActive Inc, Distribution", "SciActive Inc, Mac Installer Distribution", "SciActive Inc, Developer ID Application" from Certificates page in Apple Developer portal
-- download QuickDAV profile from Apple Developer portal and place in this directory
+- import "Developer ID Application:" from Certificates page in Apple Developer portal
+- download QuickDAV-Distribute profile from Apple Developer portal and place in this directory
+- create `.env` file with `APPLEID` and `APPLEIDPASS` (an app specific password from https://appleid.apple.com/account/manage).
 
 # License
 

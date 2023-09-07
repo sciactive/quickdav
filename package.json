@@ -64,8 +64,10 @@
     "@types/nanoid-dictionary": "^4.2.0",
     "@types/selfsigned": "^2.0.1",
     "commander": "^11.0.0",
+    "dotenv": "^16.3.1",
     "electron": "^26.1.0",
     "electron-builder": "^24.6.4",
+    "electron-notarize": "^1.2.2",
     "electron-updater": "^6.1.4",
     "express": "^4.18.2",
     "ip-address": "^8.1.0",
@@ -88,6 +90,10 @@
     "appId": "com.sciactive.quickdav",
     "productName": "QuickDAV",
     "copyright": "Copyright © 2022-2023 SciActive Inc",
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "afterSign": "build/notarize.cjs",
     "linux": {
       "target": [
         "AppImage"
@@ -110,14 +116,26 @@
     },
     "mac": {
       "target": [
-        "mas"
+        "dmg",
+        "zip"
       ],
       "icon": "app/assets/icons/mac/icon.icns",
       "category": "public.app-category.utilities",
       "darkModeSupport": true,
-      "provisioningProfile": "QuickDAV.provisionprofile",
-      "entitlements": "build/entitlements.mas.plist",
-      "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "provisioningProfile": "QuickDAVDistribute.provisionprofile",
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://autoupdate.sciactive.com/quickdav/stable/"
+        }
+      ]
+    },
+    "dmg": {
+      "sign": false
     },
     "win": {
       "target": [

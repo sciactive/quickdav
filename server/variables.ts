@@ -50,6 +50,7 @@ export let READONLY = ['true', 'on'].includes(
 
 export const WIN = process.platform === 'win32';
 export const MAC = process.platform === 'darwin';
+export const LINUX = process.platform === 'linux';
 
 program
   .option('--port <port>')

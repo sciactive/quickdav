@@ -27,6 +27,8 @@ import {
   AUTH,
   READONLY,
   WIN,
+  LINUX,
+  STEAMLAUNCH,
 } from './variables.js';
 
 const getHosts = () => {
@@ -182,11 +184,13 @@ export async function setFolders(value?: string[]) {
     folders = myFolders;
   } else {
     let sdCardPath: string | null = null;
-    try {
-      await fsp.access('/run/media/mmcblk0p1');
-      sdCardPath = '/run/media/mmcblk0p1';
-    } catch (e: any) {
-      // Ignore errors.
+    if (LINUX && STEAMLAUNCH) {
+      try {
+        await fsp.access('/run/media/mmcblk0p1');
+        sdCardPath = '/run/media/mmcblk0p1';
+      } catch (e: any) {
+        // Ignore errors.
+      }
     }
 
     folders = [

@@ -24,6 +24,7 @@ import {
   WIDTH,
   HEIGHT,
   MAC,
+  LOGGING,
   AUTOUPDATE,
 } from './variables.js';
 
@@ -48,7 +49,7 @@ if (process.env.APPIMAGE) {
 // app.commandLine.appendSwitch('--disable-seccomp-filter-sandbox');
 // app.commandLine.appendSwitch('disable-seccomp-filter-sandbox');
 
-import { setFolders, davServer } from './davServer.js';
+import { setFolders, davServer, setLogFunction } from './davServer.js';
 
 if (DARK_MODE_EXPLICIT && DARK_MODE) {
   nativeTheme.themeSource = 'dark';
@@ -212,6 +213,28 @@ try {
       }
     });
 
+    let logging = LOGGING;
+
+    ipcMain.on('stopLogging', async (event) => {
+      logging = false;
+      setLogFunction((_line: string) => {});
+      event.sender.send('log', 'Logging disabled.');
+      event.sender.send('logging', logging);
+    });
+
+    ipcMain.on('startLogging', async (event) => {
+      logging = true;
+      setLogFunction((line: string) => {
+        event.sender.send('log', line);
+      });
+      event.sender.send('log', 'Logging enabled.');
+      event.sender.send('logging', logging);
+    });
+
+    ipcMain.on('getLogging', (event) => {
+      event.sender.send('logging', logging);
+    });
+
     ipcMain.on('setFolders', async (event, requestFolders) => {
       try {
         folders = await setFolders(requestFolders);
@@ -268,16 +291,26 @@ try {
       //   activate: true,
       // });
 
+      win.on('close', () => {
+        setLogFunction((_line: string) => {});
+      });
+
       win.on('closed', quit);
     };
 
     app.on('window-all-closed', quit);
 
     function quit() {
+      setLogFunction((_line: string) => {});
       server.once('close', () => {
         app.quit();
       });
       server.close();
+      server.closeIdleConnections();
+      // After 1 second of waiting, close all existing connections.
+      setTimeout(() => {
+        server.closeAllConnections();
+      }, 1000);
     }
 
     return createWindow();

@@ -5,10 +5,19 @@ import { userInfo, networkInterfaces } from 'node:os';
 import path from 'node:path';
 import fsp from 'node:fs/promises';
 import { powerSaveBlocker } from 'electron';
+import type { Request } from 'express';
 import express from 'express';
 import selfsigned from 'selfsigned';
 import { Address6 } from 'ip-address';
 import './crypto-getrandomvalues-polyfill.js';
+import type {
+  Plugin,
+  AuthResponse,
+  Method,
+  Resource,
+  Properties,
+  Lock,
+} from 'nephele';
 import nepheleServer from 'nephele';
 import FileSystemAdapter from '@nephele/adapter-file-system';
 import VirtualAdapter from '@nephele/adapter-virtual';
@@ -30,6 +39,10 @@ import {
   LINUX,
   STEAMLAUNCH,
 } from './variables.js';
+
+export const setLogFunction = (fn: typeof log) => (log = fn);
+
+let log = (_line: string) => {};
 
 const getHosts = () => {
   const ifaces = networkInterfaces();
@@ -321,6 +334,7 @@ export async function davServer({
           })
         : new InsecureAuthenticator(),
       plugins: [
+        new LogPlugin(),
         new IndexPlugin({
           name: 'SciActive QuickDAV',
           serveIndexes: false,
@@ -364,4 +378,279 @@ export async function davServer({
     server,
     info: { hosts, port, username, password, secure, auth, readonly },
   };
+}
+
+class LogPlugin implements Plugin {
+  async prepare(request: Request, response: AuthResponse) {
+    log(
+      `[${response.locals.requestId}]: Client: ${request.ip}, Request: ${request.method} ${request.hostname}${request.url}`
+    );
+    response.on('close', () => {
+      const status = response.statusCode ?? 0;
+      log(
+        `[${response.locals.requestId}]: Result: ${status} ${
+          response.statusMessage
+        }${
+          status === 207
+            ? ''
+            : status >= 200 && status < 300
+            ? ' (Success)'
+            : status >= 300 && status < 400
+            ? ' (Redirected)'
+            : status >= 400 && status < 500
+            ? ' (Client Error)'
+            : status >= 500 && status < 600
+            ? ' (Server Error)'
+            : ''
+        }`
+      );
+    });
+    response.on('error', (e: any) => {
+      log(`[${response.locals.requestId}]: Error: ${e.message}`);
+    });
+  }
+  async afterGet(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      properties: Properties;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Retrieved resource: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async afterHead(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      properties: Properties;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Retrieved resource info: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async beforeCopy(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      destination: Resource;
+      depth: string;
+      overwrite: string | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Copying resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+    );
+  }
+  async afterCopy(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      destination: Resource;
+      depth: string;
+      overwrite: string | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource copied: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+    );
+  }
+  async beforeDelete(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Deleting resource: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async afterDelete(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource deleted: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async afterLock(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      lock: Lock;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource locked: ${await data.resource.getCanonicalPath()} (Lock Token: ${
+        data.lock.token
+      })`
+    );
+  }
+  async afterMkcol(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Directory created: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async beforeMove(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      destination: Resource;
+      overwrite: string | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Moving resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+    );
+  }
+  async afterMove(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      destination: Resource;
+      overwrite: string | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource moved: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+    );
+  }
+  async afterOptions(_request: Request, response: AuthResponse) {
+    log(`[${response.locals.requestId}]: Discovery completed`);
+  }
+  async afterPropfind(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      depth: string;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource listing completed: ${await data.resource.getCanonicalPath()} (Depth: ${
+        data.depth
+      })`
+    );
+  }
+  async afterProppatch(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      depth: string;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource metadata updated: ${await data.resource.getCanonicalPath()} (Depth: ${
+        data.depth
+      }`
+    );
+  }
+  async afterPut(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      newResource: boolean;
+    }
+  ) {
+    log(
+      `[${response.locals.requestId}]: Resource ${
+        data.newResource ? 'created' : 'updated'
+      }: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async beforeUnlock(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      token: string;
+      lock: Lock | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Unlocking resource: ${await data.resource.getCanonicalPath()} (Lock Token: ${
+        data.token
+      })`
+    );
+  }
+  async afterUnlock(
+    _request: Request,
+    response: AuthResponse,
+    data: {
+      method: Method;
+      resource: Resource;
+      token: string;
+      lock: Lock | undefined;
+    }
+  ) {
+    log(
+      `[${
+        response.locals.requestId
+      }]: Resource unlocked: ${await data.resource.getCanonicalPath()}`
+    );
+  }
+  async afterMethod(_request: Request, response: AuthResponse) {
+    log(`[${response.locals.requestId}]: Method completed`);
+  }
 }

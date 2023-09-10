@@ -871,6 +871,12 @@
       Set the window height.
     </li>
     <li>
+      <code>LOGGING</code> / <code>--logging</code> /
+      <code>--no-logging</code>
+      <br />
+      Enable the activity log. Default is "on". (LOGGING="on" or LOGGING="off")
+    </li>
+    <li>
       <code>AUTOUPDATE</code> / <code>--autoupdate</code> /
       <code>--no-autoupdate</code>
       <br />

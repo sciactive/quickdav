@@ -87,7 +87,7 @@
   </div>
 
   <div
-    style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+    style="display: flex; flex-direction: row; justify-content: space-between; gap: 1em; width: 100%;"
   >
     <div style="display: flex; flex-direction: row; align-items: center;">
       {#if textInputFocused && gamepadUI}

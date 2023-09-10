@@ -31,7 +31,7 @@
   </div>
 
   <div
-    style="display: flex; flex-direction: row; justify-content: end; align-items: center;"
+    style="display: flex; flex-direction: row; justify-content: end; align-items: center; gap: 1em;"
   >
     <div
       style="flex-grow: 1; font-size: 0.7rem; line-height: 1rem; opacity: 0.5;"
@@ -56,7 +56,6 @@
       </Button>
     {/if}
     <Button
-      style="margin-left: 1em;"
       variant="outlined"
       color="secondary"
       on:click={() => window.close()}

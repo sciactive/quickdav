@@ -38,7 +38,7 @@
   </div>
 
   <div
-    style="display: flex; flex-direction: row; justify-content: flex-end; width: 100%;"
+    style="display: flex; flex-direction: row; justify-content: flex-end; gap: 1em; width: 100%;"
   >
     <Button
       variant="outlined"

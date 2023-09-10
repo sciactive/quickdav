@@ -1,8 +1,8 @@
 import { hostname } from 'node:os';
 import { program } from 'commander';
 import { nativeTheme } from 'electron';
-import { customAlphabet } from 'nanoid';
-import { nolookalikesSafe } from 'nanoid-dictionary';
+
+import { passgen } from './passgen.js';
 
 export let EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 export let DARK_MODE =
@@ -23,21 +23,15 @@ export let GAMEPADUI =
   process.env.GAMEPADUI !== 'off';
 export let WIDTH = parseInt(process.env.WIDTH || '800');
 export let HEIGHT = parseInt(process.env.HEIGHT || '500');
+export let LOGGING =
+  process.env.LOGGING !== 'off' && process.env.LOGGING !== 'false';
 export let AUTOUPDATE =
   process.env.AUTOUPDATE !== 'off' && process.env.AUTOUPDATE !== 'false';
-
-const passGen = customAlphabet(
-  nolookalikesSafe
-    .split('')
-    .filter((letter) => letter.toLowerCase() === letter)
-    .join(''),
-  5
-);
 
 export const HOSTNAME = hostname();
 export let PORT = parseInt(process.env.DAV_PORT || '8888');
 export let USERNAME = process.env.DAV_USERNAME || 'quickdav';
-export let PASSWORD = process.env.DAV_PASSWORD || passGen();
+export let PASSWORD = process.env.DAV_PASSWORD || passgen();
 export let SECURE = !['false', 'off'].includes(
   (process.env.DAV_TLS || '').toLowerCase()
 );
@@ -68,6 +62,8 @@ program
   .option('--no-gamepadui')
   .option('--width <width>')
   .option('--height <height>')
+  .option('--logging')
+  .option('--no-logging')
   .option('--autoupdate')
   .option('--no-autoupdate');
 
@@ -114,6 +110,10 @@ if ('width' in options) {
 
 if ('height' in options) {
   HEIGHT = parseInt(options.height);
+}
+
+if ('logging' in options) {
+  LOGGING = options.logging;
 }
 
 if ('autoupdate' in options) {

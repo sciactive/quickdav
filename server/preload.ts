@@ -31,6 +31,11 @@ export type ElectronAPI = {
   setFolders: (folders: string[]) => void;
   openFoldersDialog: (title?: string) => void;
   onOpenedFolders: (callback: (folders: string[]) => void) => () => void;
+  stopLogging: () => void;
+  startLogging: () => void;
+  onLog: (callback: (line: string) => void) => () => void;
+  getLogging: () => void;
+  onLogging: (callback: (value: boolean) => void) => () => void;
   openKeyboard: () => void;
   openDevTools: () => void;
 };
@@ -74,6 +79,24 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('openedFolders', listener);
     return () => {
       ipcRenderer.off('openedFolders', listener);
+    };
+  },
+  stopLogging: () => ipcRenderer.send('stopLogging'),
+  startLogging: () => ipcRenderer.send('startLogging'),
+  onLog: (callback) => {
+    const listener = (_event: IpcRendererEvent, line: string) => callback(line);
+    ipcRenderer.on('log', listener);
+    return () => {
+      ipcRenderer.off('log', listener);
+    };
+  },
+  getLogging: () => ipcRenderer.send('getLogging'),
+  onLogging: (callback) => {
+    const listener = (_event: IpcRendererEvent, value: boolean) =>
+      callback(value);
+    ipcRenderer.on('logging', listener);
+    return () => {
+      ipcRenderer.off('logging', listener);
     };
   },
   openKeyboard: () => ipcRenderer.send('openKeyboard'),

@@ -37,6 +37,8 @@
         {pkg}
         {electronAPI}
         {info}
+        {logging}
+        bind:logs
         {gamepadUI}
       />
     </div>
@@ -50,6 +52,7 @@
     mdiTabletDashboard,
     mdiFolderMultiple,
     mdiCog,
+    mdiTimelineText,
     mdiDesktopClassic,
   } from '@mdi/js';
   import Tab, { Icon, Label } from '@smui/tab';
@@ -60,6 +63,7 @@
   import Dash from './Dash.svelte';
   import Folders from './Folders.svelte';
   import Config from './Config.svelte';
+  import Log from './Log.svelte';
   import Guide from './Guide.svelte';
   import gamepad from './gamepad.js';
 
@@ -75,6 +79,8 @@
     auth: true,
     readonly: false,
   };
+  let logging: boolean | undefined = undefined;
+  let logs: [string, string][] = [];
   let gamepadUI = false;
   let approot: HTMLElement;
   let tabs = [
@@ -94,6 +100,11 @@
       component: Config,
     },
     {
+      icon: mdiTimelineText,
+      label: 'Log',
+      component: Log,
+    },
+    {
       icon: mdiDesktopClassic,
       label: 'Guide',
       component: Guide,
@@ -104,6 +115,63 @@
   onMount(() => {
     const unlisten = electronAPI.onInfo((value) => {
       info = value;
+    });
+    electronAPI.getInfo();
+
+    return unlisten;
+  });
+
+  onMount(() => {
+    const unlisten = electronAPI.onLogging((value) => {
+      if (logging === undefined && value) {
+        electronAPI.startLogging();
+      }
+
+      logging = value;
+    });
+    electronAPI.getLogging();
+
+    return unlisten;
+  });
+
+  onMount(() => {
+    function calculateColor(line: string) {
+      const match = line.match(/^\[([^\]]+)\]/);
+      if (!match) {
+        return '#fff';
+      }
+      const redId = match[1];
+      // Shuffle the chars for the other colors.
+      const greenId = match[1].slice(-1) + match[1].slice(0, 1);
+      const blueId = match[1].slice(-2) + match[1].slice(0, 2);
+
+      // Convert IDs to numbers.
+      const redNum = [...redId].reduce<number>(
+        (tot, char) => tot + char.charCodeAt(0),
+        0
+      );
+      const greenNum = [...greenId].reduce<number>(
+        (tot, char) => tot + char.charCodeAt(0),
+        0
+      );
+      const blueNum = [...blueId].reduce<number>(
+        (tot, char) => tot + char.charCodeAt(0),
+        0
+      );
+
+      // Convert numbers to light colors.
+      const red = ((redNum % 156) + 100).toString(16);
+      const green = ((greenNum % 156) + 100).toString(16);
+      const blue = ((blueNum % 156) + 100).toString(16);
+
+      // And convert RGB to a hex color.
+      return `#${('00' + red).slice(-2)}${('00' + green).slice(-2)}${(
+        '00' + blue
+      ).slice(-2)}`;
+    }
+    const unlisten = electronAPI.onLog((value) => {
+      logs.push([calculateColor(value), value]);
+      logs = logs;
     });
     electronAPI.getInfo();
 

@@ -16,6 +16,10 @@
 // Import the mixins.
 @use '@material/typography/index' as typography;
 
+:root {
+  color-scheme: dark;
+}
+
 html,
 body {
   background-color: color-palette.$grey-900;

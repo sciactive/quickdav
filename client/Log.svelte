@@ -7,7 +7,7 @@
   >
     <Paper
       variant="outlined"
-      style="flex-basis: 0; flex-grow: 1; overflow: auto; background-color: #111;"
+      style="flex-basis: 0; flex-grow: 1; overflow: auto; background-color: #111; color-scheme: dark;"
       bind:this={output}
     >
       <Content>

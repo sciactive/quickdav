@@ -373,6 +373,8 @@ export async function davServer({
   });
 
   server.listen(port);
+  // Never time out requests.
+  server.requestTimeout = 0;
 
   return {
     server,

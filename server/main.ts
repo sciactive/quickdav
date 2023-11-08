@@ -265,6 +265,7 @@ try {
         },
         maximizable: true,
         resizable: true,
+        fullscreenable: true,
         fullscreen: GAMEPADUI,
         title: 'QuickDAV',
         icon: path.join(__dirname, '..', 'assets', 'icons', 'png', '64x64.png'),

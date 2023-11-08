@@ -35,7 +35,7 @@ if (process.env.APPIMAGE) {
     const oldPath = process.env.APPIMAGE;
     const newPath = path.join(
       path.dirname(process.env.APPIMAGE),
-      'QuickDAV.AppImage'
+      'QuickDAV.AppImage',
     );
     fs.renameSync(oldPath, newPath);
     fs.symlinkSync(newPath, oldPath);
@@ -108,7 +108,7 @@ try {
           },
         ],
       },
-    ])
+    ]),
   );
 
   app.whenReady().then(async () => {
@@ -159,7 +159,7 @@ try {
     ipcMain.on('getFolders', (event) => {
       event.sender.send(
         'folders',
-        folders.map((folder) => folder.path)
+        folders.map((folder) => folder.path),
       );
     });
 
@@ -240,7 +240,7 @@ try {
         folders = await setFolders(requestFolders);
         event.sender.send(
           'folders',
-          folders.map((folder) => folder.path)
+          folders.map((folder) => folder.path),
         );
       } catch (e: any) {
         dialog.showErrorBox('Folders Not Saved', e.message);
@@ -282,7 +282,7 @@ try {
       win.on('ready-to-show', () => {
         // Required for changes of zoomFactor. See https://stackoverflow.com/a/44196987
         win.webContents.setZoomFactor(
-          GAMEPADUI ? (1.8 / 800) * displayHeight : 1
+          GAMEPADUI ? (1.8 / 800) * displayHeight : 1,
         );
       });
 

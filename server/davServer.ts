@@ -123,7 +123,7 @@ const pems = selfsigned.generate(
                       const first = value >> 8;
                       const second = value & 255;
                       return `${String.fromCharCode(
-                        first
+                        first,
                       )}${String.fromCharCode(second)}`;
                     })
                     .join(''),
@@ -136,7 +136,7 @@ const pems = selfsigned.generate(
           ]),
       },
     ],
-  }
+  },
 );
 
 let folders: { name: string; path: string }[] = [];
@@ -189,7 +189,7 @@ export async function setFolders(value?: string[]) {
       ) {
         myFolders[i].name = myFolders[i].name.replace(
           / \(\d+\)$/,
-          ` (${++currentNumber})`
+          ` (${++currentNumber})`,
         );
       }
     }
@@ -237,7 +237,7 @@ export async function davServer({
 
   if (serverRunning) {
     throw new Error(
-      'The running server must be closed before a new one can be created.'
+      'The running server must be closed before a new one can be created.',
     );
   }
 
@@ -298,7 +298,7 @@ export async function davServer({
                 new FileSystemAdapter({
                   root: folder.path,
                 }),
-              ])
+              ]),
             ),
           };
         } catch (e) {
@@ -342,7 +342,7 @@ export async function davServer({
         }),
         ...(readonly ? [new ReadOnlyPlugin()] : []),
       ],
-    })
+    }),
   );
 
   let server: Server;
@@ -359,9 +359,9 @@ export async function davServer({
       `QuickDAV server listening on ${hosts
         .map(
           ({ name, address }) =>
-            `dav${secure ? 's' : ''}://${address}:${port} (${name})`
+            `dav${secure ? 's' : ''}://${address}:${port} (${name})`,
         )
-        .join(', ')}`
+        .join(', ')}`,
     );
     preventSuspension = powerSaveBlocker.start('prevent-app-suspension');
   });
@@ -385,7 +385,7 @@ export async function davServer({
 class LogPlugin implements Plugin {
   async prepare(request: Request, response: AuthResponse) {
     log(
-      `[${response.locals.requestId}]: Client: ${request.ip}, Request: ${request.method} ${request.hostname}${request.url}`
+      `[${response.locals.requestId}]: Client: ${request.ip}, Request: ${request.method} ${request.hostname}${request.url}`,
     );
     response.on('close', () => {
       const status = response.statusCode ?? 0;
@@ -404,7 +404,7 @@ class LogPlugin implements Plugin {
             : status >= 500 && status < 600
             ? ' (Server Error)'
             : ''
-        }`
+        }`,
       );
     });
     response.on('error', (e: any) => {
@@ -418,12 +418,12 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       properties: Properties;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Retrieved resource: ${await data.resource.getCanonicalPath()}`
+      }]: Retrieved resource: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async afterHead(
@@ -433,12 +433,12 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       properties: Properties;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Retrieved resource info: ${await data.resource.getCanonicalPath()}`
+      }]: Retrieved resource info: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async beforeCopy(
@@ -450,12 +450,12 @@ class LogPlugin implements Plugin {
       destination: Resource;
       depth: string;
       overwrite: string | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Copying resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+      }]: Copying resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`,
     );
   }
   async afterCopy(
@@ -467,12 +467,12 @@ class LogPlugin implements Plugin {
       destination: Resource;
       depth: string;
       overwrite: string | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Resource copied: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+      }]: Resource copied: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`,
     );
   }
   async beforeDelete(
@@ -481,12 +481,12 @@ class LogPlugin implements Plugin {
     data: {
       method: Method;
       resource: Resource;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Deleting resource: ${await data.resource.getCanonicalPath()}`
+      }]: Deleting resource: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async afterDelete(
@@ -495,12 +495,12 @@ class LogPlugin implements Plugin {
     data: {
       method: Method;
       resource: Resource;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Resource deleted: ${await data.resource.getCanonicalPath()}`
+      }]: Resource deleted: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async afterLock(
@@ -510,14 +510,14 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       lock: Lock;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
       }]: Resource locked: ${await data.resource.getCanonicalPath()} (Lock Token: ${
         data.lock.token
-      })`
+      })`,
     );
   }
   async afterMkcol(
@@ -526,12 +526,12 @@ class LogPlugin implements Plugin {
     data: {
       method: Method;
       resource: Resource;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Directory created: ${await data.resource.getCanonicalPath()}`
+      }]: Directory created: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async beforeMove(
@@ -542,12 +542,12 @@ class LogPlugin implements Plugin {
       resource: Resource;
       destination: Resource;
       overwrite: string | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Moving resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+      }]: Moving resource: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`,
     );
   }
   async afterMove(
@@ -558,12 +558,12 @@ class LogPlugin implements Plugin {
       resource: Resource;
       destination: Resource;
       overwrite: string | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Resource moved: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`
+      }]: Resource moved: ${await data.resource.getCanonicalPath()} -> ${await data.destination.getCanonicalPath()}`,
     );
   }
   async afterOptions(_request: Request, response: AuthResponse) {
@@ -576,14 +576,14 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       depth: string;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
       }]: Resource listing completed: ${await data.resource.getCanonicalPath()} (Depth: ${
         data.depth
-      })`
+      })`,
     );
   }
   async afterProppatch(
@@ -593,14 +593,14 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       depth: string;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
       }]: Resource metadata updated: ${await data.resource.getCanonicalPath()} (Depth: ${
         data.depth
-      }`
+      }`,
     );
   }
   async afterPut(
@@ -610,12 +610,12 @@ class LogPlugin implements Plugin {
       method: Method;
       resource: Resource;
       newResource: boolean;
-    }
+    },
   ) {
     log(
       `[${response.locals.requestId}]: Resource ${
         data.newResource ? 'created' : 'updated'
-      }: ${await data.resource.getCanonicalPath()}`
+      }: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async beforeUnlock(
@@ -626,14 +626,14 @@ class LogPlugin implements Plugin {
       resource: Resource;
       token: string;
       lock: Lock | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
       }]: Unlocking resource: ${await data.resource.getCanonicalPath()} (Lock Token: ${
         data.token
-      })`
+      })`,
     );
   }
   async afterUnlock(
@@ -644,12 +644,12 @@ class LogPlugin implements Plugin {
       resource: Resource;
       token: string;
       lock: Lock | undefined;
-    }
+    },
   ) {
     log(
       `[${
         response.locals.requestId
-      }]: Resource unlocked: ${await data.resource.getCanonicalPath()}`
+      }]: Resource unlocked: ${await data.resource.getCanonicalPath()}`,
     );
   }
   async afterMethod(_request: Request, response: AuthResponse) {

@@ -16,7 +16,7 @@ const resolvePlugins = (browser) => [
           exportConditions: ['default', 'module', 'import', 'svelte'],
           extensions: ['.mjs', '.js', '.json', '.node', '.svelte'],
         }
-      : {}
+      : {},
   ),
   commonjs(),
   json(),

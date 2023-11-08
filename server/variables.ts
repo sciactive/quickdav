@@ -33,13 +33,13 @@ export let PORT = parseInt(process.env.DAV_PORT || '8888');
 export let USERNAME = process.env.DAV_USERNAME || 'quickdav';
 export let PASSWORD = process.env.DAV_PASSWORD || passgen();
 export let SECURE = !['false', 'off'].includes(
-  (process.env.DAV_TLS || '').toLowerCase()
+  (process.env.DAV_TLS || '').toLowerCase(),
 );
 export let AUTH = !['false', 'off'].includes(
-  (process.env.DAV_AUTH || '').toLowerCase()
+  (process.env.DAV_AUTH || '').toLowerCase(),
 );
 export let READONLY = ['true', 'on'].includes(
-  (process.env.DAV_READONLY || '').toLowerCase()
+  (process.env.DAV_READONLY || '').toLowerCase(),
 );
 
 export const WIN = process.platform === 'win32';

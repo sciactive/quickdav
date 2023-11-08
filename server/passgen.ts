@@ -6,5 +6,5 @@ export const passgen = customAlphabet(
     .split('')
     .filter((letter) => letter.toLowerCase() === letter)
     .join(''),
-  5
+  5,
 );

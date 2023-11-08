@@ -132,7 +132,7 @@ class GamePad {
       this.states.splice(
         event.gamepad.index,
         0,
-        this.convertPadToState(event.gamepad)
+        this.convertPadToState(event.gamepad),
       );
       this.connected = true;
     });
@@ -193,7 +193,7 @@ class GamePad {
               state.axes[j],
               (state.axes[j] < 0 && previousState.axes[j] >= 0) ||
                 (state.axes[j] > 0 && previousState.axes[j] <= 0) ||
-                (state.axes[j] === 0 && previousState.axes[j] !== 0)
+                (state.axes[j] === 0 && previousState.axes[j] !== 0),
             );
           }
           console.log(`Axis ${amap[j]} moved. Value = ${state.axes[j]}.`);
@@ -205,19 +205,19 @@ class GamePad {
         if (state.buttons[j].pressed !== previousState.buttons[j].pressed) {
           this.fireButtonEvent(bmap[j], state.buttons[j].pressed);
           console.log(
-            `Button ${bmap[j]} changed pressed state. Value = ${state.buttons[j].pressed}.`
+            `Button ${bmap[j]} changed pressed state. Value = ${state.buttons[j].pressed}.`,
           );
         }
 
         if (state.buttons[j].touched !== previousState.buttons[j].touched) {
           console.log(
-            `Button ${bmap[j]} changed touched state. Value = ${state.buttons[j].touched}.`
+            `Button ${bmap[j]} changed touched state. Value = ${state.buttons[j].touched}.`,
           );
         }
 
         if (state.buttons[j].value !== previousState.buttons[j].value) {
           console.log(
-            `Button ${bmap[j]} changed value state. Value = ${state.buttons[j].value}.`
+            `Button ${bmap[j]} changed value state. Value = ${state.buttons[j].value}.`,
           );
         }
       }

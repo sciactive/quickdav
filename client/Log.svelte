@@ -20,6 +20,9 @@
   <div
     style="display: flex; flex-direction: row; justify-content: end; align-items: center; gap: 1em;"
   >
+    <Button variant="outlined" on:click={scrollToBottom}>
+      <Label>Scroll to Bottom</Label>
+    </Button>
     <Button variant="outlined" on:click={() => (logs = [])}>
       <Label>Clear Log</Label>
     </Button>
@@ -47,13 +50,23 @@
 
   $: if (logs && output) {
     const el = output.getElement();
+    const isHidden = el.clientHeight < 60;
     const isScrolledDown =
       el.scrollTop >= el.scrollHeight - el.clientHeight - 10;
 
-    if (isScrolledDown) {
+    if (isHidden || isScrolledDown) {
       tick().then(() => {
-        el.scrollTop = el.scrollHeight;
+        scrollToBottom();
       });
+    }
+  }
+
+  function scrollToBottom() {
+    if (output) {
+      const el = output.getElement();
+      if (el) {
+        el.scrollTop = el.scrollHeight;
+      }
     }
   }
 </script>

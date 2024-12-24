@@ -909,7 +909,7 @@
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">
-  Copyright &copy; 2022-2023 SciActive Inc. All Rights Reserved.
+  Copyright &copy; 2022-2024 SciActive Inc. All Rights Reserved.
 </div>
 
 <div style="font-size: smaller; margin-top: 1em;">

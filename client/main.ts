@@ -1,4 +1,5 @@
 import type { ElectronAPI } from '../server/preload.js';
+import { mount } from 'svelte';
 import App from './App.svelte';
 import pkg from '../app/package.json';
 
@@ -41,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  new App({
+  mount(App, {
     target: document.body,
     props: {
       electronAPI,

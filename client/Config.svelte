@@ -13,8 +13,8 @@
             bind:value={editInfo.username}
             label="Username"
             required
-            on:focus={() => (textInputFocused = true)}
-            on:blur={() => (textInputFocused = false)}
+            onfocus={() => (textInputFocused = true)}
+            onblur={() => (textInputFocused = false)}
           />
         </div>
         <div>
@@ -22,8 +22,8 @@
             bind:value={editInfo.password}
             label="Password"
             required
-            on:focus={() => (textInputFocused = true)}
-            on:blur={() => (textInputFocused = false)}
+            onfocus={() => (textInputFocused = true)}
+            onblur={() => (textInputFocused = false)}
           />
         </div>
       </div>
@@ -37,30 +37,36 @@
             input$max={65535}
             required
             label="Port"
-            on:focus={() => (textInputFocused = true)}
-            on:blur={() => (textInputFocused = false)}
+            onfocus={() => (textInputFocused = true)}
+            onblur={() => (textInputFocused = false)}
           >
-            <HelperText slot="helper">
-              You usually won't need to change this.
-            </HelperText>
+            {#snippet helper()}
+              <HelperText>You usually won't need to change this.</HelperText>
+            {/snippet}
           </Textfield>
         </div>
         <div>
           <FormField>
             <Switch bind:checked={editInfo.secure} />
-            <span slot="label">Self Signed TLS Encryption</span>
+            {#snippet label()}
+              Self Signed TLS Encryption
+            {/snippet}
           </FormField>
         </div>
         <div>
           <FormField>
             <Switch bind:checked={editInfo.auth} />
-            <span slot="label">Password Required</span>
+            {#snippet label()}
+              Password Required
+            {/snippet}
           </FormField>
         </div>
         <div>
           <FormField>
             <Switch bind:checked={editInfo.readonly} />
-            <span slot="label">Read Only</span>
+            {#snippet label()}
+              Read Only
+            {/snippet}
           </FormField>
         </div>
       </div>
@@ -103,9 +109,9 @@
     <Button
       variant="outlined"
       disabled={preventSubmit}
-      on:click={() => {
+      onclick={() => {
         loading = true;
-        electronAPI.startServer(editInfo);
+        electronAPI.startServer($state.snapshot(editInfo));
       }}
     >
       <Label>Save and Restart Server</Label>
@@ -124,26 +130,33 @@
   import type { ElectronAPI, Info } from '../server/preload.js';
   import AButton from './controller-icons/A.svelte';
 
-  export let electronAPI: ElectronAPI;
-  export let info: Info;
-  export let gamepadUI = false;
+  let {
+    electronAPI,
+    info,
+    gamepadUI = false,
+  }: {
+    electronAPI: ElectronAPI;
+    info: Info;
+    gamepadUI: boolean;
+  } = $props();
 
-  let editInfo: Info = { ...info };
-  let textInputFocused = false;
-  let loading = false;
+  let editInfo: Info = $state({ ...info });
+  let textInputFocused = $state(false);
+  let loading = $state(false);
 
-  $: preventSubmit =
+  const preventSubmit = $derived(
     loading ||
-    editInfo.username.trim() === '' ||
-    editInfo.password.trim() === '' ||
-    editInfo.port < 1000 ||
-    editInfo.port > 65535 ||
-    (editInfo.port === info.port &&
-      editInfo.username === info.username &&
-      editInfo.password === info.password &&
-      editInfo.secure === info.secure &&
-      editInfo.auth === info.auth &&
-      editInfo.readonly === info.readonly);
+      editInfo.username.trim() === '' ||
+      editInfo.password.trim() === '' ||
+      editInfo.port < 1000 ||
+      editInfo.port > 65535 ||
+      (editInfo.port === info.port &&
+        editInfo.username === info.username &&
+        editInfo.password === info.password &&
+        editInfo.secure === info.secure &&
+        editInfo.auth === info.auth &&
+        editInfo.readonly === info.readonly),
+  );
 
   onMount(() => {
     return electronAPI.onInfo((value) => {

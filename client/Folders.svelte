@@ -14,10 +14,7 @@
           </Text>
           {#if editFolders.length > 1}
             <Meta>
-              <IconButton
-                on:click={() => removeFolder(i)}
-                title="Remove folder"
-              >
+              <IconButton onclick={() => removeFolder(i)} title="Remove folder">
                 <Icon tag="svg" viewBox="0 0 24 24">
                   <path fill="currentColor" d={mdiMinus} />
                 </Icon>
@@ -29,7 +26,7 @@
       {/each}
     </List>
     <div style="display: flex; flex-direction: row; justify-content: center;">
-      <IconButton on:click={() => addFolder()} title="Add folder">
+      <IconButton onclick={() => addFolder()} title="Add folder">
         <Icon tag="svg" viewBox="0 0 24 24">
           <path fill="currentColor" d={mdiPlus} />
         </Icon>
@@ -43,9 +40,9 @@
     <Button
       variant="outlined"
       disabled={preventSubmit}
-      on:click={() => {
+      onclick={() => {
         loading = true;
-        electronAPI.setFolders(editFolders);
+        electronAPI.setFolders($state.snapshot(editFolders));
       }}
     >
       <Label>Save Changes</Label>
@@ -61,14 +58,16 @@
   import IconButton, { Icon } from '@smui/icon-button';
   import type { ElectronAPI } from '../server/preload.js';
 
-  export let electronAPI: ElectronAPI;
+  let { electronAPI }: { electronAPI: ElectronAPI } = $props();
 
-  let folders: string[] = [];
-  let editFolders = [...folders];
-  let loading = false;
+  let folders: string[] = $state([]);
+  // svelte-ignore state_referenced_locally
+  let editFolders = $state([...folders]);
+  let loading = $state(false);
 
-  $: preventSubmit =
-    loading || JSON.stringify(editFolders) === JSON.stringify(folders);
+  const preventSubmit = $derived(
+    loading || JSON.stringify(editFolders) === JSON.stringify(folders),
+  );
 
   onMount(() => {
     const unlisten = electronAPI.onFolders((value) => {
@@ -91,7 +90,6 @@
 
   function removeFolder(i: number) {
     editFolders.splice(i, 1);
-    editFolders = editFolders;
   }
 
   function addFolder() {

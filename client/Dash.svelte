@@ -7,7 +7,8 @@
         {#if info.hosts.length}
           {#each info.hosts as host (host.address)}
             <div>
-              WebDAV Address{#if info.hosts.length > 1} ({host.name}){/if}:
+              WebDAV Address{#if info.hosts.length > 1}
+                ({host.name}){/if}:
               <code
                 >http{info.secure
                   ? 's'
@@ -47,19 +48,15 @@
     {#if info.hosts.length || info.port !== 0}
       <Button
         variant="outlined"
-        on:click={() =>
+        onclick={() =>
           info.hosts.length
             ? electronAPI.stopServer()
-            : electronAPI.startServer(info)}
+            : electronAPI.startServer($state.snapshot(info))}
       >
         <Label>{info.hosts.length ? 'Stop' : 'Start'} Server</Label>
       </Button>
     {/if}
-    <Button
-      variant="outlined"
-      color="secondary"
-      on:click={() => window.close()}
-    >
+    <Button variant="outlined" color="secondary" onclick={() => window.close()}>
       <Label>Exit</Label>
     </Button>
   </div>
@@ -70,7 +67,9 @@
   import Button, { Label } from '@smui/button';
   import type { ElectronAPI, Info } from '../server/preload.js';
 
-  export let pkg: any;
-  export let electronAPI: ElectronAPI;
-  export let info: Info;
+  let {
+    pkg,
+    electronAPI,
+    info,
+  }: { pkg: any; electronAPI: ElectronAPI; info: Info } = $props();
 </script>

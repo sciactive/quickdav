@@ -3,7 +3,7 @@
   data-name="Layer 1"
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 512 512"
-  {...$$restProps}
+  {...restProps}
 >
   <path
     class="cls-1"
@@ -15,6 +15,10 @@
     d="M316.65,212.48H286.87v78H264.26v-78H234.35V192.63h82.3Z"
   />
 </svg>
+
+<script lang="ts">
+  const { ...restProps } = $props();
+</script>
 
 <style>
   .cls-1 {

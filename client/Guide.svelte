@@ -27,9 +27,12 @@
       <Content>
         <Accordion multiple>
           <Panel variant="outlined" color="secondary" extend>
-            <Header tabindex={panelOpenWindows ? 0 : -1}
-              >Explorer <span slot="description">Built In</span></Header
-            >
+            <Header tabindex={panelOpenWindows ? 0 : -1}>
+              Explorer
+              {#snippet description()}
+                Built In
+              {/snippet}
+            </Header>
             <Content>
               <div class="mdc-typography--caption" style="text-align: center;">
                 Built in to Windows. Encryption/password not supported.
@@ -74,9 +77,12 @@
             </Content>
           </Panel>
           <Panel variant="outlined" color="secondary" extend>
-            <Header tabindex={panelOpenWindows ? 0 : -1}
-              >WinSCP <span slot="description">Free Download</span></Header
-            >
+            <Header tabindex={panelOpenWindows ? 0 : -1}>
+              WinSCP
+              {#snippet description()}
+                Free Download
+              {/snippet}
+            </Header>
             <Content>
               <div class="mdc-typography--caption" style="text-align: center;">
                 Free and open source download. Encryption/password supported.
@@ -916,11 +922,11 @@
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
   import type { Info } from '../server/preload.js';
 
-  export let info: Info;
+  let { info }: { info: Info } = $props();
 
-  $: host = info.hosts[0] || { address: 'device-ip-address' };
+  const host = $derived(info.hosts[0] || { address: 'device-ip-address' });
 
-  let panelOpenWindows = false;
-  let panelOpenLinux = false;
-  let panelOpenBrowser = false;
+  let panelOpenWindows = $state(false);
+  let panelOpenLinux = $state(false);
+  let panelOpenBrowser = $state(false);
 </script>

@@ -20,15 +20,15 @@
   <div
     style="display: flex; flex-direction: row; justify-content: end; align-items: center; gap: 1em;"
   >
-    <Button variant="outlined" on:click={scrollToBottom}>
+    <Button variant="outlined" onclick={scrollToBottom}>
       <Label>Scroll to Bottom</Label>
     </Button>
-    <Button variant="outlined" on:click={() => (logs = [])}>
+    <Button variant="outlined" onclick={() => (logs = [])}>
       <Label>Clear Log</Label>
     </Button>
     <Button
       variant="outlined"
-      on:click={() =>
+      onclick={() =>
         logging ? electronAPI.stopLogging() : electronAPI.startLogging()}
     >
       <Label>{logging ? 'Stop' : 'Start'} Logging</Label>
@@ -42,24 +42,32 @@
   import Button, { Label } from '@smui/button';
   import type { ElectronAPI } from '../server/preload.js';
 
-  export let electronAPI: ElectronAPI;
-  export let logging: boolean | undefined;
-  export let logs: [string, string][];
+  let {
+    electronAPI,
+    logging,
+    logs = $bindable(),
+  }: {
+    electronAPI: ElectronAPI;
+    logging: boolean | undefined;
+    logs: [string, string][];
+  } = $props();
 
   let output: Paper;
 
-  $: if (logs && output) {
-    const el = output.getElement();
-    const isHidden = el.clientHeight < 60;
-    const isScrolledDown =
-      el.scrollTop >= el.scrollHeight - el.clientHeight - 10;
+  $effect(() => {
+    if (logs.length && output) {
+      const el = output.getElement();
+      const isHidden = el.clientHeight < 60;
+      const isScrolledDown =
+        el.scrollTop >= el.scrollHeight - el.clientHeight - 48;
 
-    if (isHidden || isScrolledDown) {
-      tick().then(() => {
-        scrollToBottom();
-      });
+      if (isHidden || isScrolledDown) {
+        tick().then(() => {
+          scrollToBottom();
+        });
+      }
     }
-  }
+  });
 
   function scrollToBottom() {
     if (output) {

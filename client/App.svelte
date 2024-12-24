@@ -10,13 +10,15 @@
         <LeftBumper height="30px" />
       </div>
     {/if}
-    <TabBar {tabs} let:tab bind:active style="flex-grow: 1;">
-      <Tab {tab}>
-        <Icon tag="svg" viewBox="0 0 24 24">
-          <path fill="currentColor" d={tab.icon} />
-        </Icon>
-        <Label>{tab.label}</Label>
-      </Tab>
+    <TabBar {tabs} bind:active style="flex-grow: 1; flex-basis: 0; width: 0;">
+      {#snippet tab(tab)}
+        <Tab {tab}>
+          <Icon tag="svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d={tab.icon} />
+          </Icon>
+          <Label>{tab.label}</Label>
+        </Tab>
+      {/snippet}
     </TabBar>
     {#if gamepadUI}
       <div style="padding: 0 .75em;">
@@ -32,8 +34,7 @@
         ? 'relative'
         : 'absolute'}; left: {tab === active ? '0' : '-9999px'};"
     >
-      <svelte:component
-        this={tab.component}
+      <tab.component
         {pkg}
         {electronAPI}
         {info}
@@ -67,10 +68,15 @@
   import Guide from './Guide.svelte';
   import gamepad from './gamepad.js';
 
-  export let pkg: any;
-  export let electronAPI: ElectronAPI;
+  let {
+    pkg,
+    electronAPI,
+  }: {
+    pkg: any;
+    electronAPI: ElectronAPI;
+  } = $props();
 
-  let info: Info = {
+  let info: Info = $state({
     hosts: [],
     port: 0,
     username: '[loading]',
@@ -78,12 +84,12 @@
     secure: true,
     auth: true,
     readonly: false,
-  };
-  let logging: boolean | undefined = undefined;
-  let logs: [string, string][] = [];
-  let gamepadUI = false;
+  });
+  let logging: boolean | undefined = $state();
+  let logs: [string, string][] = $state([]);
+  let gamepadUI = $state(false);
   let approot: HTMLElement;
-  let tabs = [
+  let tabs = $state([
     {
       icon: mdiTabletDashboard,
       label: 'Dash',
@@ -109,8 +115,8 @@
       label: 'Guide',
       component: Guide,
     },
-  ];
-  let active = tabs[0];
+  ]);
+  let active = $state(tabs[0]);
 
   onMount(() => {
     const unlisten = electronAPI.onInfo((value) => {
@@ -148,15 +154,15 @@
       // Convert IDs to numbers.
       const redNum = [...redId].reduce<number>(
         (tot, char) => tot + char.charCodeAt(0),
-        0
+        0,
       );
       const greenNum = [...greenId].reduce<number>(
         (tot, char) => tot + char.charCodeAt(0),
-        0
+        0,
       );
       const blueNum = [...blueId].reduce<number>(
         (tot, char) => tot + char.charCodeAt(0),
-        0
+        0,
       );
 
       // Convert numbers to light colors.
@@ -171,7 +177,6 @@
     }
     const unlisten = electronAPI.onLog((value) => {
       logs.push([calculateColor(value), value]);
-      logs = logs;
     });
     electronAPI.getInfo();
 

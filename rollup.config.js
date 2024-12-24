@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import svelte from 'rollup-plugin-svelte';
 import preprocess from 'svelte-preprocess';
+import postcss from 'rollup-plugin-postcss';
 
 const EXPLICIT_DEV = process.env.NODE_ENV === 'development';
 
@@ -38,12 +39,15 @@ export default [
     plugins: [
       ...resolvePlugins(true),
       svelte({
-        emitCss: false,
+        emitCss: true,
         preprocess: preprocess({
           typescript: {
             tsconfigFile: 'tsconfig-svelte.json',
           },
         }),
+      }),
+      postcss({
+        extract: true,
       }),
       ...plugins(),
     ],

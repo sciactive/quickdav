@@ -3,7 +3,7 @@
   data-name="Layer 1"
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 512 512"
-  {...$$restProps}
+  {...restProps}
 >
   <circle class="cls-1" cx="256" cy="256" r="166.22" />
   <path
@@ -23,6 +23,10 @@
     d="M143.23,138.07c2.11-.08,4.64.71,8.62,2.08,12.27,4.22,25.37,13.45,45.68,32.19l11.85,10.93-6.47,8.12c-30,37.66-61.76,91-73.72,124.06-6,16.45-8.65,32.95-6.91,41.37"
   />
 </svg>
+
+<script lang="ts">
+  const { ...restProps } = $props();
+</script>
 
 <style>
   .cls-1,

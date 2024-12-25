@@ -28,14 +28,18 @@ env NODE_ENV="development" npm run watch
 env NODE_ENV="development" npm start
 ```
 
-## macOS Code Signing
+## macOS Code Signing and Notarization
 
 In order to sign the app for macOS App Store, you need to:
 
 - import the developer CSAs (Worldwide Developer Relations, Developer ID) from https://www.apple.com/certificateauthority/
 - import "Developer ID Application:" from Certificates page in Apple Developer portal
 - download QuickDAV-Distribute profile from Apple Developer portal and place in this directory
-- create `.env` file with `APPLEID` and `APPLEIDPASS` (an app specific password from https://appleid.apple.com/account/manage).
+- create `.env` file with `APPLEID` and `APPLEIDPASS` (an app specific password from https://appleid.apple.com/account/manage) and `TEAMID` (from https://developer.apple.com/account#MembershipDetailsCard).
+
+To verify the app was notarized correctly:
+
+- `spctl --assess -vv --type install dist/mac-universal/QuickDAV.app`
 
 # License
 

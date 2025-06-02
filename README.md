@@ -1,10 +1,10 @@
 # QuickDAV
 
-Instantly transfer files to your device over your local network.
+Transfer files between devices.
 
 ![QuickDAV Screenshot](https://sciactive.com/wp-content/uploads/2022/09/quickdav-screen-dash-1024x681.png)
 
-QuickDAV is an open source network file transfer utility. It makes it easy to share files between your devices by creating a simple WebDAV server.
+QuickDAV is an open source network file transfer utility. It makes it easy to share files between your devices by creating a simple, temporary WebDAV server.
 
 # Download
 

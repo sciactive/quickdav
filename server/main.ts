@@ -28,6 +28,9 @@ import {
   AUTOUPDATE,
 } from './variables.js';
 
+// Needed until https://github.com/electron/electron/issues/46538 is fixed.
+app.commandLine.appendSwitch('gtk-version', '3');
+
 if (process.env.APPIMAGE) {
   // Handle the artifact name change from v1 to v2.
   if (path.basename(process.env.APPIMAGE) === 'QuickDAV-1.0.0.AppImage') {

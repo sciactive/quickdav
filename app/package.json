@@ -6,6 +6,6 @@
   "author": "Hunter Perrin <hperrin@gmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "electron": "^33.2.1"
+    "electron": "^36.3.2"
   }
 }

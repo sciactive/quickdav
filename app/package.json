@@ -1,7 +1,7 @@
 {
   "name": "quickdav",
-  "version": "3.3.0",
-  "description": "Instantly transfer files to your device over your local network.",
+  "version": "3.4.0",
+  "description": "Transfer files between devices.",
   "main": "server/main.js",
   "author": "Hunter Perrin <hperrin@gmail.com>",
   "license": "Apache-2.0",

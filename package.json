@@ -91,7 +91,7 @@
   "build": {
     "appId": "com.sciactive.quickdav",
     "productName": "QuickDAV",
-    "copyright": "Copyright © 2022-2024 SciActive Inc",
+    "copyright": "Copyright © 2022-2025 SciActive Inc",
     "asarUnpack": [
       "**/*.node"
     ],

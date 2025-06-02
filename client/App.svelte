@@ -47,7 +47,7 @@
 </div>
 
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import SpatialNavigation from '@smart-powers/js-spatial-navigation';
   import {
     mdiTabletDashboard,
@@ -86,7 +86,7 @@
     readonly: false,
   });
   let logging: boolean | undefined = $state();
-  let logs: [string, string][] = $state([]);
+  let logs: string[] = $state([]);
   let gamepadUI = $state(false);
   let approot: HTMLElement;
   let tabs = $state([
@@ -141,43 +141,12 @@
   });
 
   onMount(() => {
-    function calculateColor(line: string) {
-      const match = line.match(/^\[([^\]]+)\]/);
-      if (!match) {
-        return '#fff';
-      }
-      const redId = match[1];
-      // Shuffle the chars for the other colors.
-      const greenId = match[1].slice(-1) + match[1].slice(0, 1);
-      const blueId = match[1].slice(-2) + match[1].slice(0, 2);
-
-      // Convert IDs to numbers.
-      const redNum = [...redId].reduce<number>(
-        (tot, char) => tot + char.charCodeAt(0),
-        0,
-      );
-      const greenNum = [...greenId].reduce<number>(
-        (tot, char) => tot + char.charCodeAt(0),
-        0,
-      );
-      const blueNum = [...blueId].reduce<number>(
-        (tot, char) => tot + char.charCodeAt(0),
-        0,
-      );
-
-      // Convert numbers to light colors.
-      const red = ((redNum % 156) + 100).toString(16);
-      const green = ((greenNum % 156) + 100).toString(16);
-      const blue = ((blueNum % 156) + 100).toString(16);
-
-      // And convert RGB to a hex color.
-      return `#${('00' + red).slice(-2)}${('00' + green).slice(-2)}${(
-        '00' + blue
-      ).slice(-2)}`;
-    }
-    const unlisten = electronAPI.onLog((value) => {
-      logs.push([calculateColor(value), value]);
+    const unlisten = electronAPI.onLog(async (value) => {
+      logs.push(...value.split('\n'));
+      await tick();
+      electronAPI.readyForLog();
     });
+    electronAPI.readyForLog();
     electronAPI.getInfo();
 
     return unlisten;

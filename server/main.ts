@@ -12,6 +12,7 @@ import {
   shell,
   BrowserWindow,
   Menu,
+  globalShortcut,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
@@ -217,10 +218,20 @@ try {
     });
 
     let logging = LOGGING;
+    let logLines: string[] = [];
+    let logInterval: NodeJS.Timeout | undefined = undefined;
+    let readyForLog = false;
+
+    ipcMain.on('readyForLog', (event) => {
+      readyForLog = true;
+    });
 
     ipcMain.on('stopLogging', async (event) => {
       logging = false;
+      logLines = [];
       setLogFunction((_line: string) => {});
+      clearInterval(logInterval);
+      logInterval = undefined;
       event.sender.send('log', 'Logging disabled.');
       event.sender.send('logging', logging);
     });
@@ -228,8 +239,17 @@ try {
     ipcMain.on('startLogging', async (event) => {
       logging = true;
       setLogFunction((line: string) => {
-        event.sender.send('log', line);
+        logLines.push(line);
       });
+      logInterval = setInterval(() => {
+        if (!logLines.length || !readyForLog) {
+          return;
+        }
+        const log = logLines.join('\n');
+        logLines = [];
+        event.sender.send('log', log);
+        readyForLog = false;
+      }, 250);
       event.sender.send('log', 'Logging enabled.');
       event.sender.send('logging', logging);
     });
@@ -290,10 +310,16 @@ try {
         );
       });
 
-      // win.webContents.openDevTools({
-      //   mode: 'detach',
-      //   activate: true,
-      // });
+      if (process.env.NODE_ENV === 'development') {
+        globalShortcut.register('F12', () => {
+          console.log('opening dev tools');
+          if (win.webContents.isDevToolsOpened()) {
+            win.webContents.closeDevTools();
+          } else {
+            win.webContents.openDevTools({ mode: 'bottom' });
+          }
+        });
+      }
 
       win.on('close', () => {
         setLogFunction((_line: string) => {});

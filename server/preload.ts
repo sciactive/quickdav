@@ -33,6 +33,7 @@ export type ElectronAPI = {
   onOpenedFolders: (callback: (folders: string[]) => void) => () => void;
   stopLogging: () => void;
   startLogging: () => void;
+  readyForLog: () => void;
   onLog: (callback: (line: string) => void) => () => void;
   getLogging: () => void;
   onLogging: (callback: (value: boolean) => void) => () => void;
@@ -83,6 +84,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   stopLogging: () => ipcRenderer.send('stopLogging'),
   startLogging: () => ipcRenderer.send('startLogging'),
+  readyForLog: () => ipcRenderer.send('readyForLog'),
   onLog: (callback) => {
     const listener = (_event: IpcRendererEvent, line: string) => callback(line);
     ipcRenderer.on('log', listener);

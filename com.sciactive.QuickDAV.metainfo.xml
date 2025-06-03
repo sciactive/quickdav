@@ -14,8 +14,8 @@
   <summary>Transfer files between devices</summary>
 
   <description>
-    <p>Network file transfer app. Simple and easy upload, download, and management of your files
-      from any other device.</p>
+    <p>Network file and folder transfer app. Simple and easy upload, download, and management of
+      your files and folders from any other device.</p>
     <p>It works by creating a temporary, secure WebDAV server that you can connect to from a
       remote device. If your device doesn't support WebDAV, you can connect with a web browser.</p>
   </description>
